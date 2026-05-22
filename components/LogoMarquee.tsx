@@ -1,64 +1,31 @@
 'use client'
 
-const logos = [
-  'Forbes',
-  'Incard',
-  'Sowbeez',
-  'Stripe',
-  'Notion',
-  'Linear',
-  'Vercel',
-  'Loom',
-  'Pitch',
-  'Runway',
+const items = [
+  'Video Editing',
+  'Graphic Design',
+  'Social Media Marketing',
+  'Sales & Marketing',
+  'Staff Augmentation',
+  'Website Development',
+  'Motion Graphics',
+  'Wedding Films',
+  'AI Videos',
+  'Brand Content',
 ]
 
-function LogoItem({ name }: { name: string }) {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '0 48px',
-        whiteSpace: 'nowrap',
-      }}
-    >
-      <span
-        style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: '22px',
-          fontWeight: 700,
-          letterSpacing: '-0.02em',
-          color: 'var(--fg)',
-          opacity: 0.25,
-          transition: 'opacity 0.3s',
-        }}
-        onMouseEnter={(e) => ((e.target as HTMLElement).style.opacity = '1')}
-        onMouseLeave={(e) => ((e.target as HTMLElement).style.opacity = '0.25')}
-      >
-        {name}
-      </span>
-    </div>
-  )
-}
-
 export default function LogoMarquee() {
-  const doubled = [...logos, ...logos]
-
+  const doubled = [...items, ...items]
   return (
-    <section
-      style={{
-        padding: '48px 0',
-        borderTop: '1px solid var(--border)',
-        borderBottom: '1px solid var(--border)',
-        overflow: 'hidden',
-        background: 'var(--bg)',
-      }}
-    >
+    <section style={{ padding: '28px 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', overflow: 'hidden', background: 'var(--bg-card)' }}>
       <div className="marquee-track">
-        {doubled.map((logo, i) => (
-          <LogoItem key={i} name={logo} />
+        {doubled.map((item, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', padding: '0 32px', whiteSpace: 'nowrap', gap: '32px' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', transition: 'color 0.3s' }}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = 'var(--accent)')}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = 'rgba(255,255,255,0.3)')}
+            >{item}</span>
+            <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--accent)', display: 'inline-block', opacity: 0.5, flexShrink: 0 }} />
+          </div>
         ))}
       </div>
     </section>

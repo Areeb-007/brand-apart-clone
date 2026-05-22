@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -8,267 +9,72 @@ gsap.registerPlugin(ScrollTrigger)
 
 const services = [
   {
-    number: '01',
-    title: 'Branding',
-    subtitle: 'that drives conversion & funding',
-    description:
-      'We build brand identities that are both visually compelling and strategically sound. From positioning, naming, and tone of voice to complete visual systems — we handle every layer.',
-    items: ['Brand Strategy', 'Visual Identity', 'Logo Design', 'Brand Guidelines', 'Naming'],
-    testimonial: {
-      quote:
-        "Working with Brand Appart has been an absolute pleasure. Beyond their creativity and professionalism, there's a real sense of kindness and care in everything they do. The team never says no.",
-      author: 'Jérémy Bendayan',
-      role: 'CEO, Jaws Group',
-      initials: 'JB',
-      color: '#F59E0B',
-    },
-    slides: [
-      { label: 'Jaws Group', type: 'Agency · 2026', bg: '#1A1008', accent: '#F59E0B', shape: 'hexagon' },
-      { label: 'Incard', type: 'Fintech · 2024', bg: '#08081A', accent: '#6366F1', shape: 'circle' },
-      { label: 'Sowbeez', type: 'B2C App · 2023', bg: '#081A08', accent: '#10B981', shape: 'triangle' },
-      { label: 'Forbes', type: 'Editorial · 2023', bg: '#1A0800', accent: '#EF4444', shape: 'diamond' },
-      { label: 'Stables', type: 'Web 3.0 · 2022', bg: '#081410', accent: '#14B8A6', shape: 'circle' },
-    ],
+    slug: 'video-editing',
+    title: 'Video Editing',
+    tagline: 'WE CUT STORIES INTO CINEMA.',
+    description: 'At FilmFX Studio, we don\'t just edit clips — we craft stories. From transitions to pacing, color tone to sound flow, we shape every frame to keep your audience hooked and your message unforgettable.',
+    client: 'TEO',
+    clientQuote: 'FilmFX Studio delivered a cinematic, high-quality edit ahead of schedule. Truly impressive work.',
+    image: '/images/services-icons/video-editing.png',
+    bg: '#E63B2E',
+    carousel: ['/images/portfolio/ve-1.jpg', '/images/portfolio/ve-2.jpg', '/images/portfolio/ve-3.jpg', '/images/portfolio/ve-4.jpg'],
   },
   {
-    number: '02',
-    title: 'Product Design',
-    subtitle: 'users adopt & keep using',
-    description:
-      'End-to-end product design for SaaS, mobile, and web apps. We turn complex business goals into intuitive, beautiful interfaces. Journey mapping, prototyping, and systems thinking.',
-    items: ['UX Research', 'UI Design', 'Design Systems', 'Prototyping', 'Usability Testing'],
-    testimonial: {
-      quote:
-        "A huge thank you to the entire Brand Appart team for your outstanding work on our rebranding! We're thrilled to have you as an integral part of the Incard team.",
-      author: 'Théo Cesarini',
-      role: 'CEO, Incard',
-      initials: 'TC',
-      color: '#6366F1',
-    },
-    slides: [
-      { label: 'Incard Dashboard', type: 'Fintech · 2024', bg: '#08081A', accent: '#6366F1', shape: 'circle' },
-      { label: 'Sowbeez App', type: 'Mobile · 2023', bg: '#081A08', accent: '#10B981', shape: 'hexagon' },
-      { label: 'Runway Editor', type: 'AI Video · 2024', bg: '#1A0A1A', accent: '#A78BFA', shape: 'diamond' },
-      { label: 'Linear Clone', type: 'Productivity · 2023', bg: '#08080E', accent: '#60A5FA', shape: 'circle' },
-      { label: 'Pitch Pro', type: 'SaaS · 2024', bg: '#140A0A', accent: '#F472B6', shape: 'triangle' },
-    ],
+    slug: 'graphic-design',
+    title: 'Graphic Design',
+    tagline: 'DESIGNS THAT SPEAK BEFORE YOU DO.',
+    description: 'Great design is silent marketing — and we make it loud. At FilmFX Studio, we create aesthetic, high-impact visuals from posters to branding and social media creatives, designed to match your identity and leave a lasting impression.',
+    client: 'MATT',
+    clientQuote: 'FilmFX Studio created amazing custom designs that elevated our brand. Talented and creative team.',
+    image: '/images/services-icons/graphic-designing.png',
+    bg: '#5844D4',
+    carousel: ['/images/portfolio/gd-1.jpg', '/images/portfolio/gd-2.jpg', '/images/portfolio/gd-3.jpg', '/images/portfolio/gd-4.jpg'],
   },
   {
-    number: '03',
-    title: 'Web Design',
-    subtitle: 'for growing teams & business',
-    description:
-      'Marketing websites that convert. We blend motion, typography, and visual storytelling to create digital experiences that stand out, align messaging, and drive measurable results.',
-    items: ['Marketing Sites', 'Landing Pages', 'Motion Design', 'Webflow', 'Framer'],
-    testimonial: {
-      quote:
-        "I've worked with Brand Appart on multiple projects — website development, landing pages, and presentations. I love how flexible, fast, and professional the team is.",
-      author: 'Alexis Botaya',
-      role: 'Director, Ircam Amplify',
-      initials: 'AB',
-      color: '#3B82F6',
-    },
-    slides: [
-      { label: 'Ircam Amplify', type: 'Sound · 2024', bg: '#080814', accent: '#3B82F6', shape: 'hexagon' },
-      { label: 'Forbes Web3', type: 'Editorial · 2023', bg: '#140800', accent: '#F59E0B', shape: 'diamond' },
-      { label: 'Sowbeez Web', type: 'AgriTech · 2023', bg: '#081408', accent: '#10B981', shape: 'circle' },
-      { label: 'Stables', type: 'Web 3.0 · 2022', bg: '#081410', accent: '#14B8A6', shape: 'triangle' },
-      { label: 'We Are', type: 'B2B SaaS · 2024', bg: '#14080A', accent: '#EC4899', shape: 'circle' },
-    ],
+    slug: 'smm',
+    title: 'Social Media Marketing',
+    tagline: 'WE DON\'T CHASE TRENDS — WE CREATE THEM.',
+    description: 'Social media isn\'t just posting — it\'s positioning. We create smart strategies, content flow, and campaigns that make people stop scrolling and start engaging, building brand presence and turning audiences into loyal followers.',
+    client: 'J. THOMAS',
+    clientQuote: 'FilmFX Studio doubled our social media engagement in 2 months with smart, creative strategies and clear communication.',
+    image: '/images/services-icons/smm.png',
+    bg: '#11204B',
+    carousel: ['/images/portfolio/smm-1.jpg', '/images/portfolio/smm-2.jpg', '/images/portfolio/smm-3.jpg', '/images/portfolio/smm-4.jpg'],
   },
   {
-    number: '04',
-    title: 'Pitch Decks',
-    subtitle: 'investor-proof decks that raise faster',
-    description:
-      'Investor-grade pitch decks that get meetings and close rounds. We craft compelling narratives backed by strong visual storytelling, data design, and fundraising strategy.',
-    items: ['Narrative Structure', 'Data Visualization', 'Slide Design', 'Investor Decks', 'Board Presentations'],
-    testimonial: {
-      quote:
-        "Our pitch deck got us into meetings with top-tier VCs in week one. I've used other agencies before — the quality and speed here is genuinely unmatched.",
-      author: 'Léa Beaumont',
-      role: 'Founder, Sowbeez',
-      initials: 'LB',
-      color: '#10B981',
-    },
-    slides: [
-      { label: 'Series A Deck', type: 'Fundraising · 2024', bg: '#080E14', accent: '#3B82F6', shape: 'diamond' },
-      { label: 'Seed Round', type: 'Fundraising · 2023', bg: '#0A080E', accent: '#A78BFA', shape: 'circle' },
-      { label: 'Board Deck', type: 'Governance · 2024', bg: '#0E0808', accent: '#F87171', shape: 'hexagon' },
-      { label: 'Investor Update', type: 'Reporting · 2024', bg: '#080E0A', accent: '#34D399', shape: 'triangle' },
-      { label: 'Series B', type: 'Fundraising · 2025', bg: '#0E0A08', accent: '#FCD34D', shape: 'circle' },
-    ],
+    slug: 'sales-marketing',
+    title: 'Sales & Marketing',
+    tagline: 'WE MARKET WITH ONE GOAL: RESULTS.',
+    description: 'Marketing without sales is noise. Our sales marketing focuses on targeting the right audience, delivering the right message, and turning interest into action — helping your business grow faster, smarter, and stronger.',
+    client: 'KEVIN',
+    clientQuote: 'FilmFX Studio boosted our leads quickly with smart, well-executed marketing. They deliver real growth, not just promises.',
+    image: '/images/services-icons/sales-marketing.png',
+    bg: '#F96715',
+    carousel: ['/images/portfolio/sm-1.jpg', '/images/portfolio/sm-2.jpg', '/images/portfolio/sm-3.jpg', '/images/portfolio/sm-4.jpg'],
+  },
+  {
+    slug: 'website-development',
+    title: 'Website Development',
+    tagline: 'WEBSITES BUILT TO IMPRESS AND CONVERT.',
+    description: 'Your website is your digital storefront — and we make it unforgettable. From clean UI to smooth UX, speed optimization to mobile responsiveness, we develop websites that feel premium and turn visitors into customers.',
+    client: 'JASMINE',
+    clientQuote: 'FilmFX Studio provided practical business insights and an actionable roadmap that helped us secure key partnerships.',
+    image: '/images/services-icons/website-development.png',
+    bg: '#8B7D5C',
+    carousel: ['/images/portfolio/wd-1.jpg', '/images/portfolio/wd-2.jpg', '/images/portfolio/wd-3.jpg', '/images/portfolio/wd-4.jpg'],
+  },
+  {
+    slug: 'staff-augmentation',
+    title: 'Staff Augmentation',
+    tagline: 'EXPAND YOUR WORKFORCE EFFORTLESSLY.',
+    description: 'Get the right talent exactly when you need it. From skilled professionals to flexible team expansion, we help you scale your workforce without the stress of traditional hiring — so your business keeps moving forward.',
+    client: 'ALBERT',
+    clientQuote: 'FilmFX Studio helped us scale fast with the right talent, meet deadlines, and maintain quality.',
+    image: '/images/services-icons/staff-augmentation.png',
+    bg: '#1DB027',
+    carousel: ['/images/portfolio/work-1.png', '/images/portfolio/work-2.png', '/images/portfolio/work-3.png', '/images/portfolio/work-4.png'],
   },
 ]
-
-function SlideCard({
-  label,
-  type,
-  bg,
-  accent,
-  shape,
-}: {
-  label: string
-  type: string
-  bg: string
-  accent: string
-  shape: string
-}) {
-  return (
-    <div
-      style={{
-        width: '220px',
-        height: '290px',
-        borderRadius: '16px',
-        background: bg,
-        border: '1px solid rgba(255,255,255,0.06)',
-        flexShrink: 0,
-        position: 'relative',
-        overflow: 'hidden',
-        marginRight: '16px',
-      }}
-    >
-      {/* Accent glow */}
-      <div
-        style={{
-          position: 'absolute',
-          width: '180px',
-          height: '180px',
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${accent}40, transparent 70%)`,
-          top: '-40px',
-          right: '-40px',
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* Mock window chrome */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '5px',
-          padding: '16px 16px 0',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        {['#EF4444', '#F59E0B', '#10B981'].map((c, i) => (
-          <div
-            key={i}
-            style={{ width: '7px', height: '7px', borderRadius: '50%', background: c, opacity: 0.6 }}
-          />
-        ))}
-      </div>
-
-      {/* Abstract shape */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -55%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        {shape === 'circle' && (
-          <div
-            style={{
-              width: '72px',
-              height: '72px',
-              borderRadius: '50%',
-              border: `2px solid ${accent}`,
-              background: `${accent}18`,
-              boxShadow: `0 0 32px ${accent}30`,
-            }}
-          />
-        )}
-        {shape === 'hexagon' && (
-          <svg width="72" height="80" viewBox="0 0 72 80">
-            <polygon
-              points="36,4 68,22 68,58 36,76 4,58 4,22"
-              fill={`${accent}18`}
-              stroke={accent}
-              strokeWidth="1.5"
-            />
-          </svg>
-        )}
-        {shape === 'diamond' && (
-          <div
-            style={{
-              width: '60px',
-              height: '60px',
-              background: `${accent}18`,
-              border: `2px solid ${accent}`,
-              transform: 'rotate(45deg)',
-              boxShadow: `0 0 24px ${accent}30`,
-            }}
-          />
-        )}
-        {shape === 'triangle' && (
-          <svg width="72" height="64" viewBox="0 0 72 64">
-            <polygon
-              points="36,4 68,60 4,60"
-              fill={`${accent}18`}
-              stroke={accent}
-              strokeWidth="1.5"
-            />
-          </svg>
-        )}
-      </div>
-
-      {/* Mock bars */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '52px',
-          left: '16px',
-          right: '16px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '6px',
-        }}
-      >
-        <div
-          style={{
-            height: '6px',
-            background: accent,
-            borderRadius: '3px',
-            width: '55%',
-            opacity: 0.7,
-          }}
-        />
-        <div
-          style={{
-            height: '5px',
-            background: 'rgba(255,255,255,0.1)',
-            borderRadius: '3px',
-            width: '80%',
-          }}
-        />
-      </div>
-
-      {/* Label */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          padding: '10px 16px',
-          background: 'rgba(0,0,0,0.4)',
-          backdropFilter: 'blur(8px)',
-          borderTop: '1px solid rgba(255,255,255,0.06)',
-        }}
-      >
-        <div style={{ fontSize: '13px', fontWeight: 600, color: 'white' }}>{label}</div>
-        <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>{type}</div>
-      </div>
-    </div>
-  )
-}
 
 export default function Services() {
   const rowRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -276,267 +82,84 @@ export default function Services() {
   useEffect(() => {
     rowRefs.current.forEach((row) => {
       if (!row) return
-      const left = row.querySelector<HTMLElement>('.svc-left')
-      const right = row.querySelector<HTMLElement>('.svc-right')
-      const strip = row.querySelector<HTMLElement>('.svc-strip-wrap')
-
-      if (left) {
-        gsap.fromTo(
-          left,
-          { x: -48, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: row, start: 'top 80%', toggleActions: 'play none none reverse' },
-          }
-        )
-      }
-      if (right) {
-        gsap.fromTo(
-          right,
-          { x: 48, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: row, start: 'top 80%', toggleActions: 'play none none reverse' },
-          }
-        )
-      }
-      if (strip) {
-        gsap.fromTo(
-          strip,
-          { y: 32, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: 'power2.out',
-            scrollTrigger: { trigger: strip, start: 'top 88%', toggleActions: 'play none none reverse' },
-          }
-        )
-      }
+      gsap.fromTo(
+        row,
+        { y: 48, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 0.8, ease: 'power3.out',
+          scrollTrigger: { trigger: row, start: 'top 85%', toggleActions: 'play none none reverse' },
+        }
+      )
     })
   }, [])
 
   return (
-    <section
-      id="services"
-      style={{
-        background: 'var(--fg)',
-        color: 'var(--bg)',
-        paddingBottom: '80px',
-      }}
-    >
+    <section id="services" style={{ padding: '100px 0 80px', background: 'var(--bg-card)' }}>
       {/* Header */}
-      <div
-        style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          padding: '120px 40px 80px',
-        }}
-      >
-        <p className="section-tag" style={{ color: 'rgba(255,255,255,0.35)', marginBottom: '12px' }}>
-          What we do
-        </p>
-        <h2
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(36px, 4.5vw, 64px)',
-            fontWeight: 700,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.05,
-            color: 'var(--bg)',
-            maxWidth: '640px',
-          }}
-        >
-          Services built for
-          <br />
-          <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'rgba(255,255,255,0.35)' }}>
-            ambitious teams.
-          </span>
+      <div style={{ padding: '0 48px', marginBottom: '64px' }}>
+        <p className="section-tag" style={{ marginBottom: '10px' }}>What We Do</p>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#fff', maxWidth: '600px' }}>
+          Services built for<br />
+          <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'var(--fg-muted)' }}>ambitious brands.</span>
         </h2>
       </div>
 
       {/* Service rows */}
-      {services.map((service, i) => (
+      {services.map((svc, i) => (
         <div
-          key={service.number}
+          key={svc.slug}
           ref={(el) => { rowRefs.current[i] = el }}
-          style={{
-            borderTop: '1px solid rgba(255,255,255,0.08)',
-          }}
+          style={{ borderTop: '1px solid var(--border)', padding: '0 48px' }}
         >
-          {/* Info + Testimonial row */}
-          <div
-            style={{
-              maxWidth: '1400px',
-              margin: '0 auto',
-              padding: '64px 40px 56px',
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '64px',
-              alignItems: 'flex-start',
-            }}
-          >
-            {/* Left: service info */}
-            <div className="svc-left">
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', marginBottom: '20px' }}>
-                <span
-                  style={{
-                    fontSize: '12px',
-                    fontWeight: 600,
-                    letterSpacing: '0.12em',
-                    color: 'rgba(255,255,255,0.25)',
-                  }}
-                >
-                  {service.number}
-                </span>
-                <div
-                  style={{
-                    flex: 1,
-                    height: '1px',
-                    background: 'rgba(255,255,255,0.1)',
-                  }}
-                />
-              </div>
-
-              <h3
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(28px, 3vw, 44px)',
-                  fontWeight: 700,
-                  letterSpacing: '-0.03em',
-                  lineHeight: 1.1,
-                  marginBottom: '6px',
-                  color: 'var(--bg)',
-                }}
-              >
-                {service.title}
-              </h3>
-              <p
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(20px, 2vw, 28px)',
-                  fontWeight: 400,
-                  fontStyle: 'italic',
-                  color: 'rgba(255,255,255,0.35)',
-                  marginBottom: '28px',
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1.2,
-                }}
-              >
-                {service.subtitle}
-              </p>
-
-              <p
-                style={{
-                  fontSize: '15px',
-                  color: 'rgba(255,255,255,0.5)',
-                  lineHeight: 1.8,
-                  marginBottom: '32px',
-                  maxWidth: '480px',
-                }}
-              >
-                {service.description}
-              </p>
-
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {service.items.map((item) => (
-                  <span
-                    key={item}
-                    style={{
-                      padding: '6px 14px',
-                      border: '1px solid rgba(255,255,255,0.12)',
-                      borderRadius: '100px',
-                      fontSize: '12px',
-                      color: 'rgba(255,255,255,0.5)',
-                      letterSpacing: '0.02em',
-                    }}
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
+          {/* Service card image + info row */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center', padding: '56px 0 40px' }}>
+            {/* Left: service card image */}
+            <div style={{ borderRadius: '16px', overflow: 'hidden', position: 'relative', aspectRatio: '840/490', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <Image
+                src={svc.image}
+                alt={svc.title}
+                fill
+                style={{ objectFit: 'cover' }}
+                sizes="(max-width:768px) 100vw, 50vw"
+              />
             </div>
 
-            {/* Right: testimonial */}
-            <div
-              className="svc-right"
-              style={{
-                padding: '40px',
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: '20px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '32px',
-              }}
-            >
-              {/* Quote marks */}
-              <svg width="36" height="28" viewBox="0 0 48 36" fill="none" opacity={0.2}>
-                <path
-                  d="M0 36V21.6C0 9.6 7.2 2.4 21.6 0l2.4 4.8C15.6 6.4 11.2 10.4 10.4 16H20V36H0zm28 0V21.6C28 9.6 35.2 2.4 49.6 0L52 4.8C43.6 6.4 39.2 10.4 38.4 16H48V36H28z"
-                  fill="white"
-                />
-              </svg>
+            {/* Right: text + testimonial */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '20px' }}>
+                <span style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.2)' }}>0{i + 1}</span>
+                <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+              </div>
 
-              <p
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(16px, 1.6vw, 20px)',
-                  fontWeight: 500,
-                  lineHeight: 1.6,
-                  color: 'rgba(255,255,255,0.8)',
-                  letterSpacing: '-0.01em',
-                  flex: 1,
-                }}
-              >
-                {service.testimonial.quote}
-              </p>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 800, letterSpacing: '-0.02em', color: '#fff', marginBottom: '8px' }}>{svc.title}</h3>
+              <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', color: 'var(--accent)', textTransform: 'uppercase', marginBottom: '16px' }}>{svc.tagline}</p>
+              <p style={{ fontSize: '14px', color: 'var(--fg-muted)', lineHeight: 1.8, marginBottom: '28px' }}>{svc.description}</p>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                <div
-                  style={{
-                    width: '44px',
-                    height: '44px',
-                    borderRadius: '50%',
-                    background: service.testimonial.color,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '14px',
-                    fontWeight: 700,
-                    color: 'white',
-                    flexShrink: 0,
-                  }}
-                >
-                  {service.testimonial.initials}
-                </div>
-                <div>
-                  <div style={{ fontSize: '14px', fontWeight: 600, color: 'white' }}>
-                    {service.testimonial.author}
+              {/* Testimonial */}
+              <div style={{ padding: '20px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '14px' }}>
+                <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, fontStyle: 'italic', marginBottom: '12px' }}>
+                  &ldquo;{svc.clientQuote}&rdquo;
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: svc.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 700, color: '#fff', flexShrink: 0 }}>
+                    {svc.client[0]}
                   </div>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>
-                    {service.testimonial.role}
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#fff', letterSpacing: '0.05em' }}>{svc.client}</span>
+                  <div style={{ display: 'flex', gap: '2px', marginLeft: 'auto' }}>
+                    {[...Array(5)].map((_, j) => <span key={j} style={{ color: '#FBBF24', fontSize: '12px' }}>★</span>)}
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Image carousel strip */}
-          <div
-            className="svc-strip-wrap"
-            style={{ overflow: 'hidden', paddingBottom: '56px' }}
-          >
-            <div className="service-strip" style={{ paddingLeft: '40px' }}>
-              {[...service.slides, ...service.slides].map((slide, j) => (
-                <SlideCard key={j} {...slide} />
+          {/* Carousel strip */}
+          <div style={{ overflow: 'hidden', paddingBottom: '40px', margin: '0 -48px', paddingLeft: '0' }}>
+            <div className="service-strip">
+              {[...svc.carousel, ...svc.carousel].map((src, j) => (
+                <div key={j} style={{ width: '280px', height: '180px', borderRadius: '12px', overflow: 'hidden', position: 'relative', flexShrink: 0, marginRight: '12px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <Image src={src} alt={`${svc.title} work ${j + 1}`} fill style={{ objectFit: 'cover' }} sizes="280px" />
+                </div>
               ))}
             </div>
           </div>

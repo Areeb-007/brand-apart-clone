@@ -17,9 +17,9 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Brand Appart — The design partner for top-tier companies',
+  title: 'FilmFX Studio — Your Creative Partner for High-Impact Videos',
   description:
-    'We craft brands, products, and digital experiences that scale. Strategy, design, and execution — all under one roof.',
+    'We help brands, creators, and businesses transform raw footage into polished videos, social media content, promos, wedding films, AI videos, and cinematic edits that capture attention and drive engagement.',
 }
 
 export default function RootLayout({

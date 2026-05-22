@@ -5,7 +5,6 @@ import ZoomReveal from '@/components/ZoomReveal'
 import Works from '@/components/Works'
 import Services from '@/components/Services'
 import About from '@/components/About'
-import Team from '@/components/Team'
 import Testimonials from '@/components/Testimonials'
 import CTA from '@/components/CTA'
 import Footer from '@/components/Footer'
@@ -21,7 +20,6 @@ export default function Home() {
         <Works />
         <Services />
         <About />
-        <Team />
         <Testimonials />
         <CTA />
       </main>

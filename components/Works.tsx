@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -7,302 +8,117 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const projects = [
-  {
-    title: 'Incard',
-    category: 'Branding · Product Design',
-    year: '2024',
-    color: '#1A1A2E',
-    accent: '#6366F1',
-    description: 'Complete rebrand and product design system for a B2B fintech company.',
-  },
-  {
-    title: 'Sowbeez',
-    category: 'Web Design · Motion',
-    year: '2024',
-    color: '#0F2027',
-    accent: '#10B981',
-    description: 'Full digital experience with motion design for an agri-tech startup.',
-  },
-  {
-    title: 'Forbes Feature',
-    category: 'Editorial Design',
-    year: '2023',
-    color: '#1C0A00',
-    accent: '#F59E0B',
-    description: 'Collaborative editorial layout for Forbes digital magazine.',
-  },
-  {
-    title: 'Pitch Decks',
-    category: 'Pitch · Branding',
-    year: '2023',
-    color: '#0A1628',
-    accent: '#3B82F6',
-    description: 'Investor-ready pitch decks for Series A & B fundraising rounds.',
-  },
-  {
-    title: 'Runway',
-    category: 'Product Design · UI',
-    year: '2024',
-    color: '#1A0A2E',
-    accent: '#A78BFA',
-    description: 'AI-powered video platform redesign with a focus on creator workflows.',
-  },
-  {
-    title: 'Linear',
-    category: 'Web Design',
-    year: '2023',
-    color: '#0A0A14',
-    accent: '#60A5FA',
-    description: 'Marketing website redesign for the project management tool.',
-  },
+  { id: 1, hasVideo: true,  poster: '/images/portfolio/work-1.png', video: '/videos/work-1.mp4', title: 'Social Media Reel', category: 'Video Editing' },
+  { id: 2, hasVideo: true,  poster: '/images/portfolio/work-2.png', video: '/videos/work-2.mp4', title: 'Brand Promo',       category: 'Motion Graphics' },
+  { id: 3, hasVideo: true,  poster: '/images/portfolio/work-3.png', video: '/videos/work-3.mp4', title: 'Cinematic Edit',    category: 'Video Editing' },
+  { id: 4, hasVideo: true,  poster: '/images/portfolio/work-4.png', video: '/videos/work-4.mp4', title: 'Product Showcase',  category: 'Social Media' },
+  { id: 5, hasVideo: false, poster: '/images/portfolio/work-5.png', video: '',                   title: 'Content Campaign',  category: 'Graphic Design' },
+  { id: 6, hasVideo: false, poster: '/images/portfolio/work-6.png', video: '',                   title: 'Brand Identity',    category: 'Graphic Design' },
 ]
+
+function VideoCard({ project }: { project: typeof projects[number] }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  const handleEnter = () => {
+    if (project.hasVideo && videoRef.current) {
+      videoRef.current.currentTime = 0
+      videoRef.current.play()
+    }
+  }
+  const handleLeave = () => {
+    if (project.hasVideo && videoRef.current) {
+      videoRef.current.pause()
+    }
+  }
+
+  return (
+    <div
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      style={{ borderRadius: '16px', overflow: 'hidden', position: 'relative', aspectRatio: '500/528', background: '#0E0E28', cursor: 'none', border: '1px solid var(--border)' }}
+    >
+      {/* Poster image */}
+      <Image src={project.poster} alt={project.title} fill style={{ objectFit: 'cover', transition: 'opacity 0.3s' }} sizes="(max-width:768px) 100vw, 33vw" />
+
+      {/* Video overlay */}
+      {project.hasVideo && (
+        <video
+          ref={videoRef}
+          src={project.video}
+          muted
+          loop
+          playsInline
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0, transition: 'opacity 0.4s' }}
+          onPlay={(e) => { (e.currentTarget as HTMLVideoElement).style.opacity = '1' }}
+          onPause={(e) => { (e.currentTarget as HTMLVideoElement).style.opacity = '0' }}
+        />
+      )}
+
+      {/* Bottom label */}
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px 20px 20px', background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)' }}>
+        <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '4px' }}>{project.category}</div>
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: '#fff' }}>{project.title}</div>
+      </div>
+
+      {/* Play icon on hover */}
+      {project.hasVideo && (
+        <div className="play-icon" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '52px', height: '52px', borderRadius: '50%', background: 'rgba(255,85,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }}>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="white"><path d="M5 3l11 6-11 6V3z" /></svg>
+        </div>
+      )}
+
+      <style>{`.play-icon { opacity: 0 !important; } div:hover > .play-icon { opacity: 1 !important; }`}</style>
+    </div>
+  )
+}
 
 export default function Works() {
   const sectionRef = useRef<HTMLDivElement>(null)
-  const cardsRef = useRef<HTMLDivElement[]>([])
+  const cardsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    cardsRef.current.forEach((card, i) => {
-      if (!card) return
-      gsap.fromTo(
-        card,
-        { y: 60, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          },
-          delay: (i % 3) * 0.1,
-        }
-      )
-    })
+    if (!cardsRef.current) return
+    gsap.fromTo(
+      Array.from(cardsRef.current.children),
+      { y: 60, opacity: 0 },
+      {
+        y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', stagger: 0.1,
+        scrollTrigger: { trigger: cardsRef.current, start: 'top 85%', toggleActions: 'play none none reverse' },
+      }
+    )
   }, [])
 
   return (
-    <section
-      id="works"
-      ref={sectionRef}
-      style={{
-        padding: '120px 40px',
-        maxWidth: '1400px',
-        margin: '0 auto',
-      }}
-    >
+    <section id="works" ref={sectionRef} style={{ padding: '100px 48px' }}>
       {/* Header */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'flex-end',
-          justifyContent: 'space-between',
-          marginBottom: '64px',
-          flexWrap: 'wrap',
-          gap: '24px',
-        }}
-      >
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '56px', flexWrap: 'wrap', gap: '24px' }}>
         <div>
-          <p className="section-tag" style={{ marginBottom: '12px' }}>
-            Selected Work
-          </p>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(36px, 4vw, 56px)',
-              fontWeight: 700,
-              letterSpacing: '-0.03em',
-              lineHeight: 1.1,
-            }}
-          >
-            Projects that
+          <p className="section-tag" style={{ marginBottom: '10px' }}>Featured Projects</p>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4vw, 52px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#fff' }}>
+            We create cinematic edits,
             <br />
             <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'var(--fg-muted)' }}>
-              define brands.
+              social media videos & more.
             </span>
           </h2>
         </div>
-        <a href="/works" className="pill-btn">
-          All projects
+        <a href="#contact" className="pill-btn" style={{ textDecoration: 'none', flexShrink: 0 }}>
+          View more projects
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M3 8h10M9 4l4 4-4 4"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </a>
       </div>
 
       {/* Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))',
-          gap: '24px',
-        }}
-      >
-        {projects.map((project, i) => (
-          <div
-            key={project.title}
-            ref={(el) => {
-              if (el) cardsRef.current[i] = el
-            }}
-            className="work-card"
-            style={{
-              borderRadius: '16px',
-              overflow: 'hidden',
-              cursor: 'none',
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.transform = 'translateY(-4px)'
-              el.style.boxShadow = '0 20px 60px rgba(0,0,0,0.1)'
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.transform = 'translateY(0)'
-              el.style.boxShadow = 'none'
-            }}
-          >
-            {/* Image area */}
-            <div
-              style={{
-                height: '260px',
-                background: project.color,
-                position: 'relative',
-                overflow: 'hidden',
-              }}
-            >
-              <div
-                className="work-card-img"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: `radial-gradient(circle at 30% 70%, ${project.accent}30, transparent 70%)`,
-                  transition: 'transform 0.5s ease',
-                }}
-              />
-              {/* Mock UI element */}
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '24px',
-                  left: '24px',
-                  right: '24px',
-                  padding: '16px',
-                  background: 'rgba(255,255,255,0.08)',
-                  borderRadius: '12px',
-                  backdropFilter: 'blur(8px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                }}
-              >
-                <div
-                  style={{
-                    width: '40%',
-                    height: '8px',
-                    background: project.accent,
-                    borderRadius: '4px',
-                    marginBottom: '8px',
-                    opacity: 0.8,
-                  }}
-                />
-                <div
-                  style={{
-                    width: '70%',
-                    height: '6px',
-                    background: 'rgba(255,255,255,0.2)',
-                    borderRadius: '4px',
-                  }}
-                />
-              </div>
-              {/* Year badge */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '16px',
-                  right: '16px',
-                  padding: '4px 10px',
-                  background: 'rgba(255,255,255,0.1)',
-                  borderRadius: '100px',
-                  fontSize: '11px',
-                  color: 'rgba(255,255,255,0.6)',
-                  letterSpacing: '0.05em',
-                }}
-              >
-                {project.year}
-              </div>
-            </div>
+      <div ref={cardsRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+        {projects.map((p) => <VideoCard key={p.id} project={p} />)}
+      </div>
 
-            {/* Content */}
-            <div style={{ padding: '24px' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                }}
-              >
-                <div>
-                  <h3
-                    style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: '20px',
-                      fontWeight: 700,
-                      letterSpacing: '-0.02em',
-                      marginBottom: '4px',
-                    }}
-                  >
-                    {project.title}
-                  </h3>
-                  <p style={{ fontSize: '13px', color: 'var(--fg-muted)' }}>{project.category}</p>
-                </div>
-                <div
-                  className="work-card-arrow"
-                  style={{
-                    width: '36px',
-                    height: '36px',
-                    border: '1px solid var(--border)',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'transform 0.3s ease',
-                    flexShrink: 0,
-                  }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                    <path
-                      d="M4 12L12 4M12 4H6M12 4v6"
-                      stroke="var(--fg)"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <p
-                style={{
-                  fontSize: '14px',
-                  color: 'var(--fg-muted)',
-                  marginTop: '12px',
-                  lineHeight: 1.6,
-                }}
-                className="line-clamp-2"
-              >
-                {project.description}
-              </p>
-            </div>
-          </div>
-        ))}
+      {/* Centre line */}
+      <div style={{ textAlign: 'center', marginTop: '48px' }}>
+        <p style={{ fontSize: '13px', color: 'var(--fg-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '16px' }}>More creative work</p>
+        <a href="#contact" className="pill-btn pill-btn-filled" style={{ textDecoration: 'none' }}>View more projects</a>
       </div>
     </section>
   )
