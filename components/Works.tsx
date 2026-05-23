@@ -89,7 +89,7 @@ export default function Works() {
   }, [])
 
   return (
-    <section id="works" ref={sectionRef} style={{ padding: '100px 48px' }}>
+    <section id="works" ref={sectionRef} style={{ padding: '100px 48px', background: 'var(--bg)' }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '56px', flexWrap: 'wrap', gap: '24px' }}>
         <div>

@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #08081C;
-  --bg-card: #0E0E28;
+  --bg: #0D0D22;
+  --bg-card: #16163A;
   --fg: #FFFFFF;
-  --fg-muted: rgba(255,255,255,0.5);
-  --border: rgba(255,255,255,0.08);
+  --fg-muted: rgba(255,255,255,0.6);
+  --border: rgba(255,255,255,0.12);
   --accent: #FF5500;
 }
 
@@ -37,8 +37,12 @@ body {
   font-family: var(--font-sans), 'DM Sans', sans-serif;
   overflow-x: hidden;
   cursor: none;
-  /* offset for left sidebar */
-  padding-left: 240px;
+}
+
+/* ── Content offset so sidebar never overlaps ── */
+main,
+footer {
+  margin-left: 240px;
 }
 
 /* ── Sidebar / mobile nav visibility ── */
@@ -51,8 +55,12 @@ body {
 }
 
 @media (max-width: 768px) {
+  main,
+  footer {
+    margin-left: 0;
+    /* top padding handled by mobile-nav header height */
+  }
   body {
-    padding-left: 0;
     padding-top: 64px;
   }
   .sidebar-nav {

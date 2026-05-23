@@ -41,9 +41,8 @@ export default function Navigation() {
           left: 0,
           bottom: 0,
           width: '240px',
-          background: 'rgba(8,8,28,0.95)',
-          backdropFilter: 'blur(12px)',
-          borderRight: '1px solid var(--border)',
+          background: '#070714',
+          borderRight: '1px solid rgba(255,255,255,0.1)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
@@ -185,7 +184,7 @@ export default function Navigation() {
       <header
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, height: '64px',
-          background: 'rgba(8,8,28,0.95)', backdropFilter: 'blur(12px)',
+          background: '#070714',
           borderBottom: '1px solid var(--border)',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '0 24px', zIndex: 100,

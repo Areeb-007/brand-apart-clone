@@ -41,7 +41,7 @@ export default function ZoomReveal() {
 
   return (
     <div ref={outerRef} style={{ padding: '80px 48px', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '600px', position: 'relative' }}>
-      <div ref={cardRef} style={{ width: '100%', maxWidth: '1100px', background: '#0E0E28', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px', overflow: 'hidden', transformOrigin: 'center center', willChange: 'transform' }}>
+      <div ref={cardRef} style={{ width: '100%', maxWidth: '1100px', background: '#16163A', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '20px', overflow: 'hidden', transformOrigin: 'center center', willChange: 'transform' }}>
         <div ref={innerRef} style={{ padding: 'clamp(40px, 6vw, 72px)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
           {/* Left */}
           <div>
@@ -67,7 +67,7 @@ export default function ZoomReveal() {
           {/* Right: metrics */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             {metrics.map((m) => (
-              <div key={m.value} style={{ padding: '24px 20px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '14px', position: 'relative', overflow: 'hidden' }}>
+              <div key={m.value} style={{ padding: '24px 20px', background: '#1E1E48', border: '1px solid rgba(255,255,255,0.14)', borderRadius: '14px', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '80px', height: '80px', borderRadius: '50%', background: `radial-gradient(circle, ${m.color}30, transparent 70%)`, pointerEvents: 'none' }} />
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 2.5vw, 34px)', fontWeight: 800, letterSpacing: '-0.04em', color: '#fff', marginBottom: '6px' }}>{m.value}</div>
                 <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)' }}>{m.label}</div>

@@ -46,7 +46,7 @@ export default function About() {
   }, [])
 
   return (
-    <section id="about" style={{ padding: '100px 48px' }}>
+    <section id="about" style={{ padding: '100px 48px', background: 'var(--bg)' }}>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
         {/* Left */}
         <div ref={textRef}>
@@ -73,7 +73,7 @@ export default function About() {
         {/* Right: stats */}
         <div ref={statsRef} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
           {stats.map((stat, i) => (
-            <div key={stat.label} style={{ padding: '36px 28px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}>
+            <div key={stat.label} style={{ padding: '36px 28px', background: '#1A1A3E', border: '1px solid rgba(255,255,255,0.14)', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}>
               <div style={{
                 position: 'absolute', inset: 0, pointerEvents: 'none',
                 background: i === 0 ? 'radial-gradient(circle at 0% 100%, rgba(230,59,46,0.1), transparent 60%)'
