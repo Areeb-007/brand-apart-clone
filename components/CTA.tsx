@@ -35,7 +35,7 @@ export default function CTA() {
       <div ref={innerRef} style={{ maxWidth: '720px', margin: '0 auto', position: 'relative' }}>
         <p className="section-tag" style={{ marginBottom: '24px' }}>Start a Project</p>
 
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5.5vw, 72px)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.0, marginBottom: '24px', color: '#fff' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5.5vw, 72px)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.0, marginBottom: '24px', color: 'var(--fg)' }}>
           Make every frame
           <br />
           <span style={{ color: 'var(--accent)', fontStyle: 'italic', fontWeight: 800 }}>work for your brand!</span>
@@ -70,7 +70,7 @@ export default function CTA() {
             ))}
           </div>
           <p style={{ fontSize: '14px', color: 'var(--fg-muted)' }}>
-            Trusted by <strong style={{ color: '#fff' }}>100+ creators & brands</strong> worldwide
+            Trusted by <strong style={{ color: 'var(--fg)' }}>100+ creators & brands</strong> worldwide
           </p>
         </div>
       </div>

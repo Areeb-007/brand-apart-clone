@@ -35,7 +35,7 @@ function VideoCard({ project }: { project: typeof projects[number] }) {
     <div
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
-      style={{ borderRadius: '16px', overflow: 'hidden', position: 'relative', aspectRatio: '500/528', background: '#0E0E28', cursor: 'none', border: '1px solid var(--border)' }}
+      style={{ borderRadius: '16px', overflow: 'hidden', position: 'relative', aspectRatio: '500/528', background: '#1A1A1A', cursor: 'none', border: '1px solid var(--border)' }}
     >
       {/* Poster image */}
       <Image src={project.poster} alt={project.title} fill style={{ objectFit: 'cover', transition: 'opacity 0.3s' }} sizes="(max-width:768px) 100vw, 33vw" />

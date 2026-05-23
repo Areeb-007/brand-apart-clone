@@ -51,7 +51,7 @@ export default function About() {
         {/* Left */}
         <div ref={textRef}>
           <p className="section-tag" style={{ marginBottom: '12px' }}>About FilmFX Studio</p>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 3.5vw, 50px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px', color: '#fff' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 3.5vw, 50px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px', color: 'var(--fg)' }}>
             We cut stories
             <br />
             <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'var(--fg-muted)' }}>into cinema.</span>
@@ -73,7 +73,7 @@ export default function About() {
         {/* Right: stats */}
         <div ref={statsRef} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
           {stats.map((stat, i) => (
-            <div key={stat.label} style={{ padding: '36px 28px', background: '#1A1A3E', border: '1px solid rgba(255,255,255,0.14)', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}>
+            <div key={stat.label} style={{ padding: '36px 28px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}>
               <div style={{
                 position: 'absolute', inset: 0, pointerEvents: 'none',
                 background: i === 0 ? 'radial-gradient(circle at 0% 100%, rgba(230,59,46,0.1), transparent 60%)'
@@ -81,7 +81,7 @@ export default function About() {
                   : i === 2 ? 'radial-gradient(circle at 0% 0%, rgba(255,85,0,0.1), transparent 60%)'
                   : 'radial-gradient(circle at 100% 100%, rgba(29,176,39,0.1), transparent 60%)',
               }} />
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 3.5vw, 52px)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: '8px', color: '#fff', position: 'relative' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 3.5vw, 52px)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: '8px', color: 'var(--fg)', position: 'relative' }}>
                 <span ref={(el) => { counterRefs.current[i] = el }}>0{stat.suffix}</span>
               </div>
               <div style={{ fontSize: '13px', color: 'var(--fg-muted)', position: 'relative' }}>{stat.label}</div>

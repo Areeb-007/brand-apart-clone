@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0D0D22;
-  --bg-card: #16163A;
-  --fg: #FFFFFF;
-  --fg-muted: rgba(255,255,255,0.6);
-  --border: rgba(255,255,255,0.12);
+  --bg: #F5F0E8;
+  --bg-card: #EDE8DC;
+  --fg: #0D0D0D;
+  --fg-muted: rgba(13,13,13,0.5);
+  --border: rgba(13,13,13,0.1);
   --accent: #FF5500;
 }
 
@@ -39,35 +39,101 @@ body {
   cursor: none;
 }
 
-/* ── Content offset so sidebar never overlaps ── */
+/* ── Logo badge — top left ── */
+.nav-logo-badge {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 200;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #1a1a2e;
+  border: 2.5px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  cursor: none;
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.nav-logo-badge:hover {
+  transform: scale(1.1);
+}
+
+/* ── Brand name — bottom left ── */
+.nav-brand-name {
+  position: fixed;
+  bottom: 28px;
+  left: 24px;
+  z-index: 200;
+}
+
+/* ── Dock icons — individual cards, centered left ── */
+.dock-nav {
+  position: fixed;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Book a Call — fixed top-right ── */
+.dock-cta-btn {
+  position: fixed;
+  top: 24px;
+  right: 32px;
+  z-index: 200;
+}
+
+/* ── Mobile top bar ── */
+.mobile-topbar {
+  display: none;
+}
+
+/* ── No content offset — dock floats over content ── */
 main,
 footer {
-  margin-left: 240px;
-}
-
-/* ── Sidebar / mobile nav visibility ── */
-.sidebar-nav {
-  display: flex;
-}
-
-.mobile-nav {
-  display: none;
+  margin-left: 0;
 }
 
 @media (max-width: 768px) {
   main,
   footer {
-    margin-left: 0;
-    /* top padding handled by mobile-nav header height */
-  }
-  body {
     padding-top: 64px;
   }
-  .sidebar-nav {
-    display: none !important;
+
+  .nav-logo-badge,
+  .nav-brand-name,
+  .dock-nav,
+  .dock-cta-btn {
+    display: none;
   }
-  .mobile-nav {
-    display: flex !important;
+
+  .mobile-topbar {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    background: rgba(245, 240, 232, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    z-index: 200;
   }
 }
 
@@ -84,12 +150,13 @@ footer {
   z-index: 9999;
   transform: translate(-50%, -50%);
   transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+  mix-blend-mode: multiply;
 }
 
 .cursor-ring {
   width: 36px;
   height: 36px;
-  border: 1.5px solid var(--fg);
+  border: 1.5px solid rgba(13,13,13,0.4);
   border-radius: 50%;
   position: fixed;
   top: 0;
@@ -103,7 +170,7 @@ footer {
 .cursor-ring.hovered {
   width: 60px;
   height: 60px;
-  border-color: var(--fg);
+  border-color: rgba(13,13,13,0.3);
   opacity: 0.5;
 }
 
@@ -165,7 +232,7 @@ footer {
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(13,13,13,0.2);
   border-radius: 100px;
   font-size: 14px;
   font-weight: 500;
@@ -176,19 +243,19 @@ footer {
 }
 
 .pill-btn:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.5);
+  background: rgba(13,13,13,0.07);
+  border-color: rgba(13,13,13,0.4);
 }
 
 .pill-btn-filled {
-  background: var(--accent);
+  background: #0D0D0D;
   color: #FFFFFF;
-  border-color: var(--accent);
+  border-color: #0D0D0D;
 }
 
 .pill-btn-filled:hover {
-  background: #FF7733;
-  border-color: #FF7733;
+  background: #2A2A2A;
+  border-color: #2A2A2A;
   color: #FFFFFF;
 }
 
@@ -217,7 +284,7 @@ footer {
   left: 0;
   width: 0;
   height: 1px;
-  background: var(--fg);
+  background: #0D0D0D;
   transition: width 0.25s ease;
 }
 
