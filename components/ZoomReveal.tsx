@@ -1,88 +1,153 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const metrics = [
-  { value: '500+', label: 'Videos delivered', color: '#E63B2E' },
-  { value: '100+', label: 'Happy clients',     color: '#5844D4' },
-  { value: '40%',  label: 'Avg. growth boost', color: '#F96715' },
-  { value: '5★',   label: 'Average rating',    color: '#1DB027' },
-]
-
 export default function ZoomReveal() {
-  const outerRef = useRef<HTMLDivElement>(null)
-  const cardRef = useRef<HTMLDivElement>(null)
-  const innerRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const bgRef     = useRef<HTMLDivElement>(null)
+  const cardRef   = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const outer = outerRef.current
-    const card = cardRef.current
-    const inner = innerRef.current
-    if (!outer || !card || !inner) return
+    const section = sectionRef.current
+    const bg      = bgRef.current
+    const card    = cardRef.current
+    if (!section || !bg || !card) return
 
-    const zoomIn = gsap.timeline({
-      scrollTrigger: { trigger: outer, start: 'top 85%', end: 'top 15%', scrub: 1 },
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: '+=700',
+        pin: true,
+        pinSpacing: true,
+        scrub: 1.4,
+      },
     })
-    zoomIn.fromTo(card, { scale: 0.28, opacity: 0, borderRadius: '32px' }, { scale: 1, opacity: 1, borderRadius: '20px', ease: 'power2.inOut' })
 
-    ScrollTrigger.create({ trigger: outer, start: 'top 15%', end: '+=320', pin: card, pinSpacing: true })
+    // Card zooms from contained → full viewport
+    tl.fromTo(
+      card,
+      { scale: 0.82, borderRadius: '24px' },
+      { scale: 1,    borderRadius: '0px',  ease: 'none' },
+      0
+    )
 
-    gsap.fromTo(Array.from(inner.children), { y: 24, opacity: 0 }, {
-      y: 0, opacity: 1, stagger: 0.1, duration: 0.7, ease: 'power2.out',
-      scrollTrigger: { trigger: outer, start: 'top 10%', toggleActions: 'play none none reverse' },
-    })
+    // Background fades cream → black in sync
+    tl.fromTo(
+      bg,
+      { backgroundColor: '#F5F0E8' },
+      { backgroundColor: '#000000', ease: 'none' },
+      0
+    )
 
-    return () => { ScrollTrigger.getAll().forEach((t) => { if (t.trigger === outer) t.kill() }) }
+    return () => {
+      ScrollTrigger.getAll().forEach((t) => {
+        if (t.trigger === section) t.kill()
+      })
+    }
   }, [])
 
   return (
-    <div ref={outerRef} style={{ padding: '80px 48px', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '600px', position: 'relative' }}>
-      <div ref={cardRef} style={{ width: '100%', maxWidth: '1100px', background: '#0D0D0D', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px', overflow: 'hidden', transformOrigin: 'center center', willChange: 'transform' }}>
-        <div ref={innerRef} style={{ padding: 'clamp(40px, 6vw, 72px)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
-          {/* Left */}
-          <div>
-            <p style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '20px' }}>Results that speak</p>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 3.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#fff', marginBottom: '20px' }}>
-              Make every<br />
-              <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'rgba(255,255,255,0.3)' }}>frame count.</span>
-            </h2>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, maxWidth: '360px', marginBottom: '32px' }}>
-              Every video we produce is built to stop the scroll, tell your story, and drive real engagement — not just views.
+    /* Outer section — pinned by GSAP, viewport height */
+    <div
+      ref={sectionRef}
+      style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}
+    >
+      {/* Background layer: cream → black */}
+      <div
+        ref={bgRef}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundColor: '#F5F0E8',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {/* Card: starts 82% scaled (cream shows as margins), zooms to 100vw×100vh */}
+        <div
+          ref={cardRef}
+          style={{
+            width: '100vw',
+            height: '100vh',
+            position: 'relative',
+            overflow: 'hidden',
+            transformOrigin: 'center center',
+            willChange: 'transform, border-radius',
+          }}
+        >
+          {/* Featured work image */}
+          <Image
+            src="/images/hero-work.png"
+            alt="Make it Cinematic. Make it Unforgettable."
+            fill
+            style={{ objectFit: 'cover' }}
+            sizes="100vw"
+            priority
+          />
+
+          {/* Bottom gradient + text overlay */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 55%, transparent 100%)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              padding: 'clamp(32px, 5vw, 64px)',
+            }}
+          >
+            <p style={{
+              fontSize: '11px',
+              fontWeight: 700,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.45)',
+              marginBottom: '12px',
+            }}>
+              Featured Work
             </p>
-            <a href="#contact" className="pill-btn" style={{ border: '1px solid rgba(255,255,255,0.2)', color: 'white', textDecoration: 'none' }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)' }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent' }}
-            >
-              Start a project
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
-          </div>
+            <h2 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(32px, 5vw, 68px)',
+              fontWeight: 800,
+              letterSpacing: '-0.04em',
+              lineHeight: 1.0,
+              color: '#fff',
+              maxWidth: '700px',
+            }}>
+              Make it Cinematic.<br />
+              <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'rgba(255,255,255,0.5)' }}>
+                Make it Unforgettable.
+              </span>
+            </h2>
 
-          {/* Right: metrics */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-            {metrics.map((m) => (
-              <div key={m.value} style={{ padding: '24px 20px', background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '80px', height: '80px', borderRadius: '50%', background: `radial-gradient(circle, ${m.color}30, transparent 70%)`, pointerEvents: 'none' }} />
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 2.5vw, 34px)', fontWeight: 800, letterSpacing: '-0.04em', color: '#fff', marginBottom: '6px' }}>{m.value}</div>
-                <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)' }}>{m.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Bottom marquee stripe */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '18px 0', overflow: 'hidden' }}>
-          <div className="marquee-track">
-            {['Video Editing', 'Motion Graphics', 'Wedding Films', 'AI Videos', 'Social Content', 'Brand Promos', 'Graphic Design', 'Web Development',
-              'Video Editing', 'Motion Graphics', 'Wedding Films', 'AI Videos', 'Social Content', 'Brand Promos', 'Graphic Design', 'Web Development'].map((n, i) => (
-              <span key={i} style={{ padding: '0 32px', fontSize: '12px', fontWeight: 600, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.2)', whiteSpace: 'nowrap', textTransform: 'uppercase' }}>{n}</span>
-            ))}
+            <div style={{ display: 'flex', gap: '12px', marginTop: '28px', flexWrap: 'wrap' }}>
+              <a
+                href="#works"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '8px',
+                  padding: '10px 22px', background: '#fff', color: '#0D0D0D',
+                  borderRadius: '100px', fontSize: '13px', fontWeight: 700,
+                  letterSpacing: '0.02em', textDecoration: 'none', cursor: 'none',
+                  transition: 'background 0.2s',
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f0ebe2' }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#fff' }}
+              >
+                View our work
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>
