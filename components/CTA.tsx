@@ -27,10 +27,11 @@ export default function CTA() {
     <section
       id="contact"
       ref={sectionRef}
-      style={{ padding: '120px 48px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}
+      className="cta-section"
+      style={{ padding: 'clamp(80px,10vw,120px) clamp(24px,5vw,48px)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}
     >
       {/* Background glow */}
-      <div style={{ position: 'absolute', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,85,0,0.08) 0%, transparent 70%)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(231,124,36,0.08) 0%, transparent 70%)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', pointerEvents: 'none' }} />
 
       <div ref={innerRef} style={{ maxWidth: '720px', margin: '0 auto', position: 'relative' }}>
         <p className="section-tag" style={{ marginBottom: '24px' }}>Start a Project</p>

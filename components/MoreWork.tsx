@@ -117,6 +117,7 @@ export default function MoreWork() {
           {/* ── Center text (z-index above orbit) ── */}
           <div
             ref={textRef}
+            className="morework-text"
             style={{
               position: 'absolute',
               left: '50%',
@@ -161,7 +162,7 @@ export default function MoreWork() {
               href="#contact"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '8px',
-                padding: '12px 26px', background: '#fff', color: '#0D0D0D',
+                padding: '12px 26px', background: '#fff', color: '#001941',
                 borderRadius: '100px', fontSize: '13px', fontWeight: 700,
                 letterSpacing: '0.02em', textDecoration: 'none', cursor: 'none',
                 transition: 'background 0.2s', pointerEvents: 'all',
@@ -179,6 +180,7 @@ export default function MoreWork() {
           {/* ── Orbit wheel — centered ── */}
           <div
             ref={circleRef}
+            className="orbit-wheel"
             style={{
               position: 'absolute',
               left: '50%',

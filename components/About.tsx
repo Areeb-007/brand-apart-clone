@@ -46,8 +46,8 @@ export default function About() {
   }, [])
 
   return (
-    <section id="about" style={{ padding: '100px 48px', background: 'var(--bg)' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
+    <section id="about" style={{ padding: 'clamp(64px,8vw,100px) clamp(24px,5vw,48px)', background: 'var(--bg)' }}>
+      <div className="about-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
         {/* Left */}
         <div ref={textRef}>
           <p className="section-tag" style={{ marginBottom: '12px' }}>About FilmFX Studio</p>
@@ -71,7 +71,7 @@ export default function About() {
         </div>
 
         {/* Right: stats */}
-        <div ref={statsRef} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+        <div ref={statsRef} className="about-stats" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
           {stats.map((stat, i) => (
             <div key={stat.label} style={{ padding: '36px 28px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}>
               <div style={{

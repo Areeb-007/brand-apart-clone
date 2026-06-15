@@ -22,6 +22,7 @@ export default function Hero() {
 
   return (
     <section
+      className="hero-section"
       style={{
         minHeight: '100vh',
         display: 'flex',
@@ -29,13 +30,13 @@ export default function Hero() {
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-        padding: '120px 100px 80px',
+        padding: 'clamp(100px, 12vh, 140px) clamp(24px, 8vw, 100px) clamp(60px, 8vh, 80px)',
         position: 'relative',
         overflow: 'hidden',
       }}
     >
       {/* Subtle radial glow */}
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 40%, rgba(255,85,0,0.05) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 40%, rgba(231,124,36,0.06) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
       {/* Heading */}
       <div
@@ -92,6 +93,7 @@ export default function Hero() {
       {/* Stats row */}
       <div
         ref={statsRef}
+        className="hero-stats"
         style={{
           display: 'flex',
           gap: '48px',

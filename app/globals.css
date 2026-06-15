@@ -3,10 +3,10 @@
 :root {
   --bg: #F5F0E8;
   --bg-card: #EDE8DC;
-  --fg: #0D0D0D;
-  --fg-muted: rgba(13,13,13,0.5);
-  --border: rgba(13,13,13,0.1);
-  --accent: #FF5500;
+  --fg: #001941;
+  --fg-muted: rgba(0,25,65,0.5);
+  --border: rgba(0,25,65,0.12);
+  --accent: #e77c24;
 }
 
 @theme inline {
@@ -15,8 +15,8 @@
   --color-fg: var(--fg);
   --color-fg-muted: var(--fg-muted);
   --color-border: var(--border);
-  --font-sans: var(--font-dm-sans);
-  --font-display: var(--font-syne);
+  --font-sans: var(--font-plus-jakarta);
+  --font-display: var(--font-outfit);
 }
 
 *,
@@ -34,9 +34,15 @@ html {
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-sans), 'DM Sans', sans-serif;
+  font-family: var(--font-sans), 'Plus Jakarta Sans', sans-serif;
   overflow-x: hidden;
   cursor: none;
+}
+
+@media (max-width: 768px) {
+  body { cursor: auto; }
+  a, button, [role="button"] { cursor: pointer !important; }
+  .cursor-dot, .cursor-ring { display: none !important; }
 }
 
 /* ── Logo badge — top left ── */
@@ -48,7 +54,7 @@ body {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: #1a1a2e;
+  background: #001941;
   border: 2.5px solid var(--accent);
   display: flex;
   align-items: center;
@@ -106,6 +112,51 @@ footer {
   margin-left: 0;
 }
 
+/* ── Desktop content padding — clear the dock navigation ── */
+@media (min-width: 769px) {
+  #works,
+  #about,
+  #pricing,
+  #contact,
+  footer {
+    padding-left: max(110px, 6vw) !important;
+    padding-right: max(48px, 5.5vw) !important;
+  }
+
+  /* Services section header only */
+  #services > div:first-child {
+    padding-left: max(110px, 6vw) !important;
+    padding-right: max(48px, 5.5vw) !important;
+  }
+
+  /* Testimonials section */
+  #testimonials {
+    padding-left: max(110px, 6vw) !important;
+    padding-right: max(48px, 6vw) !important;
+  }
+}
+
+/* ── Mobile bottom dock — only visible on mobile ── */
+.mobile-bottom-dock {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-bottom-dock {
+    display: block !important;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 @media (max-width: 768px) {
   main,
   footer {
@@ -141,7 +192,7 @@ footer {
 .cursor-dot {
   width: 8px;
   height: 8px;
-  background: var(--fg);
+  background: var(--accent);
   border-radius: 50%;
   position: fixed;
   top: 0;
@@ -156,7 +207,7 @@ footer {
 .cursor-ring {
   width: 36px;
   height: 36px;
-  border: 1.5px solid rgba(13,13,13,0.4);
+  border: 1.5px solid rgba(0,25,65,0.35);
   border-radius: 50%;
   position: fixed;
   top: 0;
@@ -170,7 +221,7 @@ footer {
 .cursor-ring.hovered {
   width: 60px;
   height: 60px;
-  border-color: rgba(13,13,13,0.3);
+  border-color: rgba(0,25,65,0.25);
   opacity: 0.5;
 }
 
@@ -238,7 +289,7 @@ footer {
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  border: 1px solid rgba(13,13,13,0.2);
+  border: 1px solid rgba(0,25,65,0.2);
   border-radius: 100px;
   font-size: 14px;
   font-weight: 500;
@@ -249,19 +300,19 @@ footer {
 }
 
 .pill-btn:hover {
-  background: rgba(13,13,13,0.07);
-  border-color: rgba(13,13,13,0.4);
+  background: rgba(0,25,65,0.06);
+  border-color: rgba(0,25,65,0.35);
 }
 
 .pill-btn-filled {
-  background: #0D0D0D;
+  background: #001941;
   color: #FFFFFF;
-  border-color: #0D0D0D;
+  border-color: #001941;
 }
 
 .pill-btn-filled:hover {
-  background: #2A2A2A;
-  border-color: #2A2A2A;
+  background: #002a6e;
+  border-color: #002a6e;
   color: #FFFFFF;
 }
 
@@ -271,7 +322,7 @@ footer {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--fg-muted);
+  color: var(--accent);
 }
 
 /* nav link hover */
@@ -290,7 +341,7 @@ footer {
   left: 0;
   width: 0;
   height: 1px;
-  background: #0D0D0D;
+  background: var(--fg);
   transition: width 0.25s ease;
 }
 
@@ -382,10 +433,113 @@ footer {
 
 /* works asymmetric grid — collapse col spans on mobile */
 @media (max-width: 768px) {
-  #works [style*="grid-column"] {
-    grid-column: span 1 !important;
+  #works [style*="grid-column"] { grid-column: span 1 !important; }
+  #works [style*="gridColumn"]  { grid-column: span 1 !important; }
+}
+
+/* ══════════════════════════════════════════════
+   MOBILE RESPONSIVE — comprehensive
+   ══════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* scroll progress bar — hide on mobile */
+  .scroll-progress { display: none !important; }
+
+  /* ── Hero ── */
+  .hero-section {
+    padding: 100px 24px 60px !important;
   }
-  #works [style*="gridColumn"] {
-    grid-column: span 1 !important;
+  .hero-stats {
+    gap: 28px !important;
   }
+
+  /* ── Works grid ── */
+  .works-grid-inner {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* ── MoreWork orbit ── scale down so it fits */
+  .orbit-wheel {
+    transform: translate(-50%, -50%) scale(0.55) !important;
+  }
+  .morework-text {
+    left: 50% !important;
+    top: auto !important;
+    bottom: 32px !important;
+    transform: translateX(-50%) !important;
+    text-align: center !important;
+    width: 90vw !important;
+  }
+  .morework-text h2 {
+    font-size: clamp(26px, 7vw, 36px) !important;
+    white-space: normal !important;
+  }
+
+  /* ── Services stacked cards ── */
+  .svc-card {
+    padding: 20px 18px !important;
+    height: auto !important;
+    min-height: 85vh !important;
+  }
+  .svc-card-bottom {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .svc-carousel { display: none !important; }
+
+  /* ── Pricing ── */
+  .pricing-row {
+    flex-direction: column !important;
+    gap: 6px !important;
+  }
+  .pricing-price {
+    text-align: left !important;
+  }
+
+  /* ── About ── */
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+  .about-stats {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* ── Testimonials ── */
+  .testimonials-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  /* ── CTA ── */
+  .cta-section { padding: 80px 24px !important; }
+
+  /* ── Footer ── */
+  .footer-inner {
+    flex-direction: column !important;
+    gap: 40px !important;
+  }
+  .footer-links {
+    gap: 32px !important;
+    flex-wrap: wrap !important;
+  }
+  .footer-bottom {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  /* ── Section padding ── */
+  #services  { padding-left: 0  !important; padding-right: 0  !important; }
+  #about     { padding: 64px 24px !important; }
+  #pricing   { padding: 64px 24px !important; }
+  #works     { padding: 64px 24px !important; }
+  #testimonials { padding: 64px 24px !important; }
+}
+
+@media (max-width: 480px) {
+  .orbit-wheel { transform: translate(-50%, -50%) scale(0.42) !important; }
+  .svc-card    { min-height: 90vh !important; }
+  .about-stats { grid-template-columns: 1fr 1fr !important; }
 }

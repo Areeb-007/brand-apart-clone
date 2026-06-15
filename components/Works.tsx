@@ -284,6 +284,7 @@ export default function Works() {
       {/* ── Asymmetric grid ── */}
       <div
         ref={gridRef}
+        className="works-grid-inner"
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',

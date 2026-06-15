@@ -100,8 +100,8 @@ function SimpleDropdown({
     <div style={{
       position: 'absolute', left: `${size + 10}px`, top: '50%',
       transform: 'translateY(-50%)',
-      background: 'var(--bg-card)', border: '1px solid rgba(13,13,13,0.1)',
-      borderRadius: '14px', boxShadow: '0 8px 32px rgba(13,13,13,0.12)',
+      background: 'var(--bg-card)', border: '1px solid rgba(0,25,65,0.1)',
+      borderRadius: '14px', boxShadow: '0 8px 32px rgba(0,25,65,0.12)',
       padding: '8px', zIndex: 400, minWidth: '220px',
       backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
       animation: 'dropdownIn 0.18s cubic-bezier(0.34,1.56,0.64,1)',
@@ -148,8 +148,27 @@ export default function Navigation() {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    // iOS Safari needs position:fixed to properly lock body scroll
+    if (menuOpen) {
+      const y = window.scrollY
+      document.body.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${y}px`
+      document.body.style.width = '100%'
+    } else {
+      const top = document.body.style.top
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      if (top) window.scrollTo(0, -parseInt(top || '0'))
+    }
+    return () => {
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+    }
   }, [menuOpen])
 
   function openDrop(id: string) {
@@ -207,9 +226,9 @@ export default function Navigation() {
                   borderRadius: `${Math.round(size * 0.26)}px`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   background: 'var(--bg-card)',
-                  border: `1px solid ${isActive ? 'rgba(13,13,13,0.18)' : 'rgba(13,13,13,0.08)'}`,
-                  boxShadow: isActive ? '0 4px 16px rgba(13,13,13,0.12)' : '0 2px 8px rgba(13,13,13,0.06)',
-                  color: isActive ? '#0D0D0D' : 'rgba(13,13,13,0.38)',
+                  border: `1px solid ${isActive ? 'rgba(0,25,65,0.18)' : 'rgba(0,25,65,0.08)'}`,
+                  boxShadow: isActive ? '0 4px 16px rgba(0,25,65,0.12)' : '0 2px 8px rgba(0,25,65,0.06)',
+                  color: isActive ? 'var(--fg)' : 'rgba(0,25,65,0.38)',
                   textDecoration: 'none', cursor: 'none', flexShrink: 0,
                   transition: 'width 0.2s cubic-bezier(0.34,1.56,0.64,1),height 0.2s cubic-bezier(0.34,1.56,0.64,1),border-radius 0.2s,box-shadow 0.2s,color 0.15s',
                 }}
@@ -221,8 +240,8 @@ export default function Navigation() {
               {item.id === 'services' && isOpen && (
                 <div onMouseEnter={() => openDrop('services')} onMouseLeave={closeDrop} style={{
                   position: 'absolute', left: `${size + 10}px`, top: '50%', transform: 'translateY(-50%)',
-                  background: 'var(--bg-card)', border: '1px solid rgba(13,13,13,0.1)',
-                  borderRadius: '14px', boxShadow: '0 8px 32px rgba(13,13,13,0.12)',
+                  background: 'var(--bg-card)', border: '1px solid rgba(0,25,65,0.1)',
+                  borderRadius: '14px', boxShadow: '0 8px 32px rgba(0,25,65,0.12)',
                   padding: '8px', zIndex: 400, minWidth: '230px',
                   backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
                   animation: 'dropdownIn 0.18s cubic-bezier(0.34,1.56,0.64,1)',
@@ -255,8 +274,8 @@ export default function Navigation() {
                         <div onMouseEnter={openSub} onMouseLeave={closeSub} style={{
                           position: 'absolute', left: '100%', top: '50%', transform: 'translateY(-50%)',
                           marginLeft: '8px', background: 'var(--bg-card)',
-                          border: '1px solid rgba(13,13,13,0.1)', borderRadius: '14px',
-                          boxShadow: '0 8px 40px rgba(13,13,13,0.14)',
+                          border: '1px solid rgba(0,25,65,0.1)', borderRadius: '14px',
+                          boxShadow: '0 8px 40px rgba(0,25,65,0.14)',
                           padding: '12px', zIndex: 500, width: '400px',
                           display: 'flex', gap: '12px',
                           animation: 'dropdownIn 0.18s cubic-bezier(0.34,1.56,0.64,1)',
@@ -301,8 +320,8 @@ export default function Navigation() {
               {item.id === 'works' && isOpen && (
                 <div onMouseEnter={() => openDrop('works')} onMouseLeave={closeDrop} style={{
                   position: 'absolute', left: `${size + 10}px`, top: '50%', transform: 'translateY(-50%)',
-                  background: 'var(--bg-card)', border: '1px solid rgba(13,13,13,0.1)',
-                  borderRadius: '14px', boxShadow: '0 8px 32px rgba(13,13,13,0.12)',
+                  background: 'var(--bg-card)', border: '1px solid rgba(0,25,65,0.1)',
+                  borderRadius: '14px', boxShadow: '0 8px 32px rgba(0,25,65,0.12)',
                   padding: '8px', zIndex: 400, minWidth: '230px',
                   backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
                   animation: 'dropdownIn 0.18s cubic-bezier(0.34,1.56,0.64,1)',
@@ -332,8 +351,8 @@ export default function Navigation() {
                         <div style={{
                           position: 'absolute', left: '100%', top: '50%', transform: 'translateY(-50%)',
                           marginLeft: '8px', background: 'var(--bg-card)',
-                          border: '1px solid rgba(13,13,13,0.1)', borderRadius: '12px',
-                          boxShadow: '0 8px 32px rgba(13,13,13,0.12)', padding: '8px',
+                          border: '1px solid rgba(0,25,65,0.1)', borderRadius: '12px',
+                          boxShadow: '0 8px 32px rgba(0,25,65,0.12)', padding: '8px',
                           zIndex: 500, minWidth: '200px',
                           animation: 'dropdownIn 0.15s cubic-bezier(0.34,1.56,0.64,1)',
                         }}>
@@ -372,8 +391,8 @@ export default function Navigation() {
               {isActive && !isOpen && (
                 <span style={{
                   position: 'absolute', left: `${size + 10}px`, whiteSpace: 'nowrap',
-                  background: 'var(--bg-card)', border: '1px solid rgba(13,13,13,0.1)',
-                  boxShadow: '0 2px 8px rgba(13,13,13,0.06)', color: '#0D0D0D',
+                  background: 'var(--bg-card)', border: '1px solid rgba(0,25,65,0.1)',
+                  boxShadow: '0 2px 8px rgba(0,25,65,0.06)', color: 'var(--fg)',
                   fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em',
                   padding: '5px 12px', borderRadius: '8px', pointerEvents: 'none', zIndex: 300,
                 }}>
@@ -385,7 +404,7 @@ export default function Navigation() {
               {hovered === i && !isActive && !isOpen && (
                 <span style={{
                   position: 'absolute', left: `${size + 10}px`, whiteSpace: 'nowrap',
-                  background: '#0D0D0D', color: '#fff',
+                  background: '#001941', color: '#fff',
                   fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em',
                   padding: '5px 12px', borderRadius: '8px', pointerEvents: 'none', zIndex: 300,
                 }}>
@@ -404,81 +423,167 @@ export default function Navigation() {
         </a>
       </div>
 
+      {/* ══════════════════════════════════════════
+          MOBILE NAVIGATION — Brand Apart style
+          Top bar + bottom dock that slides up
+          ══════════════════════════════════════════ */}
+
       {/* ── Mobile top bar ── */}
       <header className="mobile-topbar">
-        <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--fg)', textDecoration: 'none', cursor: 'none' }}>
+        <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--fg)', textDecoration: 'none' }}>
           Film<span style={{ color: 'var(--accent)' }}>FX</span>
         </Link>
-        <button onClick={() => setMenuOpen(!menuOpen)} style={{ display: 'flex', flexDirection: 'column', gap: '5px', background: 'none', border: 'none', cursor: 'none', padding: '6px' }}>
-          {[menuOpen ? 'translateY(7px) rotate(45deg)' : 'none', undefined, menuOpen ? 'translateY(-7px) rotate(-45deg)' : 'none'].map((t, i) => (
-            <span key={i} style={{ display: 'block', width: '22px', height: '1.5px', background: 'var(--fg)', transition: 'all 0.25s', transform: t ?? 'none', opacity: i === 1 ? (menuOpen ? 0 : 1) : 1 }} />
-          ))}
+
+        {/* Hamburger / close button — dark rounded square like Brand Apart */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{
+            width: '44px', height: '44px', borderRadius: '12px',
+            background: '#001941', border: 'none',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', touchAction: 'manipulation', flexShrink: 0,
+            transition: 'background 0.2s',
+          }}
+        >
+          {menuOpen ? (
+            /* X icon */
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2 2l12 12M14 2L2 14" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          ) : (
+            /* Hamburger icon */
+            <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
+              <path d="M0 1h18M0 7h18M0 13h18" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+            </svg>
+          )}
         </button>
       </header>
 
-      {/* ── Mobile menu overlay ── */}
-      <div className="mobile-topbar" style={{
-        position: 'fixed', top: '64px', left: 0, right: 0, bottom: 0,
-        background: 'rgba(245,240,232,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-        zIndex: 199, flexDirection: 'column', padding: '24px 28px 40px',
-        transition: 'opacity 0.25s ease, transform 0.25s ease',
-        opacity: menuOpen ? 1 : 0, transform: menuOpen ? 'translateY(0)' : 'translateY(-8px)',
-        pointerEvents: menuOpen ? 'all' : 'none', display: 'flex', overflowY: 'auto',
-      }}>
-        <nav style={{ display: 'flex', flexDirection: 'column' }}>
-          {NAV_ITEMS.map((item, i) => {
-            const hasSubs = item.id === 'services' || item.id === 'works' || item.id === 'pricing' || item.id === 'about'
-            const isExpanded = !!mobileOpen[item.id]
-            return (
-              <div key={item.id}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)' }}>
-                  <a href={item.href} style={{ fontSize: '24px', fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--fg)', textDecoration: 'none', padding: '14px 0', cursor: 'none', letterSpacing: '-0.02em', display: 'block', flex: 1 }}
-                    onClick={() => { setActive(i); if (!hasSubs) setMenuOpen(false) }}>
-                    {item.label}
-                  </a>
-                  {hasSubs && (
-                    <button onClick={() => setMobileOpen(p => ({ ...p, [item.id]: !p[item.id] }))}
-                      style={{ background: 'none', border: 'none', cursor: 'none', padding: '8px', color: 'var(--fg-muted)' }}>
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ transform: isExpanded ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s' }}>
-                        <path d="M5 2.5L9.5 7 5 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </button>
+      {/* ── Blur backdrop ── */}
+      {menuOpen && (
+        <div
+          onClick={() => setMenuOpen(false)}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 197,
+            background: 'rgba(0,0,0,0.25)',
+            backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
+            animation: 'fadeIn 0.2s ease',
+          }}
+        />
+      )}
+
+      {/* ── Bottom dock — slides up from bottom like Brand Apart ── */}
+      <div
+        style={{
+          position: 'fixed', bottom: 0, left: 0, right: 0,
+          zIndex: 198,
+          transform: menuOpen ? 'translateY(0)' : 'translateY(110%)',
+          transition: 'transform 0.32s cubic-bezier(0.32,0.72,0,1)',
+          display: 'none', // shown via CSS on mobile only
+        }}
+        className="mobile-bottom-dock"
+      >
+        {/* Rounded card */}
+        <div style={{
+          margin: '0 12px 12px',
+          background: '#001941',
+          borderRadius: '24px',
+          padding: '8px 8px 12px',
+          boxShadow: '0 -4px 40px rgba(0,0,0,0.3)',
+        }}>
+
+          {/* Main nav icons row */}
+          <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', paddingBottom: '4px' }}>
+            {NAV_ITEMS.map((item, i) => {
+              const isAct = active === i
+              const hasSubs = !!item.dropdown
+              const isExp = !!mobileOpen[item.id]
+              return (
+                <div key={item.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
+                  <button
+                    onClick={() => {
+                      if (hasSubs) {
+                        setMobileOpen(p => ({ ...p, [item.id]: !p[item.id] }))
+                      } else {
+                        setActive(i)
+                        setMenuOpen(false)
+                        window.location.href = item.href
+                      }
+                    }}
+                    style={{
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      touchAction: 'manipulation', padding: '10px 6px 4px',
+                      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
+                      color: isAct ? '#fff' : 'rgba(255,255,255,0.45)',
+                      transition: 'color 0.2s',
+                      width: '100%',
+                    }}
+                  >
+                    <span style={{ display: 'flex', color: 'inherit' }}>{item.icon}</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'inherit', whiteSpace: 'nowrap' }}>
+                      {item.label}
+                    </span>
+                    {/* Active dot */}
+                    <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: isAct ? 'var(--accent)' : 'transparent', transition: 'background 0.2s' }} />
+                  </button>
+
+                  {/* Sub-items dropdown (expands upward) */}
+                  {hasSubs && isExp && (
+                    <div style={{
+                      position: 'absolute', bottom: '100%', left: 0, right: 0,
+                      margin: '0 12px 8px',
+                      background: '#002a5e', borderRadius: '16px',
+                      padding: '12px 8px',
+                      boxShadow: '0 -4px 24px rgba(0,0,0,0.4)',
+                      animation: 'slideUp 0.22s cubic-bezier(0.32,0.72,0,1)',
+                      maxHeight: '60vh', overflowY: 'auto',
+                    }}>
+                      <p style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', padding: '4px 12px 10px', borderBottom: '1px solid rgba(255,255,255,0.08)', marginBottom: '6px' }}>
+                        {item.label}
+                      </p>
+                      {(item.id === 'services' ? SERVICE_ITEMS.map(s => ({ label: s.label, icon: s.icon, href: s.href }))
+                        : item.id === 'works'   ? PORTFOLIO_ITEMS.map(p => ({ label: p.label, icon: p.icon, href: '#works' }))
+                        : item.id === 'pricing' ? PRICING_ITEMS
+                        : ABOUT_ITEMS
+                      ).map(sub => (
+                        <a
+                          key={sub.label}
+                          href={sub.href}
+                          style={{
+                            display: 'flex', alignItems: 'center', gap: '12px',
+                            padding: '11px 12px', borderRadius: '10px',
+                            textDecoration: 'none', color: 'rgba(255,255,255,0.75)',
+                            fontSize: '14px', fontWeight: 500,
+                            cursor: 'pointer', touchAction: 'manipulation',
+                          }}
+                          onClick={() => { setActive(i); setMenuOpen(false); setMobileOpen({}) }}
+                          onTouchStart={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)' }}
+                          onTouchEnd={e => { (e.currentTarget as HTMLElement).style.background = 'transparent' }}
+                        >
+                          <span style={{ color: 'var(--accent)', fontSize: '12px', width: '20px', textAlign: 'center', flexShrink: 0 }}>{sub.icon}</span>
+                          {sub.label}
+                        </a>
+                      ))}
+                    </div>
                   )}
                 </div>
-                {hasSubs && isExpanded && (
-                  <div style={{ paddingLeft: '16px', paddingBottom: '8px', borderBottom: '1px solid var(--border)' }}>
-                    {item.id === 'services' && SERVICE_ITEMS.map(svc => (
-                      <a key={svc.label} href={svc.href} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '9px 0', color: 'var(--fg-muted)', fontSize: '14px', fontWeight: 500, textDecoration: 'none', cursor: 'none' }}
-                        onClick={() => { setActive(i); setMenuOpen(false) }}>
-                        <span style={{ color: 'var(--accent)', fontSize: '12px' }}>{svc.icon}</span>{svc.label}
-                      </a>
-                    ))}
-                    {item.id === 'works' && PORTFOLIO_ITEMS.map(p => (
-                      <a key={p.label} href="#works" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '9px 0', color: 'var(--fg-muted)', fontSize: '14px', fontWeight: 500, textDecoration: 'none', cursor: 'none' }}
-                        onClick={() => { setActive(i); setMenuOpen(false) }}>
-                        <span style={{ color: 'var(--accent)', fontSize: '12px' }}>{p.icon}</span>{p.label}
-                      </a>
-                    ))}
-                    {item.id === 'pricing' && PRICING_ITEMS.map(p => (
-                      <a key={p.label} href={p.href} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '9px 0', color: 'var(--fg-muted)', fontSize: '14px', fontWeight: 500, textDecoration: 'none', cursor: 'none' }}
-                        onClick={() => { setActive(i); setMenuOpen(false) }}>
-                        <span style={{ color: 'var(--accent)', fontSize: '12px' }}>{p.icon}</span>{p.label}
-                      </a>
-                    ))}
-                    {item.id === 'about' && ABOUT_ITEMS.map(p => (
-                      <a key={p.label} href={p.href} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '9px 0', color: 'var(--fg-muted)', fontSize: '14px', fontWeight: 500, textDecoration: 'none', cursor: 'none' }}
-                        onClick={() => { setActive(i); setMenuOpen(false) }}>
-                        <span style={{ color: 'var(--accent)', fontSize: '12px' }}>{p.icon}</span>{p.label}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )
-          })}
-        </nav>
-        <div style={{ marginTop: '28px' }}>
-          <a href="#contact" className="pill-btn pill-btn-filled" style={{ fontSize: '14px', padding: '14px 28px', textDecoration: 'none', cursor: 'none', justifyContent: 'center', letterSpacing: '0.05em' }} onClick={() => setMenuOpen(false)}>
+              )
+            })}
+          </div>
+
+          {/* Book a Call CTA */}
+          <a
+            href="#contact"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              margin: '4px 4px 0', padding: '14px',
+              background: '#fff', borderRadius: '16px',
+              fontSize: '13px', fontWeight: 800, letterSpacing: '0.04em',
+              color: 'var(--fg)', textDecoration: 'none',
+              cursor: 'pointer', touchAction: 'manipulation',
+            }}
+          >
             BOOK A CALL NOW
           </a>
         </div>

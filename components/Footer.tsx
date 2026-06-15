@@ -20,9 +20,9 @@ const services = ['Video Editing', 'Graphic Design', 'Social Media Marketing', '
 
 export default function Footer() {
   return (
-    <footer style={{ padding: '64px 48px 40px', borderTop: '1px solid var(--border)', background: 'var(--bg-card)' }}>
+    <footer style={{ padding: 'clamp(48px,6vw,64px) clamp(24px,5vw,48px) 40px', borderTop: '1px solid var(--border)', background: 'var(--bg-card)' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '56px', flexWrap: 'wrap', gap: '40px' }}>
+        <div className="footer-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '56px', flexWrap: 'wrap', gap: '40px' }}>
           {/* Brand */}
           <div style={{ maxWidth: '320px' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '4px', color: 'var(--fg)' }}>
@@ -43,9 +43,9 @@ export default function Footer() {
           </div>
 
           {/* Links */}
-          <div style={{ display: 'flex', gap: '64px', flexWrap: 'wrap' }}>
+          <div className="footer-links" style={{ display: 'flex', gap: '64px', flexWrap: 'wrap' }}>
             <div>
-              <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(13,13,13,0.3)', marginBottom: '16px' }}>Navigation</div>
+              <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(0,25,65,0.3)', marginBottom: '16px' }}>Navigation</div>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {links.map((l) => (
                   <li key={l.label}>
@@ -58,7 +58,7 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(13,13,13,0.3)', marginBottom: '16px' }}>Services</div>
+              <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(0,25,65,0.3)', marginBottom: '16px' }}>Services</div>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {services.map((s) => (
                   <li key={s}>
@@ -74,13 +74,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '24px', borderTop: '1px solid rgba(13,13,13,0.08)', flexWrap: 'wrap', gap: '12px' }}>
-          <span style={{ fontSize: '12px', color: 'rgba(13,13,13,0.3)' }}>© 2025 FilmFX Studio. All rights reserved.</span>
+        <div className="footer-bottom" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '24px', borderTop: '1px solid rgba(0,25,65,0.08)', flexWrap: 'wrap', gap: '12px' }}>
+          <span style={{ fontSize: '12px', color: 'rgba(0,25,65,0.3)' }}>© 2025 FilmFX Studio. All rights reserved.</span>
           <div style={{ display: 'flex', gap: '20px' }}>
             {['Privacy Policy', 'Terms'].map((t) => (
-              <a key={t} href="#" style={{ fontSize: '12px', color: 'rgba(13,13,13,0.3)', textDecoration: 'none', transition: 'color 0.2s', cursor: 'none' }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(13,13,13,0.6)' }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(13,13,13,0.3)' }}
+              <a key={t} href="#" style={{ fontSize: '12px', color: 'rgba(0,25,65,0.3)', textDecoration: 'none', transition: 'color 0.2s', cursor: 'none' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(0,25,65,0.6)' }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(0,25,65,0.3)' }}
               >{t}</a>
             ))}
           </div>

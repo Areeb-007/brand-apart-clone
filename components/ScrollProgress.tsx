@@ -25,14 +25,14 @@ export default function ScrollProgress() {
   }, [])
 
   return (
-    <div style={{
+    <div className="scroll-progress" style={{
       position: 'fixed',
       right: '18px',
       top: '50%',
       transform: 'translateY(-50%)',
       height: '120px',
       width: '2px',
-      background: 'rgba(13,13,13,0.1)',
+      background: 'rgba(0,25,65,0.12)',
       borderRadius: '2px',
       zIndex: 200,
     }}>

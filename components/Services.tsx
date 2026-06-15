@@ -173,9 +173,10 @@ export default function Services() {
             <div
               key={svc.slug}
               ref={(el) => { cardRefs.current[i] = el }}
+              className="svc-card"
               style={{
                 position: 'absolute',
-                width: 'min(980px, 90vw)',
+                width: 'min(980px, 92vw)',
                 height: '78vh',
                 borderRadius: '20px',
                 background: svc.bg,
@@ -213,7 +214,7 @@ export default function Services() {
               </p>
 
               {/* Bottom: testimonial + images + CTA */}
-              <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '20px', alignItems: 'end' }}>
+              <div className="svc-card-bottom" style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '20px', alignItems: 'end' }}>
 
                 {/* Testimonial */}
                 <div style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: '16px 18px' }}>
@@ -236,10 +237,10 @@ export default function Services() {
 
                 {/* Images + CTA */}
                 <div>
-                  <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', overflow: 'hidden' }}>
+                  <div className="svc-carousel" style={{ display: 'flex', gap: '8px', marginBottom: '14px', overflow: 'hidden' }}>
                     {svc.carousel.map((src, j) => (
-                      <div key={j} style={{ flexShrink: 0, width: 'clamp(88px,11vw,155px)', height: 'clamp(60px,7.5vw,106px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
-                        <Image src={src} alt="" fill style={{ objectFit: 'cover' }} sizes="155px" />
+                      <div key={j} style={{ flexShrink: 0, width: 'clamp(88px,11vw,155px)', height: 'clamp(60px,7.5vw,106px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.25)' }}>
+                        <Image src={src} alt="" fill style={{ objectFit: 'contain', padding: '4px' }} sizes="155px" />
                       </div>
                     ))}
                   </div>
