@@ -55,36 +55,65 @@ const ABOUT_ITEMS = [
 const NAV_ITEMS = [
   {
     id: 'home', label: 'HOME', href: '#',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M11.03 2.59a1.5 1.5 0 0 1 1.94 0l7 6.07A1.5 1.5 0 0 1 20.5 9.8V19.5a1.5 1.5 0 0 1-1.5 1.5h-4a1 1 0 0 1-1-1v-4h-4v4a1 1 0 0 1-1 1H5A1.5 1.5 0 0 1 3.5 19.5V9.8a1.5 1.5 0 0 1 .53-1.14l7-6.07Z"/>
+        <circle cx="12" cy="13" r="2" fill="white" opacity="0.7"/>
+      </svg>
+    ),
   },
   {
     id: 'services', label: 'SERVICES', href: '#services', dropdown: 'services',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>,
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <rect x="3" y="3" width="7.5" height="7.5" rx="2"/>
+        <rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/>
+        <rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/>
+        <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>
+      </svg>
+    ),
   },
   {
     id: 'works', label: 'PORTFOLIO', href: '#works', dropdown: 'portfolio',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>,
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 7h-1V6a3 3 0 0 0-3-3H9a3 3 0 0 0-3 3v1H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-9-1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h-6V6Z"/>
+      </svg>
+    ),
   },
   {
     id: 'pricing', label: 'PRICING', href: '#pricing', dropdown: 'pricing',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>,
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M4.5 3A1.5 1.5 0 0 0 3 4.5v6.379a1.5 1.5 0 0 0 .44 1.06l8.62 8.622a1.5 1.5 0 0 0 2.12 0l6.38-6.38a1.5 1.5 0 0 0 0-2.12L12.06 3.44A1.5 1.5 0 0 0 11 3H4.5ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/>
+      </svg>
+    ),
   },
   {
     id: 'about', label: 'ABOUT US', href: '#about', dropdown: 'about',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <circle cx="12" cy="12" r="10"/>
+        <circle cx="9" cy="10" r="1.2" fill="white"/>
+        <circle cx="15" cy="10" r="1.2" fill="white"/>
+        <path d="M8 15c1 1.5 7 1.5 8 0" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+      </svg>
+    ),
   },
   {
     id: 'contact', label: 'CONTACT', href: '#contact',
-    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>,
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
+        <path d="m2 6 10 7 10-7" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+      </svg>
+    ),
   },
 ]
 
 const BASE = 54
-const SIZES = [80, 66, 58]
-function getSize(i: number, hovered: number | null) {
-  if (hovered === null) return BASE
-  const d = Math.abs(i - hovered)
-  return SIZES[d] ?? BASE
+function getSize(_i: number, _hovered: number | null) {
+  return BASE
 }
 
 /* ─── Small reusable dropdown panel ─────────────────────────── */
@@ -130,7 +159,6 @@ function SimpleDropdown({
 /* ─── Component ─────────────────────────────────────────────── */
 
 export default function Navigation() {
-  const [hovered,       setHovered]       = useState<number | null>(null)
   const [active,        setActive]        = useState(0)
   const [menuOpen,      setMenuOpen]      = useState(false)
   const [openDropdown,  setOpenDropdown]  = useState<string | null>(null)
@@ -204,9 +232,9 @@ export default function Navigation() {
       </div>
 
       {/* ── Dock ── */}
-      <nav className="dock-nav" onMouseLeave={() => { setHovered(null); closeDrop() }}>
+      <nav className="dock-nav" onMouseLeave={() => closeDrop()}>
         {NAV_ITEMS.map((item, i) => {
-          const size     = getSize(i, hovered)
+          const size     = getSize(i, null)
           const isActive = active === i
           const hasDrop  = !!item.dropdown
           const isOpen   = openDropdown === item.id
@@ -215,22 +243,24 @@ export default function Navigation() {
             <div
               key={item.id}
               style={{ position: 'relative', display: 'flex', alignItems: 'center', paddingRight: hasDrop ? '14px' : '0' }}
-              onMouseEnter={() => { setHovered(i); if (hasDrop) openDrop(item.id) }}
+              onMouseEnter={() => { if (hasDrop) openDrop(item.id) }}
               onMouseLeave={() => { if (hasDrop) closeDrop() }}
             >
               <a
                 href={item.href}
                 onClick={() => { setActive(i); closeAll() }}
+                className="dock-icon-btn"
+                data-label={item.label}
                 style={{
                   width: `${size}px`, height: `${size}px`,
                   borderRadius: `${Math.round(size * 0.26)}px`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: 'var(--bg-card)',
+                  background: isActive ? 'var(--bg-card)' : 'rgba(0,25,65,0.04)',
                   border: `1px solid ${isActive ? 'rgba(0,25,65,0.18)' : 'rgba(0,25,65,0.08)'}`,
                   boxShadow: isActive ? '0 4px 16px rgba(0,25,65,0.12)' : '0 2px 8px rgba(0,25,65,0.06)',
-                  color: isActive ? 'var(--fg)' : 'rgba(0,25,65,0.38)',
+                  color: isActive ? 'var(--fg)' : 'rgba(0,25,65,0.45)',
                   textDecoration: 'none', cursor: 'none', flexShrink: 0,
-                  transition: 'width 0.2s cubic-bezier(0.34,1.56,0.64,1),height 0.2s cubic-bezier(0.34,1.56,0.64,1),border-radius 0.2s,box-shadow 0.2s,color 0.15s',
+                  transition: 'box-shadow 0.2s, color 0.2s, background 0.2s, border-color 0.2s',
                 }}
               >
                 {item.icon}
@@ -387,30 +417,6 @@ export default function Navigation() {
                 <SimpleDropdown title="About Us" items={ABOUT_ITEMS} size={size} onClose={closeAll} />
               )}
 
-              {/* Active label */}
-              {isActive && !isOpen && (
-                <span style={{
-                  position: 'absolute', left: `${size + 10}px`, whiteSpace: 'nowrap',
-                  background: 'var(--bg-card)', border: '1px solid rgba(0,25,65,0.1)',
-                  boxShadow: '0 2px 8px rgba(0,25,65,0.06)', color: 'var(--fg)',
-                  fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em',
-                  padding: '5px 12px', borderRadius: '8px', pointerEvents: 'none', zIndex: 300,
-                }}>
-                  {item.label}
-                </span>
-              )}
-
-              {/* Hover tooltip */}
-              {hovered === i && !isActive && !isOpen && (
-                <span style={{
-                  position: 'absolute', left: `${size + 10}px`, whiteSpace: 'nowrap',
-                  background: '#001941', color: '#fff',
-                  fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em',
-                  padding: '5px 12px', borderRadius: '8px', pointerEvents: 'none', zIndex: 300,
-                }}>
-                  {item.label}
-                </span>
-              )}
             </div>
           )
         })}
@@ -418,7 +424,20 @@ export default function Navigation() {
 
       {/* ── Book a Call ── */}
       <div className="dock-cta-btn">
-        <a href="#contact" className="pill-btn pill-btn-filled" style={{ fontSize: '12px', padding: '10px 22px', textDecoration: 'none', cursor: 'none', letterSpacing: '0.05em', fontWeight: 700 }}>
+        <a
+          href="#contact"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '6px',
+            fontSize: '12px', padding: '10px 22px', textDecoration: 'none', cursor: 'none',
+            letterSpacing: '0.05em', fontWeight: 700, borderRadius: '100px',
+            background: '#001941',
+            color: '#fff',
+            border: '1px solid #001941',
+            transition: 'opacity 0.2s ease',
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.8' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
+        >
           BOOK A CALL NOW
         </a>
       </div>

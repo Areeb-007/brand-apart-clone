@@ -1,6 +1,5 @@
 import Navigation from '@/components/Navigation'
 import Hero from '@/components/Hero'
-import LogoMarquee from '@/components/LogoMarquee'
 import ZoomReveal from '@/components/ZoomReveal'
 import Works from '@/components/Works'
 import MoreWork from '@/components/MoreWork'
@@ -17,7 +16,6 @@ export default function Home() {
       <Navigation />
       <main>
         <Hero />
-        <LogoMarquee />
         <ZoomReveal />
         <Works />
         <MoreWork />

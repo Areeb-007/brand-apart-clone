@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Youth';
+  src: url('/fonts/Youth.woff2') format('woff2'),
+       url('/fonts/Youth.woff') format('woff'),
+       url('/fonts/Youth.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --bg: #F5F0E8;
   --bg-card: #EDE8DC;
@@ -225,6 +235,33 @@ footer {
   opacity: 0.5;
 }
 
+/* ── Dock icon CSS tooltip (no JS re-render) ── */
+.dock-icon-btn {
+  position: relative;
+}
+.dock-icon-btn::after {
+  content: attr(data-label);
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #001941;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 5px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 400;
+}
+.dock-icon-btn:hover::after {
+  opacity: 1;
+}
+
 /* dropdown animation */
 @keyframes dropdownIn {
   from { opacity: 0; transform: translateY(-50%) translateX(-6px); }
@@ -349,6 +386,21 @@ footer {
   width: 100%;
 }
 
+/* ── Key charm drop + swing ── */
+@keyframes charmDrop {
+  0%   { transform: translateY(-120px) rotate(-18deg); opacity: 0; }
+  45%  { transform: translateY(14px)   rotate(9deg);  opacity: 1; }
+  62%  { transform: translateY(-6px)   rotate(-4deg); }
+  76%  { transform: translateY(3px)    rotate(2deg);  }
+  88%  { transform: translateY(-1px)   rotate(-1deg); }
+  100% { transform: translateY(0)      rotate(0deg);  opacity: 1; }
+}
+
+@keyframes charmExit {
+  0%   { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(30px) scale(0.88); }
+}
+
 /* scroll indicator animation */
 @keyframes scrollLine {
   0% { transform: translateY(-100%); }
@@ -447,10 +499,12 @@ footer {
 
   /* ── Hero ── */
   .hero-section {
-    padding: 100px 24px 60px !important;
+    padding: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
   .hero-stats {
-    gap: 28px !important;
+    flex-direction: row !important;
   }
 
   /* ── Works grid ── */
