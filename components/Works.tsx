@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -15,6 +16,7 @@ const PROJECTS = [
     year: '2024',
     media: '/images/covers/video-editing.png',
     full: true,
+    slug: 'video-editing',
   },
   {
     id: 2,
@@ -23,6 +25,7 @@ const PROJECTS = [
     year: '2024',
     media: '/images/covers/business-dev.png',
     full: false,
+    slug: 'business-dev',
   },
   {
     id: 3,
@@ -31,6 +34,7 @@ const PROJECTS = [
     year: '2024',
     media: '/images/covers/graphic-design.png',
     full: false,
+    slug: 'graphic-design',
   },
   {
     id: 4,
@@ -39,11 +43,16 @@ const PROJECTS = [
     year: '2024',
     media: '/images/covers/social-media.png',
     full: true,
+    slug: 'social-media',
   },
 ]
 
 function ProjectTile({ project }: { project: typeof PROJECTS[number] }) {
   return (
+    <Link
+      href={`/work/${project.slug}`}
+      style={{ display: 'block', textDecoration: 'none' }}
+    >
     <div
       className="work-tile"
       style={{
@@ -121,6 +130,7 @@ function ProjectTile({ project }: { project: typeof PROJECTS[number] }) {
         </span>
       </div>
     </div>
+    </Link>
   )
 }
 
