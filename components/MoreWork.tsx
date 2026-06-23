@@ -51,8 +51,8 @@ export default function MoreWork() {
     )
 
     tl.fromTo(circle,
-      { rotation: -20 },
-      { rotation: 190, ease: 'none', duration: 1 },
+      { rotation: -20, scale: 0.82 },
+      { rotation: 190, scale: 1.12, ease: 'none', duration: 1 },
       0
     )
 

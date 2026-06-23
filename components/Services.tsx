@@ -70,82 +70,79 @@ const services = [
   },
 ]
 
-const N = services.length
+const N     = services.length
+const STRIP = 22   // px of each card visible below the active card
+const PAD_T = 48   // px from top of sticky viewport to first card
 
 export default function Services() {
-  const headRef    = useRef<HTMLDivElement>(null)
-  const outerRef   = useRef<HTMLDivElement>(null)
-  const stickyRef  = useRef<HTMLDivElement>(null)
-  const cardRefs   = useRef<(HTMLDivElement | null)[]>([])
+  const headRef  = useRef<HTMLDivElement>(null)
+  const outerRef = useRef<HTMLDivElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     const head  = headRef.current
     const outer = outerRef.current
     if (!head || !outer) return
 
-    // ── Heading fades up and out as scroll section enters ──
+    // Heading fades up and out as the scroll container enters view
     gsap.to(head, {
-      y: -80,
-      opacity: 0,
+      y: -80, opacity: 0,
       ease: 'power2.in',
-      scrollTrigger: {
-        trigger: outer,
-        start: 'top 85%',
-        end:   'top 10%',
-        scrub: 1,
-      },
+      scrollTrigger: { trigger: outer, start: 'top 85%', end: 'top 10%', scrub: 1 },
     })
 
-    // ── Set initial card positions ──
-    // Card 0: centered and full scale
-    // All others: below viewport, slightly scaled down (zoom-in start)
+    // Initial stacked positions:
+    //   card 0 → y = 0        (active, fully visible)
+    //   card 1 → y = STRIP    (peeks below card 0)
+    //   card 2 → y = 2*STRIP  (peeks below card 1)
+    //   …
+    // z-index decreases so card 0 sits on top of the deck
     cardRefs.current.forEach((card, i) => {
       if (!card) return
-      gsap.set(card, {
-        y:     i === 0 ? 0 : '100vh',
-        scale: i === 0 ? 1 : 0.9,
-      })
-    })
-
-    // ── Single timeline scrubbed over the full scroll height ──
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: outer,
-        start:  'top top',
-        end:    'bottom bottom',
-        scrub:  1.2,
-      },
+      gsap.set(card, { y: i * STRIP, zIndex: N - i })
     })
 
     const segLen = 1 / (N - 1)
 
-    for (let i = 1; i < N; i++) {
-      const at = (i - 1) * segLen
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: outer,
+        start: 'top top',
+        end:   'bottom bottom',
+        scrub: 1.2,
+      },
+    })
 
-      // Outgoing card slides straight up out of view
-      tl.to(cardRefs.current[i - 1], {
-        y:        '-100vh',
-        scale:    1,
-        ease:     'power2.inOut',
-        duration: segLen,
-      }, at)
+    for (let i = 0; i < N - 1; i++) {
+      const at = i * segLen
 
-      // Incoming card zooms in (0.9→1) and rises from below
+      // Active card exits upward
       tl.to(cardRefs.current[i], {
-        y:        0,
-        scale:    1,
-        ease:     'power2.inOut',
+        y: '-100vh',
+        ease: 'power2.inOut',
         duration: segLen,
       }, at)
+
+      // Every remaining card shifts up by STRIP so the deck keeps its shape
+      for (let j = i + 1; j < N; j++) {
+        tl.to(cardRefs.current[j], {
+          y: (j - i - 1) * STRIP,
+          ease: 'power2.inOut',
+          duration: segLen,
+        }, at)
+      }
     }
 
     return () => ScrollTrigger.getAll().forEach(t => t.kill())
   }, [])
 
+  // Card height: fills the sticky viewport minus top padding and the stack strips below
+  const cardH = `calc(100vh - ${PAD_T}px - ${(N - 1) * STRIP}px - 20px)`
+
   return (
     <section id="services" style={{ background: 'var(--bg)' }}>
 
-      {/* ── Header — fades up on scroll ── */}
+      {/* ── Header ── */}
       <div
         ref={headRef}
         style={{
@@ -181,43 +178,39 @@ export default function Services() {
         </a>
       </div>
 
-      {/* ── Tall scroll container: N cards × 100vh each ── */}
+      {/* ── Tall scroll container ── */}
       <div ref={outerRef} style={{ height: `${N * 100}vh` }}>
 
         {/* ── Sticky viewport ── */}
-        <div
-          ref={stickyRef}
-          style={{
-            position: 'sticky',
-            top: 0,
-            height: '100vh',
-            overflow: 'hidden',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <div style={{
+          position: 'sticky',
+          top: 0,
+          height: '100vh',
+          overflow: 'hidden',
+        }}>
           {services.map((svc, i) => (
             <div
               key={svc.slug}
               ref={(el) => { cardRefs.current[i] = el }}
-              className="svc-card"
               style={{
-                position: 'absolute',
-                width: 'min(980px, 92vw)',
-                height: '78vh',
+                position:     'absolute',
+                top:          `${PAD_T}px`,
+                left:         '50%',
+                transform:    'translateX(-50%)',
+                width:        'min(980px, 92vw)',
+                height:       cardH,
                 borderRadius: '20px',
-                background: svc.bg,
-                overflow: 'hidden',
-                boxShadow: '0 32px 80px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.15)',
-                zIndex: i + 1,
-                display: 'flex',
-                flexDirection: 'column',
-                padding: 'clamp(24px,3.5vw,48px)',
+                background:   svc.bg,
+                overflow:     'hidden',
+                boxShadow:    '0 32px 80px rgba(0,0,0,0.28), 0 4px 20px rgba(0,0,0,0.12)',
+                display:      'flex',
+                flexDirection:'column',
+                padding:      'clamp(24px,3.5vw,48px)',
+                willChange:   'transform',
               }}
             >
               {/* Top row: tagline + number */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
                 <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>
                   {svc.tagline}
                 </span>
@@ -229,20 +222,21 @@ export default function Services() {
               {/* Heading */}
               <h3 style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(28px,3.8vw,58px)',
+                fontSize: 'clamp(26px,3.6vw,54px)',
                 fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05,
                 color: '#fff', whiteSpace: 'pre-line', maxWidth: '600px',
+                margin: 0,
               }}>
                 {svc.heading}
               </h3>
 
               {/* Description */}
-              <p style={{ fontSize: 'clamp(12px,1.2vw,15px)', color: 'rgba(255,255,255,0.58)', lineHeight: 1.75, maxWidth: '480px', marginTop: '14px' }}>
+              <p style={{ fontSize: 'clamp(12px,1.15vw,15px)', color: 'rgba(255,255,255,0.58)', lineHeight: 1.75, maxWidth: '480px', marginTop: '14px', marginBottom: 0 }}>
                 {svc.description}
               </p>
 
-              {/* Bottom: testimonial + images + CTA */}
-              <div className="svc-card-bottom" style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '20px', alignItems: 'end' }}>
+              {/* Bottom: testimonial + carousel + CTA */}
+              <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '20px', alignItems: 'end' }}>
 
                 {/* Testimonial */}
                 <div style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: '16px 18px' }}>
@@ -265,7 +259,7 @@ export default function Services() {
 
                 {/* Carousel + CTA */}
                 <div>
-                  <div className="svc-carousel" style={{ display: 'flex', gap: '8px', marginBottom: '14px', overflow: 'hidden' }}>
+                  <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', overflow: 'hidden' }}>
                     {svc.carousel.map((src, j) => (
                       <div key={j} style={{ flexShrink: 0, width: 'clamp(88px,11vw,155px)', height: 'clamp(60px,7.5vw,106px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.25)' }}>
                         <Image src={src} alt="" fill style={{ objectFit: 'contain', padding: '4px' }} sizes="155px" />
