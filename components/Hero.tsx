@@ -251,21 +251,16 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* ── Bottom bar: location + time ── */}
+      {/* ── Time widget — sticky bottom right ── */}
       <div style={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 'clamp(16px,2vh,24px) clamp(24px,3vw,48px)',
-        borderTop: '1px solid var(--border)',
+        position: 'absolute',
+        bottom: 'clamp(16px, 2vh, 24px)',
+        right: 'clamp(24px, 3vw, 48px)',
+        fontSize: '12px',
+        color: 'var(--fg-muted)',
+        letterSpacing: '0.04em',
       }}>
-        <div style={{ fontSize: '12px', color: 'var(--fg-muted)', letterSpacing: '0.04em' }}>
-          Worldwide
-        </div>
-        <div style={{ fontSize: '12px', color: 'var(--fg-muted)', letterSpacing: '0.04em' }}>
-          <LiveClock />
-        </div>
+        <LiveClock />
       </div>
     </section>
   )

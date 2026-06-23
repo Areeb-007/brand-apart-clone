@@ -73,45 +73,70 @@ const services = [
 const N = services.length
 
 export default function Services() {
-  const outerRef  = useRef<HTMLDivElement>(null)
-  const stickyRef = useRef<HTMLDivElement>(null)
-  const cardRefs  = useRef<(HTMLDivElement | null)[]>([])
+  const headRef    = useRef<HTMLDivElement>(null)
+  const outerRef   = useRef<HTMLDivElement>(null)
+  const stickyRef  = useRef<HTMLDivElement>(null)
+  const cardRefs   = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
+    const head  = headRef.current
     const outer = outerRef.current
-    if (!outer) return
+    if (!head || !outer) return
 
-    // Place cards: first one centered, rest below the viewport
-    cardRefs.current.forEach((card, i) => {
-      if (!card) return
-      gsap.set(card, { y: i === 0 ? 0 : '100vh', scale: 1 })
-    })
-
-    // One timeline scrubbed against the full scroll height
-    const tl = gsap.timeline({
+    // ── Heading fades up and out as scroll section enters ──
+    gsap.to(head, {
+      y: -80,
+      opacity: 0,
+      ease: 'power2.in',
       scrollTrigger: {
         trigger: outer,
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 1.4,
+        start: 'top 85%',
+        end:   'top 10%',
+        scrub: 1,
       },
     })
 
-    // Each segment = 1/(N-1) of the total timeline
-    for (let i = 1; i < N; i++) {
-      const segLen = 1 / (N - 1)
-      const at     = (i - 1) * segLen   // when this transition starts
+    // ── Set initial card positions ──
+    // Card 0: centered and full scale
+    // All others: below viewport, slightly scaled down (zoom-in start)
+    cardRefs.current.forEach((card, i) => {
+      if (!card) return
+      gsap.set(card, {
+        y:     i === 0 ? 0 : '100vh',
+        scale: i === 0 ? 1 : 0.9,
+      })
+    })
 
-      // Previous card shrinks/pushes back
-      tl.to(cardRefs.current[i - 1],
-        { scale: 0.92, y: -24, ease: 'power2.inOut', duration: segLen },
-        at
-      )
-      // New card slides up from below
-      tl.to(cardRefs.current[i],
-        { y: 0, ease: 'power2.inOut', duration: segLen },
-        at
-      )
+    // ── Single timeline scrubbed over the full scroll height ──
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: outer,
+        start:  'top top',
+        end:    'bottom bottom',
+        scrub:  1.2,
+      },
+    })
+
+    const segLen = 1 / (N - 1)
+
+    for (let i = 1; i < N; i++) {
+      const at = (i - 1) * segLen
+
+      // Outgoing card slides straight up out of view
+      tl.to(cardRefs.current[i - 1], {
+        y:        '-100vh',
+        scale:    1,
+        ease:     'power2.inOut',
+        duration: segLen,
+      }, at)
+
+      // Incoming card zooms in (0.9→1) and rises from below
+      tl.to(cardRefs.current[i], {
+        y:        0,
+        scale:    1,
+        ease:     'power2.inOut',
+        duration: segLen,
+      }, at)
     }
 
     return () => ScrollTrigger.getAll().forEach(t => t.kill())
@@ -120,12 +145,15 @@ export default function Services() {
   return (
     <section id="services" style={{ background: 'var(--bg)' }}>
 
-      {/* ── Header (normal flow, scrolls away) ── */}
-      <div style={{
-        padding: 'clamp(72px,9vw,130px) clamp(32px,5vw,80px) 64px',
-        display: 'flex', alignItems: 'flex-end',
-        justifyContent: 'space-between', flexWrap: 'wrap', gap: '28px',
-      }}>
+      {/* ── Header — fades up on scroll ── */}
+      <div
+        ref={headRef}
+        style={{
+          padding: 'clamp(72px,9vw,130px) clamp(32px,5vw,80px) 64px',
+          display: 'flex', alignItems: 'flex-end',
+          justifyContent: 'space-between', flexWrap: 'wrap', gap: '28px',
+        }}
+      >
         <div>
           <p className="section-tag" style={{ marginBottom: '14px' }}>What we do</p>
           <h2 style={{
@@ -153,10 +181,10 @@ export default function Services() {
         </a>
       </div>
 
-      {/* ── Tall scroll container (N × 100vh) ── */}
+      {/* ── Tall scroll container: N cards × 100vh each ── */}
       <div ref={outerRef} style={{ height: `${N * 100}vh` }}>
 
-        {/* ── Single sticky viewport ── */}
+        {/* ── Sticky viewport ── */}
         <div
           ref={stickyRef}
           style={{
@@ -235,7 +263,7 @@ export default function Services() {
                   </div>
                 </div>
 
-                {/* Images + CTA */}
+                {/* Carousel + CTA */}
                 <div>
                   <div className="svc-carousel" style={{ display: 'flex', gap: '8px', marginBottom: '14px', overflow: 'hidden' }}>
                     {svc.carousel.map((src, j) => (

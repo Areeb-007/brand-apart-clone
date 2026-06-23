@@ -1,311 +1,240 @@
 'use client'
 
-import Image from 'next/image'
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Grid layout — each item has a gridColumn and gridRow span so sizes vary like Brand Apart
-const projects = [
+const PROJECTS = [
   {
     id: 1,
-    title: 'Cinematic Brand Film',
-    category: 'Video Editing',
-    tag: 'FEATURED',
-    poster: '/images/video-editing/cover.jpg',
-    video: '/videos/work-1.mp4',
-    hasVideo: true,
-    col: 'span 2',   // wide
-    aspectRatio: '16/9',
+    client: 'FILMFX',
+    category: 'VIDEO EDITING',
+    year: '2024',
+    media: '/images/covers/video-editing.png',
+    full: true,
   },
   {
     id: 2,
-    title: 'Social Media Reel',
-    category: 'Short Videos',
-    tag: 'VIDEO',
-    poster: '/images/portfolio/work-1.png',
-    video: '/videos/work-2.mp4',
-    hasVideo: true,
-    col: 'span 1',   // tall portrait
-    aspectRatio: '500/528',
+    client: 'FILMFX',
+    category: 'BUSINESS DEV',
+    year: '2024',
+    media: '/images/covers/business-dev.png',
+    full: false,
   },
   {
     id: 3,
-    title: 'Wedding Highlights',
-    category: 'Wedding',
-    tag: 'VIDEO',
-    poster: '/images/video-editing/1.jpg',
-    video: '',
-    hasVideo: false,
-    col: 'span 1',
-    aspectRatio: '500/528',
+    client: 'FILMFX',
+    category: 'GRAPHIC DESIGN',
+    year: '2024',
+    media: '/images/covers/graphic-design.png',
+    full: false,
   },
   {
     id: 4,
-    title: 'Motion Brand Story',
-    category: 'Motion Graphics',
-    tag: 'VIDEO',
-    poster: '/images/portfolio/work-2.png',
-    video: '/videos/work-3.mp4',
-    hasVideo: true,
-    col: 'span 2',  // wide
-    aspectRatio: '426/240',
-  },
-  {
-    id: 5,
-    title: 'Corporate Promo',
-    category: 'Corporate Videos',
-    tag: 'VIDEO',
-    poster: '/images/video-editing/2.jpg',
-    video: '',
-    hasVideo: false,
-    col: 'span 1',
-    aspectRatio: '500/528',
-  },
-  {
-    id: 6,
-    title: 'AI Brand Content',
-    category: 'AI Video',
-    tag: 'VIDEO',
-    poster: '/images/portfolio/work-3.png',
-    video: '/videos/work-4.mp4',
-    hasVideo: true,
-    col: 'span 1',
-    aspectRatio: '500/528',
-  },
-  {
-    id: 7,
-    title: 'Real Estate Showcase',
-    category: 'Real Estate Video',
-    tag: 'VIDEO',
-    poster: '/images/video-editing/3.jpg',
-    video: '',
-    hasVideo: false,
-    col: 'span 1',
-    aspectRatio: '500/528',
+    client: 'FILMFX',
+    category: 'SOCIAL MEDIA',
+    year: '2024',
+    media: '/images/covers/social-media.png',
+    full: true,
   },
 ]
 
-function VideoCard({ project }: { project: typeof projects[number] }) {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const wrapRef  = useRef<HTMLDivElement>(null)
-
-  const handleEnter = () => {
-    if (project.hasVideo && videoRef.current) {
-      videoRef.current.currentTime = 0
-      videoRef.current.play()
-    }
-    if (wrapRef.current) {
-      const arrow = wrapRef.current.querySelector('.work-arrow') as HTMLElement
-      if (arrow) arrow.style.transform = 'translate(3px, -3px)'
-    }
-  }
-  const handleLeave = () => {
-    if (project.hasVideo && videoRef.current) videoRef.current.pause()
-    if (wrapRef.current) {
-      const arrow = wrapRef.current.querySelector('.work-arrow') as HTMLElement
-      if (arrow) arrow.style.transform = 'translate(0,0)'
-    }
-  }
-
+function ProjectTile({ project }: { project: typeof PROJECTS[number] }) {
   return (
     <div
-      ref={wrapRef}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
+      className="work-tile"
       style={{
-        gridColumn: project.col,
-        borderRadius: '18px',
-        overflow: 'hidden',
         position: 'relative',
-        aspectRatio: project.aspectRatio,
-        background: '#111',
+        borderRadius: '16px',
+        overflow: 'hidden',
+        background: '#0a0a0a',
+        aspectRatio: project.full ? '16/7' : '4/3',
         cursor: 'none',
-        border: '1px solid var(--border)',
       }}
     >
-      {/* Poster */}
       <Image
-        src={project.poster}
-        alt={project.title}
+        src={project.media}
+        alt={`${project.client} ${project.category}`}
         fill
+        className="work-tile-img"
         style={{ objectFit: 'cover' }}
-        sizes="(max-width:768px) 100vw, 50vw"
+        sizes="(max-width: 768px) 100vw, 65vw"
       />
 
-      {/* Video overlay */}
-      {project.hasVideo && (
-        <video
-          ref={videoRef}
-          src={project.video}
-          muted
-          loop
-          playsInline
-          style={{
-            position: 'absolute', inset: 0, width: '100%', height: '100%',
-            objectFit: 'cover', opacity: 0, transition: 'opacity 0.4s',
-          }}
-          onPlay={(e)  => { (e.currentTarget as HTMLVideoElement).style.opacity = '1' }}
-          onPause={(e) => { (e.currentTarget as HTMLVideoElement).style.opacity = '0' }}
-        />
-      )}
-
-      {/* Gradient overlay */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)',
-      }} />
-
-      {/* Tag pill — top left */}
-      <div style={{
-        position: 'absolute', top: '16px', left: '16px',
-        background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(8px)',
-        border: '1px solid rgba(255,255,255,0.12)',
-        padding: '4px 10px', borderRadius: '100px',
-        fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em',
-        textTransform: 'uppercase', color: 'rgba(255,255,255,0.8)',
-      }}>
-        {project.tag}
-      </div>
-
-      {/* Bottom info */}
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0,
-        padding: '24px 20px 20px',
-        display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
-      }}>
-        <div>
-          <div style={{
-            fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em',
-            textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '5px',
-          }}>
+      {/* Normal badge — top left, fades out on hover */}
+      <div
+        className="work-tile-badge"
+        style={{
+          position: 'absolute', top: '16px', left: '16px',
+          background: 'rgba(0,0,0,0.72)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: '8px',
+          padding: '8px 12px',
+          display: 'flex', alignItems: 'center', gap: '10px',
+        }}
+      >
+        <span style={{ fontSize: '13px', fontWeight: 800, color: '#fff', letterSpacing: '0.03em' }}>
+          {project.client}
+        </span>
+        <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.3 }}>
+          <span style={{ fontSize: '9px', fontWeight: 700, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             {project.category}
-          </div>
-          <div style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: project.col === 'span 2' ? 'clamp(18px, 2vw, 26px)' : '15px',
-            fontWeight: 700, color: '#fff', lineHeight: 1.15,
-          }}>
-            {project.title}
-          </div>
-        </div>
-
-        {/* Arrow */}
-        <div className="work-arrow" style={{
-          width: '38px', height: '38px', borderRadius: '50%',
-          background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)',
-          border: '1px solid rgba(255,255,255,0.15)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0, marginLeft: '12px',
-          transition: 'transform 0.25s cubic-bezier(0.34,1.56,0.64,1)',
-        }}>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-            <path d="M3 13L13 3M13 3H6M13 3v7" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          </span>
+          <span style={{ fontSize: '9px', fontWeight: 600, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em' }}>
+            {project.year}
+          </span>
         </div>
       </div>
 
-      {/* Play button for video */}
-      {project.hasVideo && (
-        <div style={{
-          position: 'absolute', top: '50%', left: '50%',
-          transform: 'translate(-50%,-50%)',
-          width: '52px', height: '52px', borderRadius: '50%',
-          background: 'rgba(255,85,0,0.85)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none',
-        }} className="play-btn">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="white">
-            <path d="M5 3l11 6-11 6V3z" />
-          </svg>
+      {/* Hover bar — slides down from top */}
+      <div
+        className="work-tile-overlay"
+        style={{
+          position: 'absolute', top: 0, left: 0, right: 0,
+          background: 'rgba(5,5,5,0.9)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
+          padding: '0 20px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{ fontSize: '14px', fontWeight: 800, color: '#fff', letterSpacing: '0.04em' }}>
+            {project.client}
+          </span>
+          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.3 }}>
+            <span style={{ fontSize: '9px', fontWeight: 700, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              {project.category}
+            </span>
+            <span style={{ fontSize: '9px', fontWeight: 600, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em' }}>
+              {project.year}
+            </span>
+          </div>
         </div>
-      )}
-
-      <style>{`
-        div:hover > .play-btn { opacity: 1 !important; }
-      `}</style>
+        <span className="work-tile-cta" style={{ fontSize: '11px', fontWeight: 800, color: '#fff', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+          DISCOVER CASE
+        </span>
+      </div>
     </div>
   )
 }
 
 export default function Works() {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const gridRef    = useRef<HTMLDivElement>(null)
-  const headRef    = useRef<HTMLDivElement>(null)
+  const line1Ref = useRef<HTMLDivElement>(null)
+  const line2Ref = useRef<HTMLDivElement>(null)
+  const arrowRef = useRef<HTMLDivElement>(null)
+  const paraRef  = useRef<HTMLParagraphElement>(null)
+  const gridRef  = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (headRef.current) {
-      gsap.fromTo(headRef.current,
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
-          scrollTrigger: { trigger: headRef.current, start: 'top 88%', toggleActions: 'play none none reverse' } }
-      )
-    }
+    // Heading + intro animate in as one sequence
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: line1Ref.current,
+        start: 'top 85%',
+        toggleActions: 'play none none reverse',
+      },
+    })
+    tl.fromTo(line1Ref.current, { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out' })
+      .fromTo(line2Ref.current, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }, '-=0.65')
+      .fromTo(arrowRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.3')
+      .fromTo(paraRef.current,  { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.75, ease: 'power2.out' }, '-=0.15')
+
+    // Grid tiles stagger in
     if (gridRef.current) {
       gsap.fromTo(
         Array.from(gridRef.current.children),
-        { y: 60, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', stagger: 0.08,
-          scrollTrigger: { trigger: gridRef.current, start: 'top 85%', toggleActions: 'play none none reverse' } }
+        { y: 80, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', stagger: 0.12,
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: 'top 82%',
+            toggleActions: 'play none none reverse',
+          },
+        }
       )
     }
   }, [])
 
   return (
-    <section id="works" ref={sectionRef} style={{ padding: '100px 48px', background: 'var(--bg)' }}>
+    <section id="works" style={{ background: 'var(--bg)', padding: '0 0 120px' }}>
 
-      {/* ── Header ── */}
-      <div ref={headRef} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '56px', flexWrap: 'wrap', gap: '32px' }}>
-        <div style={{ maxWidth: '600px' }}>
-          <p className="section-tag" style={{ marginBottom: '12px' }}>Featured Projects</p>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(32px, 4vw, 56px)',
-            fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05,
-            color: 'var(--fg)', marginBottom: '16px',
-          }}>
-            Video Editing
-          </h2>
-          <p style={{ fontSize: 'clamp(14px, 1.4vw, 17px)', color: 'var(--fg-muted)', lineHeight: 1.75, maxWidth: '480px' }}>
-            We create cinematic edits, social media videos, promos, motion graphics, and brand content
-            that capture attention, tell stories, and drive real engagement.
-          </p>
+      {/* ── Big centered heading ── */}
+      <div style={{ textAlign: 'center', padding: '120px clamp(24px, 4vw, 60px) 0' }}>
+        <div
+          ref={line1Ref}
+          style={{
+            fontFamily: "'Youth', Arial, sans-serif",
+            fontSize: 'clamp(56px, 10vw, 160px)',
+            fontWeight: 900,
+            letterSpacing: '-0.04em',
+            lineHeight: 0.9,
+            color: 'var(--fg)',
+          }}
+        >
+          Featured
         </div>
-        <a href="#contact" className="pill-btn" style={{ textDecoration: 'none', flexShrink: 0 }}>
-          View all projects
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </a>
+        <div
+          ref={line2Ref}
+          style={{
+            fontFamily: "'Youth', Arial, sans-serif",
+            fontSize: 'clamp(56px, 10vw, 160px)',
+            fontWeight: 900,
+            letterSpacing: '-0.04em',
+            lineHeight: 0.95,
+            color: 'rgba(0,25,65,0.22)',
+          }}
+        >
+          Projects
+        </div>
+
+        <div ref={arrowRef} style={{ margin: '52px 0 44px', fontSize: '22px', color: 'var(--fg-muted)' }}>
+          ↓
+        </div>
+
+        <p
+          ref={paraRef}
+          style={{
+            fontSize: 'clamp(16px, 1.6vw, 21px)',
+            color: 'var(--fg)',
+            maxWidth: '580px',
+            margin: '0 auto 88px',
+            lineHeight: 1.7,
+          }}
+        >
+          We create cinematic edits, social media videos, promos, motion graphics, and brand content that capture attention, tell stories, and drive real engagement.
+        </p>
       </div>
 
-      {/* ── Asymmetric grid ── */}
+      {/* ── Project grid ── */}
       <div
         ref={gridRef}
-        className="works-grid-inner"
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
+          padding: '0 clamp(24px, 4vw, 60px)',
+          display: 'flex',
+          flexDirection: 'column',
           gap: '14px',
         }}
       >
-        {projects.map((p) => <VideoCard key={p.id} project={p} />)}
+        {/* Row 1 — full width: Video Editing */}
+        <ProjectTile project={PROJECTS[0]} />
+
+        {/* Row 2 — two equal tiles: Business Dev + Graphic Design */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+          <ProjectTile project={PROJECTS[1]} />
+          <ProjectTile project={PROJECTS[2]} />
+        </div>
+
+        {/* Row 3 — full width: Social Media */}
+        <ProjectTile project={PROJECTS[3]} />
       </div>
 
-      {/* ── Bottom CTA ── */}
-      <div style={{ textAlign: 'center', marginTop: '56px' }}>
-        <p style={{ fontSize: '12px', color: 'var(--fg-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '20px' }}>
-          See more of our work
-        </p>
-        <a href="#contact" className="pill-btn pill-btn-filled" style={{ textDecoration: 'none' }}>
-          Book a free consultation
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </a>
-      </div>
     </section>
   )
 }

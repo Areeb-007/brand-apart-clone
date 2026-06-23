@@ -4,7 +4,6 @@ import ZoomReveal from '@/components/ZoomReveal'
 import Works from '@/components/Works'
 import MoreWork from '@/components/MoreWork'
 import Services from '@/components/Services'
-import Pricing from '@/components/Pricing'
 import About from '@/components/About'
 import Testimonials from '@/components/Testimonials'
 import CTA from '@/components/CTA'
@@ -20,7 +19,6 @@ export default function Home() {
         <Works />
         <MoreWork />
         <Services />
-        <Pricing />
         <About />
         <Testimonials />
         <CTA />

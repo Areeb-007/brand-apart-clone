@@ -386,6 +386,79 @@ footer {
   width: 100%;
 }
 
+/* ── Testimonial fan cards ── */
+.tcard {
+  background: #9A9087;
+  transition: background 0.38s ease;
+}
+.tcard.t-active {
+  background: var(--bg);
+}
+.tcard-quote {
+  color: #fff;
+  transition: color 0.38s ease;
+}
+.tcard.t-active .tcard-quote {
+  color: var(--fg);
+}
+.tcard-name {
+  color: #fff;
+  transition: color 0.38s ease;
+}
+.tcard.t-active .tcard-name {
+  color: var(--fg);
+}
+.tcard-role {
+  color: rgba(255,255,255,0.55);
+  transition: color 0.38s ease;
+}
+.tcard.t-active .tcard-role {
+  color: var(--fg-muted);
+}
+.tcard-contact {
+  color: rgba(255,255,255,0.6);
+  transition: color 0.38s ease;
+}
+.tcard.t-active .tcard-contact {
+  color: var(--fg-muted);
+}
+.tcard-btn {
+  background: #1a1a1a;
+  transition: background 0.38s ease;
+}
+.tcard.t-active .tcard-btn {
+  background: var(--fg);
+}
+
+/* ── Works tiles hover ── */
+.work-tile-overlay {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.work-tile:hover .work-tile-overlay {
+  height: 72px;
+}
+.work-tile-badge {
+  transition: opacity 0.25s ease;
+}
+.work-tile:hover .work-tile-badge {
+  opacity: 0;
+}
+.work-tile-cta {
+  opacity: 0;
+  transition: opacity 0.2s ease 0.18s;
+}
+.work-tile:hover .work-tile-cta {
+  opacity: 1;
+}
+.work-tile-img {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.work-tile:hover .work-tile-img {
+  transform: scale(1.04) !important;
+}
+
 /* ── Key charm drop + swing ── */
 @keyframes charmDrop {
   0%   { transform: translateY(-120px) rotate(-18deg); opacity: 0; }
