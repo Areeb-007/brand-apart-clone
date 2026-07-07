@@ -239,7 +239,7 @@ export default function Services() {
               <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '20px', alignItems: 'end' }}>
 
                 {/* Testimonial */}
-                <div style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: '16px 18px' }}>
+                <div style={{ background: 'rgba(0,25,65,0.35)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: '16px 18px' }}>
                   <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.72)', lineHeight: 1.65, fontStyle: 'italic', marginBottom: '12px' }}>
                     &ldquo;{svc.clientQuote}&rdquo;
                   </p>
@@ -261,7 +261,7 @@ export default function Services() {
                 <div>
                   <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', overflow: 'hidden' }}>
                     {svc.carousel.map((src, j) => (
-                      <div key={j} style={{ flexShrink: 0, width: 'clamp(88px,11vw,155px)', height: 'clamp(60px,7.5vw,106px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.25)' }}>
+                      <div key={j} style={{ flexShrink: 0, width: 'clamp(88px,11vw,155px)', height: 'clamp(60px,7.5vw,106px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,25,65,0.3)' }}>
                         <Image src={src} alt="" fill style={{ objectFit: 'contain', padding: '4px' }} sizes="155px" />
                       </div>
                     ))}

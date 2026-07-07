@@ -40,21 +40,20 @@ const TESTIMONIALS = [
   },
 ]
 
-const N = TESTIMONIALS.length
+const N      = TESTIMONIALS.length
 const CARD_W = 270
-const CARD_H = 420
-const SHIFT  = 290   // px — how far non-hovered cards shift away
+const CARD_H = 400
+const SHIFT  = 80   // subtle spread on hover
 
-// Base fan transforms — rotate around bottom center, overlapping in center
+// Wide scattered fan — matches Brand Apart reference
 const BASE = [
-  { x: -22, rotate: -14 },
-  { x: -11, rotate:  -6 },
-  { x:   0, rotate:   2 },
-  { x:  11, rotate:   9 },
-  { x:  22, rotate:  15 },
+  { x: -360, rotate: -28 },
+  { x: -185, rotate: -14 },
+  { x:  -10, rotate:  -3 },
+  { x:  170, rotate:   9 },
+  { x:  345, rotate:  20 },
 ]
 
-// Center card has highest z (front of deck)
 const BASE_Z = [2, 3, 5, 3, 2]
 
 export default function Testimonials() {
@@ -83,7 +82,6 @@ export default function Testimonials() {
       if (i === active) {
         card.classList.add('t-active')
         gsap.to(card, {
-          x:        BASE[i].x,
           rotation: 0,
           scale:    1.04,
           zIndex:   N + 2,
@@ -106,19 +104,19 @@ export default function Testimonials() {
   }
 
   useEffect(() => {
-    // Set initial fan positions
+    // Place cards off-screen to the right at their target rotation
     cardRefs.current.forEach((card, i) => {
       if (!card) return
       gsap.set(card, {
-        x:              BASE[i].x,
-        rotation:       BASE[i].rotate,
-        scale:          1,
-        zIndex:         BASE_Z[i],
+        x:               1200,
+        rotation:        BASE[i].rotate,
+        scale:           1,
+        zIndex:          BASE_Z[i],
         transformOrigin: 'bottom center',
       })
     })
 
-    // Scroll entry
+    // Heading fade-up
     if (headRef.current) {
       gsap.fromTo(headRef.current,
         { y: 40, opacity: 0 },
@@ -126,12 +124,24 @@ export default function Testimonials() {
           scrollTrigger: { trigger: headRef.current, start: 'top 85%' } }
       )
     }
+
+    // Cards fly in from right with stagger when fan enters view
     if (fanRef.current) {
-      gsap.fromTo(fanRef.current,
-        { y: 60, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: fanRef.current, start: 'top 88%' } }
-      )
+      const entryTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: fanRef.current,
+          start:   'top 88%',
+          toggleActions: 'play none none reverse',
+        },
+      })
+
+      cardRefs.current.forEach((card, i) => {
+        entryTl.to(card, {
+          x:        BASE[i].x,
+          duration: 1.1,
+          ease:     'power3.out',
+        }, i * 0.07)
+      })
     }
 
     return () => ScrollTrigger.getAll().forEach(t => t.kill())
@@ -169,13 +179,13 @@ export default function Testimonials() {
       <div
         ref={fanRef}
         style={{
-          position: 'relative',
-          height: `${CARD_H + 60}px`,
-          display: 'flex',
-          alignItems: 'flex-end',
+          position:       'relative',
+          height:         `${CARD_H + 100}px`,
+          display:        'flex',
+          alignItems:     'flex-end',
           justifyContent: 'center',
-          overflow: 'hidden',
-          paddingBottom: '20px',
+          overflow:       'visible',
+          paddingBottom:  '20px',
         }}
         onMouseLeave={applyBase}
       >
@@ -183,24 +193,24 @@ export default function Testimonials() {
           <div
             key={t.name}
             ref={(el) => { cardRefs.current[i] = el }}
-            className="tcard"
+            className={`tcard${i % 2 === 1 ? ' tcard-light' : ''}`}
             onMouseEnter={() => applyHover(i)}
             style={{
-              position:     'absolute',
-              bottom:       '20px',
-              left:         `calc(50% - ${CARD_W / 2}px)`,
-              width:        `${CARD_W}px`,
-              height:       `${CARD_H}px`,
-              borderRadius: '20px',
-              display:      'flex',
-              flexDirection:'column',
-              padding:      '22px',
-              cursor:       'none',
-              boxShadow:    '0 24px 64px rgba(0,0,0,0.22)',
-              willChange:   'transform',
+              position:      'absolute',
+              bottom:        '20px',
+              left:          `calc(50% - ${CARD_W / 2}px)`,
+              width:         `${CARD_W}px`,
+              height:        `${CARD_H}px`,
+              borderRadius:  '20px',
+              display:       'flex',
+              flexDirection: 'column',
+              padding:       '22px',
+              cursor:        'none',
+              boxShadow:     '0 20px 60px rgba(0,25,65,0.18)',
+              willChange:    'transform',
             }}
           >
-            {/* Top: stars + contact button */}
+            {/* Stars + contact button */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
               <div style={{ display: 'flex', gap: '2px' }}>
                 {[...Array(5)].map((_, j) => (
@@ -224,7 +234,7 @@ export default function Testimonials() {
 
             {/* Quote */}
             <p className="tcard-quote" style={{
-              fontSize: '15px',
+              fontSize: '14px',
               lineHeight: 1.6,
               flex: 1,
               fontFamily: 'var(--font-display)',

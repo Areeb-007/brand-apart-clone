@@ -76,7 +76,7 @@ export default function MoreWork() {
       ref={sectionRef}
       style={{
         minHeight: '100vh',
-        background: '#0A0A0A',
+        background: '#001941',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

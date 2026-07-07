@@ -111,9 +111,17 @@ const NAV_ITEMS = [
   },
 ]
 
-const BASE = 54
-function getSize(_i: number, _hovered: number | null) {
-  return BASE
+const BASE_SIZE = 44
+const MAX_SIZE  = 72
+const SPREAD    = 2.5   // icons within this distance get magnified
+
+function getSize(i: number, hovered: number | null): number {
+  if (hovered === null) return BASE_SIZE
+  const dist   = Math.abs(i - hovered)
+  const factor = dist <= SPREAD
+    ? (1 + Math.cos(Math.PI * dist / SPREAD)) / 2   // cosine bell: 1 at center → 0 at edge
+    : 0
+  return Math.round(BASE_SIZE + (MAX_SIZE - BASE_SIZE) * factor)
 }
 
 /* ─── Small reusable dropdown panel ─────────────────────────── */
@@ -166,6 +174,7 @@ export default function Navigation() {
   const [portSubItem,   setPortSubItem]   = useState<string | null>(null)
   const [hoveredImg,    setHoveredImg]    = useState(0)
   const [mobileOpen,    setMobileOpen]    = useState<Record<string,boolean>>({})
+  const [hoveredDock,   setHoveredDock]   = useState<number | null>(null)
   const dropTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const subTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -232,9 +241,9 @@ export default function Navigation() {
       </div>
 
       {/* ── Dock ── */}
-      <nav className="dock-nav" onMouseLeave={() => closeDrop()}>
+      <nav className="dock-nav" onMouseLeave={() => { closeDrop(); setHoveredDock(null) }}>
         {NAV_ITEMS.map((item, i) => {
-          const size     = getSize(i, null)
+          const size     = getSize(i, hoveredDock)
           const isActive = active === i
           const hasDrop  = !!item.dropdown
           const isOpen   = openDropdown === item.id
@@ -260,7 +269,26 @@ export default function Navigation() {
                   boxShadow: isActive ? '0 4px 16px rgba(0,25,65,0.12)' : '0 2px 8px rgba(0,25,65,0.06)',
                   color: isActive ? 'var(--fg)' : 'rgba(0,25,65,0.45)',
                   textDecoration: 'none', cursor: 'none', flexShrink: 0,
-                  transition: 'box-shadow 0.2s, color 0.2s, background 0.2s, border-color 0.2s',
+                  transition: 'width 0.2s cubic-bezier(0.34,1.4,0.64,1), height 0.2s cubic-bezier(0.34,1.4,0.64,1), border-radius 0.2s, box-shadow 0.2s, color 0.2s, background 0.2s, border-color 0.2s',
+                }}
+                onMouseEnter={e => {
+                  setHoveredDock(i)
+                  const el = e.currentTarget as HTMLElement
+                  if (!isActive) {
+                    el.style.background = 'var(--bg-card)'
+                    el.style.borderColor = 'rgba(0,25,65,0.22)'
+                    el.style.color = 'var(--fg)'
+                    el.style.boxShadow = '0 6px 20px rgba(0,25,65,0.14)'
+                  }
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLElement
+                  if (!isActive) {
+                    el.style.background = 'rgba(0,25,65,0.04)'
+                    el.style.borderColor = 'rgba(0,25,65,0.08)'
+                    el.style.color = 'rgba(0,25,65,0.45)'
+                    el.style.boxShadow = '0 2px 8px rgba(0,25,65,0.06)'
+                  }
                 }}
               >
                 {item.icon}

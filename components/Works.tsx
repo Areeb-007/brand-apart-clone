@@ -59,7 +59,7 @@ function ProjectTile({ project }: { project: typeof PROJECTS[number] }) {
         position: 'relative',
         borderRadius: '16px',
         overflow: 'hidden',
-        background: '#0a0a0a',
+        background: '#001941',
         aspectRatio: project.full ? '16/7' : '4/3',
         cursor: 'none',
       }}
@@ -78,7 +78,7 @@ function ProjectTile({ project }: { project: typeof PROJECTS[number] }) {
         className="work-tile-badge"
         style={{
           position: 'absolute', top: '16px', left: '16px',
-          background: 'rgba(0,0,0,0.72)',
+          background: 'rgba(0,25,65,0.82)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
           border: '1px solid rgba(255,255,255,0.08)',
@@ -105,7 +105,7 @@ function ProjectTile({ project }: { project: typeof PROJECTS[number] }) {
         className="work-tile-overlay"
         style={{
           position: 'absolute', top: 0, left: 0, right: 0,
-          background: 'rgba(5,5,5,0.9)',
+          background: 'rgba(0,25,65,0.92)',
           backdropFilter: 'blur(4px)',
           WebkitBackdropFilter: 'blur(4px)',
           padding: '0 20px',

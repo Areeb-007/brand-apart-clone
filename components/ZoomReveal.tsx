@@ -97,7 +97,7 @@ export default function ZoomReveal() {
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 55%, transparent 100%)',
+              background: 'linear-gradient(to top, rgba(0,25,65,0.82) 0%, rgba(0,25,65,0.18) 55%, transparent 100%)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'flex-end',

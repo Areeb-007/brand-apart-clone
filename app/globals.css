@@ -387,6 +387,8 @@ footer {
 }
 
 /* ── Testimonial fan cards ── */
+
+/* Dark card (0, 2, 4) */
 .tcard {
   background: #9A9087;
   transition: background 0.38s ease;
@@ -398,37 +400,45 @@ footer {
   color: #fff;
   transition: color 0.38s ease;
 }
-.tcard.t-active .tcard-quote {
-  color: var(--fg);
-}
+.tcard.t-active .tcard-quote { color: var(--fg); }
 .tcard-name {
   color: #fff;
   transition: color 0.38s ease;
 }
-.tcard.t-active .tcard-name {
-  color: var(--fg);
-}
+.tcard.t-active .tcard-name { color: var(--fg); }
 .tcard-role {
   color: rgba(255,255,255,0.55);
   transition: color 0.38s ease;
 }
-.tcard.t-active .tcard-role {
-  color: var(--fg-muted);
-}
+.tcard.t-active .tcard-role { color: var(--fg-muted); }
 .tcard-contact {
   color: rgba(255,255,255,0.6);
   transition: color 0.38s ease;
 }
-.tcard.t-active .tcard-contact {
-  color: var(--fg-muted);
-}
+.tcard.t-active .tcard-contact { color: var(--fg-muted); }
 .tcard-btn {
-  background: #1a1a1a;
+  background: #001941;
   transition: background 0.38s ease;
 }
-.tcard.t-active .tcard-btn {
+.tcard.t-active .tcard-btn { background: var(--fg); }
+
+/* Light card (1, 3) */
+.tcard-light {
+  background: var(--bg-card);
+}
+.tcard-light.t-active {
   background: var(--fg);
 }
+.tcard-light .tcard-quote { color: var(--fg); }
+.tcard-light.t-active .tcard-quote { color: #fff; }
+.tcard-light .tcard-name { color: var(--fg); }
+.tcard-light.t-active .tcard-name { color: #fff; }
+.tcard-light .tcard-role { color: var(--fg-muted); }
+.tcard-light.t-active .tcard-role { color: rgba(255,255,255,0.55); }
+.tcard-light .tcard-contact { color: var(--fg-muted); }
+.tcard-light.t-active .tcard-contact { color: rgba(255,255,255,0.6); }
+.tcard-light .tcard-btn { background: var(--fg); }
+.tcard-light.t-active .tcard-btn { background: #fff; }
 
 /* ── Works tiles hover ── */
 .work-tile-overlay {

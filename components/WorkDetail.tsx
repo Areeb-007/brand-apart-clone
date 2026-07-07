@@ -66,7 +66,7 @@ export default function WorkDetail({ project }: { project: Project }) {
       {/* ── Hero: dark, full viewport ── */}
       <section style={{
         minHeight: '100svh',
-        background: '#0A0A0A',
+        background: '#001941',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -205,7 +205,7 @@ export default function WorkDetail({ project }: { project: Project }) {
       </section>
 
       {/* ── Full-width cover ── */}
-      <div style={{ position: 'relative', width: '100%', aspectRatio: '16/7', background: '#111' }}>
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '16/7', background: '#0d1f3c' }}>
         <Image
           src={project.cover}
           alt={project.name}
@@ -237,7 +237,7 @@ export default function WorkDetail({ project }: { project: Project }) {
               borderRadius: '16px',
               overflow: 'hidden',
               aspectRatio: '4/3',
-              background: '#111',
+              background: '#0d1f3c',
             }}>
               <Image
                 src={src}
@@ -253,7 +253,7 @@ export default function WorkDetail({ project }: { project: Project }) {
 
       {/* ── Testimonial ── */}
       <section ref={testimonialRef} style={{
-        background: '#0A0A0A',
+        background: '#001941',
         padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)',
       }}>
         <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center' }}>
