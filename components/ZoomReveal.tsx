@@ -18,6 +18,9 @@ export default function ZoomReveal() {
     const card    = cardRef.current
     if (!section || !bg || !card) return
 
+    // Track whether we've left the section so scrub lag can't re-trigger dark
+    let insideSection = false
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
@@ -26,6 +29,22 @@ export default function ZoomReveal() {
         pin: true,
         pinSpacing: true,
         scrub: 1.4,
+        onEnter:     () => { insideSection = true },
+        onEnterBack: () => { insideSection = true },
+        onLeave:     () => {
+          insideSection = false
+          window.dispatchEvent(new CustomEvent('navtheme:light'))
+        },
+        onLeaveBack: () => {
+          insideSection = false
+          window.dispatchEvent(new CustomEvent('navtheme:light'))
+        },
+        onUpdate: (self) => {
+          if (!insideSection) return
+          window.dispatchEvent(new CustomEvent(
+            self.progress > 0.42 ? 'navtheme:dark' : 'navtheme:light'
+          ))
+        },
       },
     })
 
@@ -105,7 +124,7 @@ export default function ZoomReveal() {
             }}
           >
             <p style={{
-              fontSize: '11px',
+              fontSize: '9px',
               fontWeight: 700,
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
@@ -116,7 +135,7 @@ export default function ZoomReveal() {
             </p>
             <h2 style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(32px, 5vw, 68px)',
+              fontSize: 'clamp(24px, 3.2vw, 46px)',
               fontWeight: 800,
               letterSpacing: '-0.04em',
               lineHeight: 1.0,

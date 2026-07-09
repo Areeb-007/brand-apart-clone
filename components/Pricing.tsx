@@ -107,7 +107,7 @@ export default function Pricing() {
             <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'var(--fg-muted)' }}>Quality without commitment.</span>
           </h2>
           <p style={{ fontSize: '14px', color: 'var(--fg-muted)', lineHeight: 1.75, marginBottom: '36px', maxWidth: '280px' }}>
-            Every project is scoped individually. Get a custom quote based on your exact needs — no hidden fees.
+            Every project is scoped individually. Get a custom quote based on your exact needs, no hidden fees.
           </p>
           <a href="#contact" className="pill-btn pill-btn-filled" style={{ textDecoration: 'none', fontSize: '13px', letterSpacing: '0.04em', fontWeight: 700 }}>
             Get a free quote

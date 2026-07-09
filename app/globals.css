@@ -261,6 +261,13 @@ footer {
 .dock-icon-btn:hover::after {
   opacity: 1;
 }
+.dock-dark .dock-icon-btn::after {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+}
 
 /* dropdown animation */
 @keyframes dropdownIn {
@@ -469,20 +476,6 @@ footer {
   transform: scale(1.04) !important;
 }
 
-/* ── Key charm drop + swing ── */
-@keyframes charmDrop {
-  0%   { transform: translateY(-120px) rotate(-18deg); opacity: 0; }
-  45%  { transform: translateY(14px)   rotate(9deg);  opacity: 1; }
-  62%  { transform: translateY(-6px)   rotate(-4deg); }
-  76%  { transform: translateY(3px)    rotate(2deg);  }
-  88%  { transform: translateY(-1px)   rotate(-1deg); }
-  100% { transform: translateY(0)      rotate(0deg);  opacity: 1; }
-}
-
-@keyframes charmExit {
-  0%   { opacity: 1; transform: translateY(0) scale(1); }
-  100% { opacity: 0; transform: translateY(30px) scale(0.88); }
-}
 
 /* scroll indicator animation */
 @keyframes scrollLine {

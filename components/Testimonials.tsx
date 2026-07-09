@@ -11,47 +11,47 @@ const TESTIMONIALS = [
   {
     name: 'Boss Media',
     role: 'Media Agency',
-    quote: 'FilmFX Studio does more than just edit videos — they bring creative ideas to life. Their graphics team is amazing, creating visuals that fit our brand perfectly.',
-    photo: '/images/testimonials/1.jpg',
+    quote: 'FilmFX Studio does more than just edit videos, they bring creative ideas to life. Their graphics team is amazing, creating visuals that fit our brand perfectly.',
+    photo: '/images/clients/boss-media.png',
   },
   {
     name: 'TEO',
     role: 'Founder, Content Studio',
     quote: 'FilmFX Studio delivered a cinematic, high-quality edit ahead of schedule. Their attention to detail and fast communication made the whole process seamless.',
-    photo: '/images/testimonials/2.jpg',
+    photo: '/images/clients/teo.png',
   },
   {
     name: 'MATT',
     role: 'Creative Director',
     quote: 'FilmFX Studio created amazing custom designs that elevated our brand. Professional, easy to work with, and always open to collaborating.',
-    photo: '/images/testimonials/3.jpg',
+    photo: '/images/clients/matt.png',
   },
   {
     name: 'WILLIAM',
     role: 'Brand Strategist',
-    quote: 'Outstanding work from start to finish. The team understood our vision and delivered beyond expectations — every frame crafted with real purpose.',
-    photo: '/images/testimonials/4.jpg',
+    quote: 'Outstanding work from start to finish. The team understood our vision and delivered beyond expectations, every frame crafted with real purpose.',
+    photo: '/images/clients/william.png',
   },
   {
     name: 'J. THOMAS',
     role: 'Head of Growth',
     quote: 'FilmFX Studio doubled our social media engagement in just 2 months with smart, creative strategies. Truly one of a kind.',
-    photo: '/images/testimonials/5.jpg',
+    photo: '/images/clients/j-thomas.png',
   },
 ]
 
 const N      = TESTIMONIALS.length
-const CARD_W = 270
-const CARD_H = 400
+const CARD_W = 300
+const CARD_H = 420
 const SHIFT  = 80   // subtle spread on hover
 
 // Wide scattered fan — matches Brand Apart reference
 const BASE = [
-  { x: -360, rotate: -28 },
-  { x: -185, rotate: -14 },
+  { x: -420, rotate: -28 },
+  { x: -210, rotate: -14 },
   { x:  -10, rotate:  -3 },
-  { x:  170, rotate:   9 },
-  { x:  345, rotate:  20 },
+  { x:  200, rotate:   9 },
+  { x:  405, rotate:  20 },
 ]
 
 const BASE_Z = [2, 3, 5, 3, 2]
@@ -138,8 +138,8 @@ export default function Testimonials() {
       cardRefs.current.forEach((card, i) => {
         entryTl.to(card, {
           x:        BASE[i].x,
-          duration: 1.1,
-          ease:     'power3.out',
+          duration: 1.4,
+          ease:     'expo.out',
         }, i * 0.07)
       })
     }
@@ -211,7 +211,7 @@ export default function Testimonials() {
             }}
           >
             {/* Stars + contact button */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
               <div style={{ display: 'flex', gap: '2px' }}>
                 {[...Array(5)].map((_, j) => (
                   <span key={j} style={{ color: 'var(--accent)', fontSize: '15px' }}>★</span>
@@ -246,11 +246,11 @@ export default function Testimonials() {
             {/* Author */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '18px' }}>
               <div style={{
-                width: '38px', height: '38px', borderRadius: '50%',
+                width: '44px', height: '44px', borderRadius: '50%',
                 overflow: 'hidden', flexShrink: 0,
                 position: 'relative', background: 'rgba(255,255,255,0.15)',
               }}>
-                <Image src={t.photo} alt={t.name} fill style={{ objectFit: 'cover' }} sizes="38px" />
+                <Image src={t.photo} alt={t.name} fill style={{ objectFit: 'cover' }} sizes="44px" />
               </div>
               <div>
                 <div className="tcard-name" style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.02em' }}>

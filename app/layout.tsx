@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Outfit, Plus_Jakarta_Sans } from 'next/font/google'
+import { Outfit, Plus_Jakarta_Sans, Nunito } from 'next/font/google'
 import './globals.css'
 import CustomCursor from '@/components/CustomCursor'
 import SmoothScroll from '@/components/SmoothScroll'
@@ -17,6 +17,12 @@ const plusJakarta = Plus_Jakarta_Sans({
   weight: ['300', '400', '500', '600', '700'],
 })
 
+const nunito = Nunito({
+  subsets: ['latin'],
+  variable: '--font-nunito',
+  weight: ['800', '900'],
+})
+
 export const metadata: Metadata = {
   title: 'FilmFX Studio — Your Creative Partner for High-Impact Videos',
   description:
@@ -29,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${plusJakarta.variable}`}>
+    <html lang="en" className={`${outfit.variable} ${plusJakarta.variable} ${nunito.variable}`}>
       <body suppressHydrationWarning>
         <CustomCursor />
         <ScrollProgress />

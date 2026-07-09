@@ -12,7 +12,7 @@ const services = [
     slug: 'video-editing', num: '01',
     heading: 'Cinematic edits that\ncapture & convert.',
     tagline: 'Video Editing',
-    description: 'We don\'t just edit clips — we craft stories. From transitions to pacing, colour tone to sound flow, every frame is shaped to keep your audience hooked.',
+    description: 'We don\'t just edit clips, we craft stories. From transitions to pacing, colour tone to sound flow, every frame is shaped to keep your audience hooked.',
     client: 'TEO', clientRole: 'Founder, Content Studio',
     clientQuote: 'FilmFX Studio delivered a cinematic, high-quality edit ahead of schedule. Truly impressive work.',
     bg: '#3B2FC9',
@@ -22,7 +22,7 @@ const services = [
     slug: 'graphic-design', num: '02',
     heading: 'Designs that speak\nbefore you do.',
     tagline: 'Graphic Design',
-    description: 'Great design is silent marketing — and we make it loud. High-impact visuals from posters to branding and social creatives, designed to leave a lasting impression.',
+    description: 'Great design is silent marketing, and we make it loud. High-impact visuals from posters to branding and social creatives, designed to leave a lasting impression.',
     client: 'MATT', clientRole: 'Creative Director',
     clientQuote: 'FilmFX Studio created amazing custom designs that elevated our brand. Talented and creative team.',
     bg: '#C9302F',
@@ -32,7 +32,7 @@ const services = [
     slug: 'smm', num: '03',
     heading: 'We don\'t chase trends —\nwe create them.',
     tagline: 'Social Media Marketing',
-    description: 'Smart strategies and campaigns that make people stop scrolling and start engaging — building brand presence that turns audiences into loyal followers.',
+    description: 'Smart strategies and campaigns that make people stop scrolling and start engaging, building brand presence that turns audiences into loyal followers.',
     client: 'J. THOMAS', clientRole: 'Head of Growth',
     clientQuote: 'FilmFX Studio doubled our social media engagement in 2 months with smart, creative strategies.',
     bg: '#C96B14',
@@ -42,7 +42,7 @@ const services = [
     slug: 'sales-marketing', num: '04',
     heading: 'Marketing with\none goal: results.',
     tagline: 'Sales & Business Development',
-    description: 'Targeting the right audience, delivering the right message, and turning interest into action — helping your business grow faster, smarter, and stronger.',
+    description: 'Targeting the right audience, delivering the right message, and turning interest into action, helping your business grow faster, smarter, and stronger.',
     client: 'KEVIN', clientRole: 'CEO, Growth Agency',
     clientQuote: 'FilmFX Studio boosted our leads quickly with smart marketing. Real growth, not just promises.',
     bg: '#12271A',
@@ -52,20 +52,20 @@ const services = [
     slug: 'website-development', num: '05',
     heading: 'Websites built to\nimpress & convert.',
     tagline: 'Website Development',
-    description: 'Your digital storefront — made unforgettable. Clean UI, smooth UX, speed optimisation and responsiveness: sites that turn visitors into customers.',
+    description: 'Your digital storefront, made unforgettable. Clean UI, smooth UX, speed optimisation and responsiveness: sites that turn visitors into customers.',
     client: 'JASMINE', clientRole: 'Founder, E-commerce Brand',
     clientQuote: 'FilmFX Studio built a site that helped us secure key partnerships. Truly outstanding work.',
-    bg: '#1A1A2E',
+    bg: '#1E3A5F',
     carousel: ['/images/portfolio/wd-1.jpg','/images/portfolio/wd-2.jpg','/images/portfolio/wd-3.jpg','/images/portfolio/wd-4.jpg'],
   },
   {
     slug: 'staff-augmentation', num: '06',
     heading: 'Expand your workforce\neffortlessly.',
     tagline: 'Staff Augmentation',
-    description: 'Get the right talent exactly when you need it. Flexible team expansion, no stress of traditional hiring — your business keeps moving forward.',
+    description: 'Get the right talent exactly when you need it. Flexible team expansion, no stress of traditional hiring, your business keeps moving forward.',
     client: 'ALBERT', clientRole: 'Operations Director',
     clientQuote: 'FilmFX Studio helped us scale fast with the right talent, meet deadlines, and maintain quality.',
-    bg: '#0E2A1A',
+    bg: '#1A3D28',
     carousel: ['/images/portfolio/work-1.png','/images/portfolio/work-2.png','/images/portfolio/work-3.png','/images/portfolio/work-4.png'],
   },
 ]
@@ -236,7 +236,7 @@ export default function Services() {
               </p>
 
               {/* Bottom: testimonial + carousel + CTA */}
-              <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '20px', alignItems: 'end' }}>
+              <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: '0.8fr 2fr', gap: '20px', alignItems: 'end' }}>
 
                 {/* Testimonial */}
                 <div style={{ background: 'rgba(0,25,65,0.35)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: '16px 18px' }}>
@@ -259,10 +259,10 @@ export default function Services() {
 
                 {/* Carousel + CTA */}
                 <div>
-                  <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', overflow: 'hidden' }}>
+                  <div style={{ display: 'flex', gap: '8px', marginBottom: '14px' }}>
                     {svc.carousel.map((src, j) => (
-                      <div key={j} style={{ flexShrink: 0, width: 'clamp(88px,11vw,155px)', height: 'clamp(60px,7.5vw,106px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,25,65,0.3)' }}>
-                        <Image src={src} alt="" fill style={{ objectFit: 'contain', padding: '4px' }} sizes="155px" />
+                      <div key={j} style={{ flex: '1 1 0', minWidth: 0, height: 'clamp(70px,9vw,120px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <Image src={src} alt="" fill style={{ objectFit: 'cover' }} sizes="155px" />
                       </div>
                     ))}
                   </div>

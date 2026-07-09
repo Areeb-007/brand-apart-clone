@@ -19,13 +19,14 @@ const ITEMS = [
 ]
 
 const CARD   = 190
-const RADIUS = 310
+const RADIUS = 370
 
 export default function MoreWork() {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const circleRef  = useRef<HTMLDivElement>(null)
-  const textRef    = useRef<HTMLDivElement>(null)
-  const cardRefs   = useRef<(HTMLDivElement | null)[]>([])
+  const sectionRef  = useRef<HTMLDivElement>(null)
+  const circleRef   = useRef<HTMLDivElement>(null)
+  const textRef     = useRef<HTMLDivElement>(null)
+  const cardRefs    = useRef<(HTMLDivElement | null)[]>([])
+  const orbitTweens = useRef<gsap.core.Tween[]>([])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -33,49 +34,73 @@ export default function MoreWork() {
     const text    = textRef.current
     if (!section || !circle || !text) return
 
-    // No pin / sticky — just scrub-drive the rotation as the section
-    // naturally passes through the viewport (top bottom → bottom top).
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: 'top bottom',
-        end:   'bottom top',
-        scrub: 1.2,
-      },
-    })
-
-    tl.fromTo(text,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, ease: 'power2.out', duration: 0.25 },
-      0.05
+    // Text fade-in on scroll only
+    const textST = gsap.fromTo(
+      text,
+      { opacity: 0, y: 24 },
+      {
+        opacity: 1,
+        y: 0,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 70%',
+          end:   'top 30%',
+          scrub: false,
+          toggleActions: 'play none none reverse',
+        },
+      }
     )
 
-    tl.fromTo(circle,
-      { rotation: -20, scale: 0.82 },
-      { rotation: 190, scale: 1.12, ease: 'none', duration: 1 },
-      0
+    // Build hover-driven orbit tweens (paused initially)
+    const circleTween = gsap.to(circle, {
+      rotation: '+=360',
+      duration: 20,
+      repeat: -1,
+      ease: 'none',
+      paused: true,
+    })
+
+    const cardTweens = cardRefs.current.filter(Boolean).map((card) =>
+      gsap.to(card!, {
+        rotation: '-=360',
+        duration: 20,
+        repeat: -1,
+        ease: 'none',
+        paused: true,
+      })
     )
 
-    cardRefs.current.filter(Boolean).forEach((card) => {
-      tl.fromTo(card!,
-        { rotation: 20 },
-        { rotation: -190, ease: 'none', duration: 1 },
-        0
-      )
-    })
+    orbitTweens.current = [circleTween, ...cardTweens]
+
+    const handleMouseEnter = () => {
+      orbitTweens.current.forEach((t) => t.play())
+    }
+
+    const handleMouseLeave = () => {
+      orbitTweens.current.forEach((t) => t.pause())
+    }
+
+    section.addEventListener('mouseenter', handleMouseEnter)
+    section.addEventListener('mouseleave', handleMouseLeave)
 
     return () => {
-      ScrollTrigger.getAll().forEach((t) => {
-        if (t.trigger === section) t.kill()
-      })
+      section.removeEventListener('mouseenter', handleMouseEnter)
+      section.removeEventListener('mouseleave', handleMouseLeave)
+      orbitTweens.current.forEach((t) => t.kill())
+      orbitTweens.current = []
+      if (textST.scrollTrigger) textST.scrollTrigger.kill()
+      textST.kill()
     }
   }, [])
 
   return (
     <div
       ref={sectionRef}
+      data-nav-dark
       style={{
-        minHeight: '100vh',
+        minHeight: `${(RADIUS + CARD) * 2 + 80}px`,
+        width: '100vw',
         background: '#001941',
         display: 'flex',
         alignItems: 'center',

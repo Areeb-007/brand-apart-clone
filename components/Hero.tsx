@@ -7,6 +7,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// Keychain icons: Photoshop, After Effects, Premiere Pro, Illustrator,
+// DaVinci Resolve, Canva, Figma
+const CHARMS = [
+  '/images/charms/charm-1.png',
+  '/images/charms/charm-2.png',
+  '/images/charms/charm-3.png',
+  '/images/charms/charm-4.png',
+  '/images/charms/charm-5.png',
+  '/images/charms/charm-6.png',
+  '/images/charms/charm-7.png',
+]
+
 function LiveClock() {
   const [time, setTime] = useState('')
   useEffect(() => {
@@ -19,19 +31,14 @@ function LiveClock() {
 }
 
 const CLIENT_LOGOS = ['Amplify', 'Forbes', 'TechHub', 'PMU', 'Sowbeez', 'Incard']
-const CHARMS = [
-  '/images/charms/charm-1.png',
-  '/images/charms/charm-2.png',
-  '/images/charms/charm-3.png',
-  '/images/charms/charm-4.png',
-]
 
 export default function Hero() {
-  const headRef    = useRef<HTMLDivElement>(null)
-  const midRef     = useRef<HTMLDivElement>(null)
-  const subRef     = useRef<HTMLDivElement>(null)
+  const headRef     = useRef<HTMLDivElement>(null)
+  const midRef      = useRef<HTMLDivElement>(null)
+  const subRef      = useRef<HTMLDivElement>(null)
   const charmRef    = useRef<HTMLDivElement>(null)
-  const hideTimer   = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const floatTween  = useRef<gsap.core.Tween | null>(null)
+  const hideTween   = useRef<gsap.core.Tween | null>(null)
   const isShowing   = useRef(false)
   const inCooldown  = useRef(false)
   const charmIdxRef = useRef(0)
@@ -44,49 +51,83 @@ export default function Hero() {
       .fromTo(subRef.current,   { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.4')
   }, [])
 
+  function killActive() {
+    floatTween.current?.kill()
+    hideTween.current?.kill()
+    floatTween.current = null
+    hideTween.current  = null
+  }
+
+  function startFloat(el: HTMLDivElement) {
+    floatTween.current = gsap.to(el, {
+      y:        '+=14',
+      rotation: '+=4',
+      duration: 1.8,
+      ease:     'sine.inOut',
+      yoyo:     true,
+      repeat:   -1,
+    })
+  }
+
+  function hideCharm(el: HTMLDivElement) {
+    killActive()
+    hideTween.current = gsap.to(el, {
+      y:        '+=30',
+      opacity:  0,
+      rotation: '-=12',
+      duration: 0.35,
+      ease:     'power2.in',
+      onComplete: () => {
+        isShowing.current   = false
+        inCooldown.current  = true
+        setTimeout(() => { inCooldown.current = false }, 200)
+      },
+    })
+  }
+
   function onMouseLeave() {
-    if (!charmRef.current) return
-    charmRef.current.style.opacity = '0'
-    isShowing.current = false
-    if (hideTimer.current) { clearTimeout(hideTimer.current); hideTimer.current = null }
+    if (!charmRef.current || !isShowing.current) return
+    hideCharm(charmRef.current)
   }
 
   function onMouseMove(e: React.MouseEvent<HTMLElement>) {
     if (!charmRef.current) return
-
-    // Only show if not visible and not in cooldown
     if (isShowing.current || inCooldown.current) return
 
-    // Freeze position at cursor — only set once when charm is about to appear
     const rect = e.currentTarget.getBoundingClientRect()
-    charmRef.current.style.left = `${e.clientX - rect.left}px`
-    charmRef.current.style.top  = `${e.clientY - rect.top}px`
-    isShowing.current = true
+    const el   = charmRef.current
 
-    // Advance to next charm
+    // Snap position before animating in
+    gsap.set(el, {
+      left:     e.clientX - rect.left,
+      top:      e.clientY - rect.top,
+      y:        -60,
+      opacity:  0,
+      rotation: -18,
+      scale:    0.82,
+    })
+
+    // Advance icon
     const next = (charmIdxRef.current + 1) % CHARMS.length
     charmIdxRef.current = next
     setCharmIdx(next)
+    isShowing.current = true
 
-    // Trigger drop animation
-    charmRef.current.style.animation = 'none'
-    void charmRef.current.offsetHeight
-    charmRef.current.style.animation = 'charmDrop 0.75s cubic-bezier(0.34,1.56,0.64,1) forwards'
-    charmRef.current.style.opacity = '1'
+    killActive()
 
-    // Auto-hide after 1.6s, then cooldown 1s before next can appear
-    if (hideTimer.current) clearTimeout(hideTimer.current)
-    hideTimer.current = setTimeout(() => {
-      if (charmRef.current) {
-        charmRef.current.style.animation = 'charmExit 0.3s ease forwards'
-        setTimeout(() => {
-          if (charmRef.current) charmRef.current.style.opacity = '0'
-          isShowing.current = false
-          inCooldown.current = true
-          setTimeout(() => { inCooldown.current = false }, 300)
-        }, 300)
-      }
-    }, 900)
+    // Entry: drop in with elastic overshoot + gentle rotation settle
+    gsap.to(el, {
+      y:        0,
+      opacity:  1,
+      rotation: 0,
+      scale:    1,
+      duration: 0.72,
+      ease:     'back.out(1.6)',
+      onComplete: () => startFloat(el),
+    })
+
+    // Auto-hide after 1.4s of visibility
+    hideTween.current = gsap.delayedCall(1.4, () => hideCharm(el))
   }
 
   return (
@@ -108,21 +149,21 @@ export default function Hero() {
     >
       {/* ── Key charm — follows mouse cursor ── */}
       <div ref={charmRef} style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        transform: 'translate(-50%, -60%)',
-        zIndex: 10,
+        position:      'absolute',
+        top:           0,
+        left:          0,
+        transform:     'translate(-50%, -50%)',
+        zIndex:        10,
         pointerEvents: 'none',
-        opacity: 0,
-        transition: 'opacity 0.3s ease',
+        opacity:       0,
+        willChange:    'transform, opacity',
       }}>
         <Image
           src={CHARMS[charmIdx]}
           alt="charm"
-          width={280}
-          height={280}
-          style={{ objectFit: 'contain', filter: 'drop-shadow(0 24px 48px rgba(0,0,0,0.18))' }}
+          width={380}
+          height={380}
+          style={{ objectFit: 'contain', filter: 'drop-shadow(0 32px 56px rgba(0,0,0,0.22))' }}
           priority
         />
       </div>
@@ -144,13 +185,14 @@ export default function Hero() {
       >
         <h1 style={{
           fontFamily: "'Youth', Arial, sans-serif",
-          fontSize: 'clamp(34px, 5.8vw, 92px)',
+          fontSize: 'clamp(44px, 7.8vw, 128px)',
           fontWeight: 900,
-          WebkitTextStroke: '0.5px currentColor',
-          lineHeight: 0.93,
+          WebkitTextStroke: '1.5px currentColor',
+          lineHeight: 0.95,
           letterSpacing: '-0.03em',
           color: 'var(--fg)',
           margin: 0,
+          maxWidth: 'min(88vw, 1100px)',
         }}>
           The creative{' '}
           {/* Orange badge — matches Brand Apart's © badge */}
@@ -171,9 +213,9 @@ export default function Hero() {
               <text x="50%" y="72%" textAnchor="middle" fill="white" fontSize="22" fontWeight="800" fontFamily="system-ui">✦</text>
             </svg>
           </span>
-          {' '}partner
           <br />
-          for high-impact brands.
+          partner for<br />
+          high-impact brands.
         </h1>
 
         {/* ── Scrolling logo marquee — constrained box, centered ── */}

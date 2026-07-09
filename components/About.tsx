@@ -60,7 +60,7 @@ export default function About() {
             FilmFX Studio is a full-service creative agency specializing in video editing, graphic design, social media marketing, and digital growth. We work with brands, creators, and businesses to transform raw ideas into polished, high-impact content.
           </p>
           <p style={{ fontSize: '15px', color: 'var(--fg-muted)', lineHeight: 1.8, marginBottom: '40px' }}>
-            From cinematic edits and wedding films to AI videos and brand campaigns — every frame we touch is crafted to capture attention, tell a story, and drive real results.
+            From cinematic edits and wedding films to AI videos and brand campaigns, every frame we touch is crafted to capture attention, tell a story, and drive real results.
           </p>
           <a href="#contact" className="pill-btn" style={{ textDecoration: 'none' }}>
             Work with us

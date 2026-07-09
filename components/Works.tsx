@@ -57,10 +57,10 @@ function ProjectTile({ project }: { project: typeof PROJECTS[number] }) {
       className="work-tile"
       style={{
         position: 'relative',
-        borderRadius: '16px',
+        borderRadius: '20px',
         overflow: 'hidden',
         background: '#001941',
-        aspectRatio: project.full ? '16/7' : '4/3',
+        aspectRatio: project.full ? '16/6' : '16/11',
         cursor: 'none',
       }}
     >
@@ -73,7 +73,7 @@ function ProjectTile({ project }: { project: typeof PROJECTS[number] }) {
         sizes="(max-width: 768px) 100vw, 65vw"
       />
 
-      {/* Normal badge — top left, fades out on hover */}
+      {/* Normal badge, top left, fades out on hover */}
       <div
         className="work-tile-badge"
         style={{
@@ -100,7 +100,7 @@ function ProjectTile({ project }: { project: typeof PROJECTS[number] }) {
         </div>
       </div>
 
-      {/* Hover bar — slides down from top */}
+      {/* Hover bar, slides down from top */}
       <div
         className="work-tile-overlay"
         style={{
@@ -173,15 +173,15 @@ export default function Works() {
   }, [])
 
   return (
-    <section id="works" style={{ background: 'var(--bg)', padding: '0 0 120px' }}>
+    <section id="works" style={{ background: 'var(--bg)', padding: '0 0 80px' }}>
 
-      {/* ── Big centered heading ── */}
+      {/* Big centered heading */}
       <div style={{ textAlign: 'center', padding: '120px clamp(24px, 4vw, 60px) 0' }}>
         <div
           ref={line1Ref}
           style={{
             fontFamily: "'Youth', Arial, sans-serif",
-            fontSize: 'clamp(56px, 10vw, 160px)',
+            fontSize: 'clamp(40px, 6.5vw, 100px)',
             fontWeight: 900,
             letterSpacing: '-0.04em',
             lineHeight: 0.9,
@@ -194,7 +194,7 @@ export default function Works() {
           ref={line2Ref}
           style={{
             fontFamily: "'Youth', Arial, sans-serif",
-            fontSize: 'clamp(56px, 10vw, 160px)',
+            fontSize: 'clamp(40px, 6.5vw, 100px)',
             fontWeight: 900,
             letterSpacing: '-0.04em',
             lineHeight: 0.95,
@@ -222,26 +222,26 @@ export default function Works() {
         </p>
       </div>
 
-      {/* ── Project grid ── */}
+      {/* Project grid */}
       <div
         ref={gridRef}
         style={{
           padding: '0 clamp(24px, 4vw, 60px)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '14px',
+          gap: '20px',
         }}
       >
-        {/* Row 1 — full width: Video Editing */}
+        {/* Row 1, full width: Video Editing */}
         <ProjectTile project={PROJECTS[0]} />
 
-        {/* Row 2 — two equal tiles: Business Dev + Graphic Design */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+        {/* Row 2, two equal tiles: Business Dev + Graphic Design */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
           <ProjectTile project={PROJECTS[1]} />
           <ProjectTile project={PROJECTS[2]} />
         </div>
 
-        {/* Row 3 — full width: Social Media */}
+        {/* Row 3, full width: Social Media */}
         <ProjectTile project={PROJECTS[3]} />
       </div>
 

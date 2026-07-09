@@ -111,8 +111,8 @@ const NAV_ITEMS = [
   },
 ]
 
-const BASE_SIZE = 44
-const MAX_SIZE  = 72
+const BASE_SIZE = 48
+const MAX_SIZE  = 76
 const SPREAD    = 2.5   // icons within this distance get magnified
 
 function getSize(i: number, hovered: number | null): number {
@@ -174,7 +174,10 @@ export default function Navigation() {
   const [portSubItem,   setPortSubItem]   = useState<string | null>(null)
   const [hoveredImg,    setHoveredImg]    = useState(0)
   const [mobileOpen,    setMobileOpen]    = useState<Record<string,boolean>>({})
-  const [hoveredDock,   setHoveredDock]   = useState<number | null>(null)
+  const [hoveredDock,      setHoveredDock]      = useState<number | null>(null)
+  const [intersectionDark, setIntersectionDark] = useState(false)
+  const [zoomDark,         setZoomDark]         = useState(false)
+  const navDark = intersectionDark || zoomDark
   const dropTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const subTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -182,6 +185,36 @@ export default function Navigation() {
     const onResize = () => { if (window.innerWidth > 768) setMenuOpen(false) }
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
+  }, [])
+
+  // Watch dark sections via IntersectionObserver (e.g. MoreWork)
+  // rootMargin shrinks the effective viewport so the section must be well inside view
+  useEffect(() => {
+    const intersecting = new Set<Element>()
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) intersecting.add(e.target)
+          else intersecting.delete(e.target)
+        })
+        setIntersectionDark(intersecting.size > 0)
+      },
+      { threshold: 0.45, rootMargin: '-15% 0px' }
+    )
+    document.querySelectorAll('[data-nav-dark]').forEach(el => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
+
+  // Watch ZoomReveal dark progress via custom events (GSAP onUpdate)
+  useEffect(() => {
+    const onDark  = () => setZoomDark(true)
+    const onLight = () => setZoomDark(false)
+    window.addEventListener('navtheme:dark',  onDark)
+    window.addEventListener('navtheme:light', onLight)
+    return () => {
+      window.removeEventListener('navtheme:dark',  onDark)
+      window.removeEventListener('navtheme:light', onLight)
+    }
   }, [])
 
   useEffect(() => {
@@ -241,7 +274,7 @@ export default function Navigation() {
       </div>
 
       {/* ── Dock ── */}
-      <nav className="dock-nav" onMouseLeave={() => { closeDrop(); setHoveredDock(null) }}>
+      <nav className={`dock-nav${navDark ? ' dock-dark' : ''}`} onMouseLeave={() => { closeDrop(); setHoveredDock(null) }}>
         {NAV_ITEMS.map((item, i) => {
           const size     = getSize(i, hoveredDock)
           const isActive = active === i
@@ -264,17 +297,25 @@ export default function Navigation() {
                   width: `${size}px`, height: `${size}px`,
                   borderRadius: `${Math.round(size * 0.26)}px`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: isActive ? 'var(--bg-card)' : 'rgba(0,25,65,0.04)',
-                  border: `1px solid ${isActive ? 'rgba(0,25,65,0.18)' : 'rgba(0,25,65,0.08)'}`,
-                  boxShadow: isActive ? '0 4px 16px rgba(0,25,65,0.12)' : '0 2px 8px rgba(0,25,65,0.06)',
-                  color: isActive ? 'var(--fg)' : 'rgba(0,25,65,0.45)',
+                  background: navDark
+                    ? (isActive ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.08)')
+                    : (isActive ? 'var(--bg-card)' : 'rgba(0,25,65,0.04)'),
+                  border: navDark
+                    ? `1px solid ${isActive ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.14)'}`
+                    : `1px solid ${isActive ? 'rgba(0,25,65,0.18)' : 'rgba(0,25,65,0.08)'}`,
+                  boxShadow: navDark ? '0 2px 12px rgba(0,0,0,0.3)' : (isActive ? '0 4px 16px rgba(0,25,65,0.12)' : '0 2px 8px rgba(0,25,65,0.06)'),
+                  color: navDark ? 'rgba(255,255,255,0.85)' : (isActive ? 'var(--fg)' : 'rgba(0,25,65,0.45)'),
                   textDecoration: 'none', cursor: 'none', flexShrink: 0,
-                  transition: 'width 0.2s cubic-bezier(0.34,1.4,0.64,1), height 0.2s cubic-bezier(0.34,1.4,0.64,1), border-radius 0.2s, box-shadow 0.2s, color 0.2s, background 0.2s, border-color 0.2s',
+                  transition: 'width 0.2s cubic-bezier(0.34,1.4,0.64,1), height 0.2s cubic-bezier(0.34,1.4,0.64,1), border-radius 0.2s, box-shadow 0.3s, color 0.35s ease, background 0.35s ease, border-color 0.35s ease',
                 }}
                 onMouseEnter={e => {
                   setHoveredDock(i)
                   const el = e.currentTarget as HTMLElement
-                  if (!isActive) {
+                  if (navDark) {
+                    el.style.background = 'rgba(255,255,255,0.22)'
+                    el.style.borderColor = 'rgba(255,255,255,0.35)'
+                    el.style.color = '#fff'
+                  } else if (!isActive) {
                     el.style.background = 'var(--bg-card)'
                     el.style.borderColor = 'rgba(0,25,65,0.22)'
                     el.style.color = 'var(--fg)'
@@ -283,7 +324,11 @@ export default function Navigation() {
                 }}
                 onMouseLeave={e => {
                   const el = e.currentTarget as HTMLElement
-                  if (!isActive) {
+                  if (navDark) {
+                    el.style.background = isActive ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.08)'
+                    el.style.borderColor = isActive ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.14)'
+                    el.style.color = 'rgba(255,255,255,0.85)'
+                  } else if (!isActive) {
                     el.style.background = 'rgba(0,25,65,0.04)'
                     el.style.borderColor = 'rgba(0,25,65,0.08)'
                     el.style.color = 'rgba(0,25,65,0.45)'
@@ -291,7 +336,13 @@ export default function Navigation() {
                   }
                 }}
               >
-                {item.icon}
+                <div style={{
+                  display: 'flex',
+                  transform: `scale(${size / BASE_SIZE})`,
+                  transition: 'transform 0.2s cubic-bezier(0.34,1.4,0.64,1)',
+                }}>
+                  {item.icon}
+                </div>
               </a>
 
               {/* ── Services dropdown ── */}
@@ -512,7 +563,7 @@ export default function Navigation() {
           onClick={() => setMenuOpen(false)}
           style={{
             position: 'fixed', inset: 0, zIndex: 197,
-            background: 'rgba(0,0,0,0.25)',
+            background: 'rgba(0,25,65,0.25)',
             backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
             animation: 'fadeIn 0.2s ease',
           }}

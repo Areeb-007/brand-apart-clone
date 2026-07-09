@@ -6,8 +6,8 @@ import MoreWork from '@/components/MoreWork'
 import Services from '@/components/Services'
 import About from '@/components/About'
 import Testimonials from '@/components/Testimonials'
+import Team from '@/components/Team'
 import CTA from '@/components/CTA'
-import Footer from '@/components/Footer'
 
 export default function Home() {
   return (
@@ -21,9 +21,9 @@ export default function Home() {
         <Services />
         <About />
         <Testimonials />
+        <Team />
         <CTA />
       </main>
-      <Footer />
     </>
   )
 }
