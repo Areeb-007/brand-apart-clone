@@ -30,7 +30,7 @@ function LiveClock() {
   return <>{time}</>
 }
 
-const CLIENT_LOGOS = ['Amplify', 'Forbes', 'TechHub', 'PMU', 'Sowbeez', 'Incard']
+const CLIENT_LOGOS = ['J.Thomas', 'Matt', 'Teo', 'Albert', 'Shahmir', 'Williem', 'Mike', 'Tareen Alam', 'Dmetrey', 'Kyle']
 
 export default function Hero() {
   const headRef     = useRef<HTMLDivElement>(null)
@@ -97,7 +97,6 @@ export default function Hero() {
     const rect = e.currentTarget.getBoundingClientRect()
     const el   = charmRef.current
 
-    // Snap position before animating in
     gsap.set(el, {
       left:     e.clientX - rect.left,
       top:      e.clientY - rect.top,
@@ -107,7 +106,6 @@ export default function Hero() {
       scale:    0.82,
     })
 
-    // Advance icon
     const next = (charmIdxRef.current + 1) % CHARMS.length
     charmIdxRef.current = next
     setCharmIdx(next)
@@ -115,7 +113,6 @@ export default function Hero() {
 
     killActive()
 
-    // Entry: drop in with elastic overshoot + gentle rotation settle
     gsap.to(el, {
       y:        0,
       opacity:  1,
@@ -126,7 +123,6 @@ export default function Hero() {
       onComplete: () => startFloat(el),
     })
 
-    // Auto-hide after 1.4s of visibility
     hideTween.current = gsap.delayedCall(1.4, () => hideCharm(el))
   }
 

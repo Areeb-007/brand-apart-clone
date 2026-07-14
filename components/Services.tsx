@@ -30,7 +30,7 @@ const services = [
   },
   {
     slug: 'smm', num: '03',
-    heading: 'We don\'t chase trends —\nwe create them.',
+    heading: 'We don\'t chase trends,\nwe create them.',
     tagline: 'Social Media Marketing',
     description: 'Smart strategies and campaigns that make people stop scrolling and start engaging, building brand presence that turns audiences into loyal followers.',
     client: 'J. THOMAS', clientRole: 'Head of Growth',
@@ -45,7 +45,7 @@ const services = [
     description: 'Targeting the right audience, delivering the right message, and turning interest into action, helping your business grow faster, smarter, and stronger.',
     client: 'KEVIN', clientRole: 'CEO, Growth Agency',
     clientQuote: 'FilmFX Studio boosted our leads quickly with smart marketing. Real growth, not just promises.',
-    bg: '#12271A',
+    bg: '#2563EB',
     carousel: ['/images/portfolio/sm-1.jpg','/images/portfolio/sm-2.jpg','/images/portfolio/sm-3.jpg','/images/portfolio/sm-4.jpg'],
   },
   {
@@ -55,7 +55,7 @@ const services = [
     description: 'Your digital storefront, made unforgettable. Clean UI, smooth UX, speed optimisation and responsiveness: sites that turn visitors into customers.',
     client: 'JASMINE', clientRole: 'Founder, E-commerce Brand',
     clientQuote: 'FilmFX Studio built a site that helped us secure key partnerships. Truly outstanding work.',
-    bg: '#1E3A5F',
+    bg: '#7C3AED',
     carousel: ['/images/portfolio/wd-1.jpg','/images/portfolio/wd-2.jpg','/images/portfolio/wd-3.jpg','/images/portfolio/wd-4.jpg'],
   },
   {
@@ -65,7 +65,7 @@ const services = [
     description: 'Get the right talent exactly when you need it. Flexible team expansion, no stress of traditional hiring, your business keeps moving forward.',
     client: 'ALBERT', clientRole: 'Operations Director',
     clientQuote: 'FilmFX Studio helped us scale fast with the right talent, meet deadlines, and maintain quality.',
-    bg: '#1A3D28',
+    bg: '#DB2777',
     carousel: ['/images/portfolio/work-1.png','/images/portfolio/work-2.png','/images/portfolio/work-3.png','/images/portfolio/work-4.png'],
   },
 ]

@@ -264,7 +264,16 @@ export default function Navigation() {
 
   return (
     <>
-      <Link href="/" className="nav-logo-badge">FX</Link>
+      <Link href="/" className="nav-logo-badge" style={{ padding: 0, overflow: 'hidden' }}>
+        <Image
+          src="/images/logo.webp"
+          alt="FilmFX Studio"
+          width={54}
+          height={54}
+          style={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }}
+          priority
+        />
+      </Link>
 
       <div className="nav-brand-name">
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', letterSpacing: '-0.02em', lineHeight: 1.1, color: 'var(--fg)' }}>
@@ -528,8 +537,14 @@ export default function Navigation() {
 
       {/* ── Mobile top bar ── */}
       <header className="mobile-topbar">
-        <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--fg)', textDecoration: 'none' }}>
-          Film<span style={{ color: 'var(--accent)' }}>FX</span>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <Image
+            src="/images/logo.webp"
+            alt="FilmFX Studio"
+            width={40}
+            height={40}
+            style={{ borderRadius: '50%', display: 'block' }}
+          />
         </Link>
 
         {/* Hamburger / close button — dark rounded square like Brand Apart */}

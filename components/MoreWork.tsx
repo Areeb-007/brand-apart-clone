@@ -149,7 +149,7 @@ export default function MoreWork() {
           fontSize: '14px', color: 'rgba(255,255,255,0.48)', lineHeight: 1.7,
           marginTop: '14px', marginBottom: '26px', maxWidth: '320px',
         }}>
-          From weddings to corporate films — every frame crafted with purpose.
+          From weddings to corporate films, every frame crafted with purpose.
         </p>
 
         <a

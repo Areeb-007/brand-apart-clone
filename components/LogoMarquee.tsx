@@ -1,16 +1,16 @@
 'use client'
 
 const items = [
-  'Video Editing',
-  'Graphic Design',
-  'Social Media Marketing',
-  'Sales & Marketing',
-  'Staff Augmentation',
-  'Website Development',
-  'Motion Graphics',
-  'Wedding Films',
-  'AI Videos',
-  'Brand Content',
+  'J.Thomas',
+  'Matt',
+  'Teo',
+  'Albert',
+  'Shahmir',
+  'Williem',
+  'Mike',
+  'Tareen Alam',
+  'Dmetrey',
+  'Kyle',
 ]
 
 export default function LogoMarquee() {

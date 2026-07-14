@@ -8,10 +8,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const SOCIALS = [
-  { label: 'IG',  href: '#' },
-  { label: 'YT',  href: '#' },
-  { label: 'LK',  href: '#' },
-  { label: 'BE',  href: '#' },
+  { label: 'Instagram', icon: '/images/social/instagram.jpg', href: '#' },
+  { label: 'YouTube',   icon: '/images/social/youtube.jpg',   href: '#' },
+  { label: 'LinkedIn',  icon: '/images/social/linkedin.jpg',  href: '#' },
+  { label: 'Behance',   icon: '/images/social/behance.jpg',   href: '#' },
 ]
 
 const CHARMS = [
@@ -72,24 +72,29 @@ export default function CTA() {
       )
     }
 
-    // Space bounce across the full section — dynamic bounds from actual element sizes
+    // Space bounce — native rAF for zero-overhead per-frame updates
     const charm = charmRef.current
+    let rafId = 0
+
     if (charm) {
-      const cW  = charm.offsetWidth  || 240
-      const cH  = charm.offsetHeight || 240
-      const sW  = section.offsetWidth
-      const sH  = section.offsetHeight
-      const BX  = sW / 2 - cW / 2 - 16
-      const BY  = sH / 2 - cH / 2 - 16
+      const cW = charm.offsetWidth  || 220
+      const cH = charm.offsetHeight || 220
+      const sW = section.offsetWidth
+      const sH = section.offsetHeight
+      const BX = sW / 2 - cW / 2 - 16
+      const BY = sH / 2 - cH / 2 - 16
 
-      // Start toward the right side
-      const bounce = { x: BX * 0.55, y: -BY * 0.3, vx: -88, vy: 66, rot: 0, rotV: 18 }
+      const bounce = { x: BX * 0.55, y: -BY * 0.3, vx: -220, vy: 165, rot: 0, rotV: 45 }
 
-      // Centre the charm in the section via GSAP (position: absolute, top/left 50%)
-      gsap.set(charm, { xPercent: -50, yPercent: -50, x: bounce.x, y: bounce.y })
+      // Prime transform so first paint is correct (no GSAP set — direct style)
+      charm.style.transform = `translate(calc(-50% + ${bounce.x}px), calc(-50% + ${bounce.y}px)) rotate(${bounce.rot}deg)`
 
-      const tick = (_time: number, deltaTime: number) => {
-        const dt = Math.min(deltaTime / 1000, 0.05)
+      let prev = performance.now()
+
+      const loop = (now: number) => {
+        const dt = Math.min((now - prev) / 1000, 0.05)
+        prev = now
+
         bounce.x   += bounce.vx  * dt
         bounce.y   += bounce.vy  * dt
         bounce.rot += bounce.rotV * dt
@@ -111,18 +116,19 @@ export default function CTA() {
           charmImgRef.current.src = CHARMS[charmIdxRef.current]
         }
 
-        gsap.set(charm, { x: bounce.x, y: bounce.y, rotation: bounce.rot })
+        // Direct style write — fastest possible path, no GSAP overhead
+        charm.style.transform = `translate(calc(-50% + ${bounce.x}px), calc(-50% + ${bounce.y}px)) rotate(${bounce.rot}deg)`
+
+        rafId = requestAnimationFrame(loop)
       }
 
-      gsap.ticker.add(tick)
-
-      return () => {
-        gsap.ticker.remove(tick)
-        ScrollTrigger.getAll().forEach(t => t.kill())
-      }
+      rafId = requestAnimationFrame(loop)
     }
 
-    return () => ScrollTrigger.getAll().forEach(t => t.kill())
+    return () => {
+      cancelAnimationFrame(rafId)
+      ScrollTrigger.getAll().forEach(t => t.kill())
+    }
   }, [])
 
   return (
@@ -151,37 +157,46 @@ export default function CTA() {
 
       {/* Social pill links */}
       <div style={{
-        display: 'flex', gap: '8px', marginBottom: 'clamp(48px, 7vw, 96px)',
+        display: 'flex', gap: '10px', marginBottom: 'clamp(48px, 7vw, 96px)',
         position: 'relative', zIndex: 2,
       }}>
         {SOCIALS.map((s) => (
           <a
             key={s.label}
             href={s.href}
+            aria-label={s.label}
             style={{
-              padding: '8px 18px',
+              width: '44px',
+              height: '44px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               border: '1px solid rgba(255,255,255,0.18)',
-              borderRadius: '6px',
-              fontSize: '13px',
-              fontWeight: 600,
-              letterSpacing: '0.06em',
-              color: 'rgba(255,255,255,0.55)',
+              borderRadius: '10px',
               textDecoration: 'none',
               cursor: 'none',
-              transition: 'border-color 0.2s, color 0.2s',
+              overflow: 'hidden',
+              transition: 'border-color 0.2s, transform 0.2s',
+              background: 'rgba(255,255,255,0.06)',
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLElement
-              el.style.borderColor = 'rgba(231,124,36,0.6)'
-              el.style.color = '#e77c24'
+              el.style.borderColor = 'rgba(231,124,36,0.7)'
+              el.style.transform = 'scale(1.1)'
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement
               el.style.borderColor = 'rgba(255,255,255,0.18)'
-              el.style.color = 'rgba(255,255,255,0.55)'
+              el.style.transform = 'scale(1)'
             }}
           >
-            {s.label}
+            <Image
+              src={s.icon}
+              alt={s.label}
+              width={26}
+              height={26}
+              style={{ objectFit: 'contain', mixBlendMode: 'screen' }}
+            />
           </a>
         ))}
       </div>
@@ -198,7 +213,7 @@ export default function CTA() {
         }}
       >
         <div style={{
-          fontFamily:    'var(--font-nunito), Nunito, var(--font-display)',
+          fontFamily:    "var(--font-neue-montreal)",
           fontSize:      'clamp(52px, 8.5vw, 132px)',
           fontWeight:    900,
           letterSpacing: '-0.01em',
@@ -208,7 +223,7 @@ export default function CTA() {
           Make every
         </div>
         <div style={{
-          fontFamily:    'var(--font-nunito), Nunito, var(--font-display)',
+          fontFamily:    "var(--font-neue-montreal)",
           fontSize:      'clamp(52px, 8.5vw, 132px)',
           fontWeight:    900,
           letterSpacing: '-0.01em',
@@ -218,7 +233,7 @@ export default function CTA() {
           frame work for
         </div>
         <div style={{
-          fontFamily:    'var(--font-nunito), Nunito, var(--font-display)',
+          fontFamily:    "var(--font-neue-montreal)",
           fontSize:      'clamp(52px, 8.5vw, 132px)',
           fontWeight:    900,
           letterSpacing: '-0.01em',
@@ -318,12 +333,12 @@ export default function CTA() {
         {/* Overlapping client avatars */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
           {[
-            '/images/clients/boss-media.png',
-            '/images/clients/teo.png',
-            '/images/clients/matt.png',
-            '/images/clients/william.png',
-            '/images/clients/j-thomas.png',
-          ].map((src, i) => (
+            { src: '/images/clients/boss-media.png', pos: 'center 25%' },
+            { src: '/images/clients/teo.png',        pos: 'center center' },
+            { src: '/images/clients/matt.png',       pos: 'center 28%' },
+            { src: '/images/clients/william.png',    pos: 'center 22%' },
+            { src: '/images/clients/j-thomas.png',   pos: 'center 28%' },
+          ].map(({ src, pos }, i) => (
             <div key={i} style={{
               width:        '38px',
               height:       '38px',
@@ -336,7 +351,7 @@ export default function CTA() {
               flexShrink:   0,
               background:   '#333',
             }}>
-              <Image src={src} alt="" fill style={{ objectFit: 'cover', objectPosition: 'top center' }} sizes="38px" />
+              <Image src={src} alt="" fill style={{ objectFit: 'cover', objectPosition: pos }} sizes="38px" />
             </div>
           ))}
         </div>

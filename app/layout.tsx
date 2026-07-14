@@ -24,7 +24,7 @@ const nunito = Nunito({
 })
 
 export const metadata: Metadata = {
-  title: 'FilmFX Studio — Your Creative Partner for High-Impact Videos',
+  title: 'FilmFX Studio: Your Creative Partner for High-Impact Videos',
   description:
     'We help brands, creators, and businesses transform raw footage into polished videos, social media content, promos, wedding films, AI videos, and cinematic edits that capture attention and drive engagement.',
 }
