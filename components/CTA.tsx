@@ -344,7 +344,7 @@ export default function CTA() {
               height:       '38px',
               borderRadius: '50%',
               overflow:     'hidden',
-              border:       '2.5px solid #1a1a1a',
+              border:       'none',
               marginLeft:   i > 0 ? '-10px' : 0,
               position:     'relative',
               zIndex:       5 - i,

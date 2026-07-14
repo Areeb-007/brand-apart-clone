@@ -8,14 +8,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const ITEMS = [
-  { id: 1, src: '/images/portfolio/work-1.png', label: 'Social Media Reel' },
-  { id: 2, src: '/images/portfolio/work-2.png', label: 'Brand Promo' },
-  { id: 3, src: '/images/portfolio/work-3.png', label: 'Cinematic Edit' },
-  { id: 4, src: '/images/portfolio/work-4.png', label: 'Product Showcase' },
-  { id: 5, src: '/images/portfolio/work-5.png', label: 'Motion Graphics' },
-  { id: 6, src: '/images/portfolio/work-6.png', label: 'Brand Content' },
-  { id: 7, src: '/images/video-editing/1.jpg',  label: 'Wedding Film' },
-  { id: 8, src: '/images/video-editing/2.jpg',  label: 'Corporate Video' },
+  { id: 1, src: '/images/portfolio/smw-1.jpg', label: 'Website Development' },
+  { id: 2, src: '/images/portfolio/smw-2.jpg', label: 'Social Media' },
+  { id: 3, src: '/images/portfolio/smw-3.jpg', label: 'Typography Design' },
+  { id: 4, src: '/images/portfolio/smw-4.jpg', label: 'Social Media Marketing' },
+  { id: 5, src: '/images/portfolio/smw-5.jpg', label: 'Podcast Clips' },
+  { id: 6, src: '/images/portfolio/smw-6.jpg', label: 'UGC Ads' },
+  { id: 7, src: '/images/portfolio/smw-7.jpg', label: 'Automobile Edits' },
+  { id: 8, src: '/images/portfolio/smw-8.jpg', label: 'Brand Content' },
 ]
 
 const CARD   = 190
