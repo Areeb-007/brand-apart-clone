@@ -210,7 +210,7 @@ export default function Services() {
               }}
             >
               {/* Top row: tagline + number */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'clamp(10px,1.5vh,20px)' }}>
                 <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>
                   {svc.tagline}
                 </span>
@@ -222,7 +222,7 @@ export default function Services() {
               {/* Heading */}
               <h3 style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(26px,3.6vw,54px)',
+                fontSize: 'clamp(22px,3.2vw,54px)',
                 fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05,
                 color: '#fff', whiteSpace: 'pre-line', maxWidth: '600px',
                 margin: 0,
@@ -231,27 +231,28 @@ export default function Services() {
               </h3>
 
               {/* Description */}
-              <p style={{ fontSize: 'clamp(12px,1.15vw,15px)', color: 'rgba(255,255,255,0.58)', lineHeight: 1.75, maxWidth: '480px', marginTop: '14px', marginBottom: 0 }}>
+              <p style={{ fontSize: 'clamp(11px,1.1vw,14px)', color: 'rgba(255,255,255,0.58)', lineHeight: 1.6, maxWidth: '480px', marginTop: 'clamp(8px,1vh,14px)', marginBottom: 0 }}>
                 {svc.description}
               </p>
 
               {/* Bottom: testimonial + carousel + CTA */}
-              <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: '0.8fr 2fr', gap: '20px', alignItems: 'end' }}>
+              <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: 'minmax(180px,1fr) minmax(0,2.2fr)', gap: 'clamp(12px,1.8vw,24px)', alignItems: 'end', paddingTop: 'clamp(12px,2vh,24px)' }}>
 
                 {/* Testimonial */}
-                <div style={{ background: 'rgba(0,25,65,0.35)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: '16px 18px' }}>
-                  <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.72)', lineHeight: 1.65, fontStyle: 'italic', marginBottom: '12px' }}>
+                <div style={{ background: 'rgba(0,25,65,0.35)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: 'clamp(12px,1.4vw,20px)' }}>
+                  <p style={{ fontSize: 'clamp(11px,1vw,13px)', color: 'rgba(255,255,255,0.72)', lineHeight: 1.6, fontStyle: 'italic', marginBottom: '12px',
+                    display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     &ldquo;{svc.clientQuote}&rdquo;
                   </p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 700, color: '#fff', flexShrink: 0 }}>
                       {svc.client[0]}
                     </div>
-                    <div>
-                      <div style={{ fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.05em' }}>{svc.client}</div>
-                      <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginTop: '1px' }}>{svc.clientRole}</div>
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.05em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{svc.client}</div>
+                      <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginTop: '1px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{svc.clientRole}</div>
                     </div>
-                    <div style={{ marginLeft: 'auto', display: 'flex', gap: '1px' }}>
+                    <div style={{ marginLeft: 'auto', display: 'flex', gap: '1px', flexShrink: 0 }}>
                       {[...Array(5)].map((_,j) => <span key={j} style={{ color: '#FBBF24', fontSize: '10px' }}>★</span>)}
                     </div>
                   </div>
@@ -259,16 +260,16 @@ export default function Services() {
 
                 {/* Carousel + CTA */}
                 <div>
-                  <div style={{ display: 'flex', gap: '8px', marginBottom: '14px' }}>
+                  <div style={{ display: 'flex', gap: 'clamp(6px,0.7vw,10px)', marginBottom: '12px' }}>
                     {svc.carousel.map((src, j) => (
-                      <div key={j} style={{ flex: '1 1 0', minWidth: 0, height: 'clamp(70px,9vw,120px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
-                        <Image src={src} alt="" fill style={{ objectFit: 'cover' }} sizes="155px" />
+                      <div key={j} style={{ flex: '1 1 0', minWidth: 0, height: 'clamp(90px,13vh,160px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <Image src={src} alt="" fill style={{ objectFit: 'cover' }} sizes="200px" />
                       </div>
                     ))}
                   </div>
                   <a href="#contact" style={{
                     display: 'inline-flex', alignItems: 'center', gap: '8px',
-                    padding: '10px 20px',
+                    padding: '10px 22px',
                     background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)',
                     borderRadius: '100px', fontSize: '11px', fontWeight: 700,
                     letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff',

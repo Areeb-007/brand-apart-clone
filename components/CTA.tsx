@@ -8,10 +8,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const SOCIALS = [
-  { label: 'Instagram', icon: '/images/social/instagram.jpg', href: '#' },
-  { label: 'YouTube',   icon: '/images/social/youtube.jpg',   href: '#' },
-  { label: 'LinkedIn',  icon: '/images/social/linkedin.jpg',  href: '#' },
-  { label: 'Behance',   icon: '/images/social/behance.jpg',   href: '#' },
+  { label: 'Instagram', icon: '/images/social/instagram.png', href: '#' },
+  { label: 'TikTok',    icon: '/images/social/tiktok.png',    href: '#' },
+  { label: 'Facebook',  icon: '/images/social/facebook.png',  href: '#' },
+  { label: 'YouTube',   icon: '/images/social/youtube.png',   href: '#' },
+  { label: 'Pinterest', icon: '/images/social/pinterest.png', href: '#' },
+  { label: 'X',         icon: '/images/social/x.png',         href: '#' },
+  { label: 'Behance',   icon: '/images/social/behance.png',   href: '#' },
 ]
 
 const CHARMS = [
@@ -157,7 +160,7 @@ export default function CTA() {
 
       {/* Social pill links */}
       <div style={{
-        display: 'flex', gap: '10px', marginBottom: 'clamp(48px, 7vw, 96px)',
+        display: 'flex', gap: '6px', marginBottom: 'clamp(48px, 7vw, 96px)',
         position: 'relative', zIndex: 2,
       }}>
         {SOCIALS.map((s) => (
@@ -166,36 +169,25 @@ export default function CTA() {
             href={s.href}
             aria-label={s.label}
             style={{
-              width: '44px',
-              height: '44px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: '1px solid rgba(255,255,255,0.18)',
-              borderRadius: '10px',
+              width: '54px',
+              height: '54px',
+              borderRadius: '12px',
               textDecoration: 'none',
               cursor: 'none',
               overflow: 'hidden',
-              transition: 'border-color 0.2s, transform 0.2s',
-              background: 'rgba(255,255,255,0.06)',
+              display: 'block',
+              transition: 'transform 0.2s',
+              flexShrink: 0,
             }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.borderColor = 'rgba(231,124,36,0.7)'
-              el.style.transform = 'scale(1.1)'
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.borderColor = 'rgba(255,255,255,0.18)'
-              el.style.transform = 'scale(1)'
-            }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.12)' }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)' }}
           >
             <Image
               src={s.icon}
               alt={s.label}
-              width={26}
-              height={26}
-              style={{ objectFit: 'contain', mixBlendMode: 'screen' }}
+              width={54}
+              height={54}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
           </a>
         ))}
@@ -340,18 +332,28 @@ export default function CTA() {
             '/images/clients/avatar-5.png',
           ].map((src, i) => (
             <div key={i} style={{
-              width:        '38px',
-              height:       '38px',
+              width:        '68px',
+              height:       '68px',
               borderRadius: '50%',
               overflow:     'hidden',
-              border:       'none',
-              marginLeft:   i > 0 ? '-10px' : 0,
+              isolation:    'isolate',
               position:     'relative',
+              marginLeft:   i > 0 ? '-32px' : 0,
               zIndex:       5 - i,
               flexShrink:   0,
-              background:   'transparent',
             }}>
-              <Image src={src} alt="" fill style={{ objectFit: 'cover', objectPosition: 'center center' }} sizes="38px" />
+              <Image
+                src={src}
+                alt=""
+                fill
+                style={{
+                  objectFit:       'cover',
+                  objectPosition:  'center center',
+                  transform:       'scale(1.7)',
+                  transformOrigin: 'center center',
+                }}
+                sizes="68px"
+              />
             </div>
           ))}
         </div>
