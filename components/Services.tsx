@@ -16,7 +16,7 @@ const services = [
     client: 'TEO', clientRole: 'Founder, Content Studio',
     clientQuote: 'FilmFX Studio delivered a cinematic, high-quality edit ahead of schedule. Truly impressive work.',
     bg: '#3B2FC9',
-    carousel: ['/images/portfolio/ve-1.jpg','/images/portfolio/ve-2.jpg','/images/portfolio/ve-3.jpg','/images/portfolio/ve-4.jpg'],
+    carousel: ['/images/portfolio/we-ve-1.jpg','/images/portfolio/we-ve-2.jpg','/images/portfolio/we-ve-3.jpg','/images/portfolio/we-ve-4.jpg'],
   },
   {
     slug: 'graphic-design', num: '02',
@@ -26,7 +26,7 @@ const services = [
     client: 'MATT', clientRole: 'Creative Director',
     clientQuote: 'FilmFX Studio created amazing custom designs that elevated our brand. Talented and creative team.',
     bg: '#C9302F',
-    carousel: ['/images/portfolio/gd-1.jpg','/images/portfolio/gd-2.jpg','/images/portfolio/gd-3.jpg','/images/portfolio/gd-4.jpg'],
+    carousel: ['/images/portfolio/we-gd-1.jpg','/images/portfolio/we-gd-2.jpg','/images/portfolio/we-gd-3.jpg','/images/portfolio/we-gd-4.jpg'],
   },
   {
     slug: 'smm', num: '03',
@@ -36,7 +36,7 @@ const services = [
     client: 'J. THOMAS', clientRole: 'Head of Growth',
     clientQuote: 'FilmFX Studio doubled our social media engagement in 2 months with smart, creative strategies.',
     bg: '#C96B14',
-    carousel: ['/images/portfolio/smm-1.jpg','/images/portfolio/smm-2.jpg','/images/portfolio/smm-3.jpg','/images/portfolio/smm-4.jpg'],
+    carousel: ['/images/portfolio/we-smm-1.jpg','/images/portfolio/we-smm-2.jpg','/images/portfolio/we-smm-3.jpg','/images/portfolio/we-smm-4.jpg'],
   },
   {
     slug: 'sales-marketing', num: '04',
@@ -46,7 +46,7 @@ const services = [
     client: 'KEVIN', clientRole: 'CEO, Growth Agency',
     clientQuote: 'FilmFX Studio boosted our leads quickly with smart marketing. Real growth, not just promises.',
     bg: '#2563EB',
-    carousel: ['/images/portfolio/sm-1.jpg','/images/portfolio/sm-2.jpg','/images/portfolio/sm-3.jpg','/images/portfolio/sm-4.jpg'],
+    carousel: ['/images/portfolio/we-bd-1.jpg','/images/portfolio/we-bd-2.jpg','/images/portfolio/we-bd-3.jpg','/images/portfolio/we-bd-4.jpg'],
   },
   {
     slug: 'website-development', num: '05',
@@ -66,7 +66,7 @@ const services = [
     client: 'ALBERT', clientRole: 'Operations Director',
     clientQuote: 'FilmFX Studio helped us scale fast with the right talent, meet deadlines, and maintain quality.',
     bg: '#DB2777',
-    carousel: ['/images/portfolio/work-1.png','/images/portfolio/work-2.png','/images/portfolio/work-3.png','/images/portfolio/work-4.png'],
+    carousel: ['/images/portfolio/we-sa-1.jpg','/images/portfolio/we-sa-2.jpg','/images/portfolio/we-sa-3.jpg','/images/portfolio/we-sa-4.jpg'],
   },
 ]
 

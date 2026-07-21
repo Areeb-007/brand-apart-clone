@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -33,103 +32,76 @@ function LiveClock() {
 const CLIENT_LOGOS = ['J.Thomas', 'Matt', 'Teo', 'Albert', 'Shahmir', 'Williem', 'Mike', 'Tareen Alam', 'Dmetrey', 'Kyle']
 
 export default function Hero() {
-  const headRef     = useRef<HTMLDivElement>(null)
-  const midRef      = useRef<HTMLDivElement>(null)
-  const subRef      = useRef<HTMLDivElement>(null)
-  const charmRef    = useRef<HTMLDivElement>(null)
-  const floatTween  = useRef<gsap.core.Tween | null>(null)
-  const hideTween   = useRef<gsap.core.Tween | null>(null)
-  const isShowing   = useRef(false)
-  const inCooldown  = useRef(false)
-  const charmIdxRef = useRef(0)
-  const [charmIdx, setCharmIdx] = useState(0)
+  const headRef      = useRef<HTMLDivElement>(null)
+  const midRef       = useRef<HTMLDivElement>(null)
+  const subRef       = useRef<HTMLDivElement>(null)
+  const sectionRef   = useRef<HTMLElement>(null)
+  const charmIdxRef  = useRef(0)
+  const lastShownAt  = useRef(0)
+  const activeTLs    = useRef<gsap.core.Timeline[]>([])
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.1 })
     tl.fromTo(headRef.current,  { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: 'power3.out' })
       .fromTo(midRef.current,   { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.5')
       .fromTo(subRef.current,   { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.4')
+
+    return () => { activeTLs.current.forEach(t => t.kill()) }
   }, [])
 
-  function killActive() {
-    floatTween.current?.kill()
-    hideTween.current?.kill()
-    floatTween.current = null
-    hideTween.current  = null
-  }
+  function spawnCharm(mx: number, my: number) {
+    const section = sectionRef.current
+    if (!section) return
 
-  function startFloat(el: HTMLDivElement) {
-    floatTween.current = gsap.to(el, {
-      y:        '+=14',
-      rotation: '+=4',
-      duration: 1.8,
-      ease:     'sine.inOut',
-      yoyo:     true,
-      repeat:   -1,
-    })
-  }
+    // Pick randomly, never repeating the last shown
+    let next = charmIdxRef.current
+    while (next === charmIdxRef.current) next = Math.floor(Math.random() * CHARMS.length)
+    charmIdxRef.current = next
 
-  function hideCharm(el: HTMLDivElement) {
-    killActive()
-    hideTween.current = gsap.to(el, {
-      y:        '+=30',
-      opacity:  0,
-      rotation: '-=12',
-      duration: 0.35,
-      ease:     'power2.in',
+    // Create an independent img element — no React re-render involved
+    const el = document.createElement('div')
+    el.style.cssText = 'position:absolute;top:0;left:0;pointer-events:none;z-index:10;will-change:transform,opacity;'
+    const img = document.createElement('img')
+    img.src = CHARMS[next]
+    img.alt = ''
+    img.style.cssText = 'width:clamp(140px,16vw,260px);height:auto;object-fit:contain;filter:drop-shadow(0 24px 48px rgba(0,0,0,0.22));display:block;'
+    el.appendChild(img)
+    section.appendChild(el)
+
+    const tilt   = (Math.random() - 0.5) * 20
+    const floatY = 10 + Math.random() * 8
+    const floatR = (Math.random() - 0.5) * 5
+
+    gsap.set(el, { x: mx, y: my - 55, xPercent: -50, yPercent: -50,
+                   opacity: 0, rotation: tilt - 12, scale: 0.8 })
+
+    const timeline = gsap.timeline({
       onComplete: () => {
-        isShowing.current   = false
-        inCooldown.current  = true
-        setTimeout(() => { inCooldown.current = false }, 200)
+        section.contains(el) && section.removeChild(el)
+        activeTLs.current = activeTLs.current.filter(t => t !== timeline)
       },
     })
-  }
+    timeline
+      .to(el, { y: my, opacity: 1, rotation: tilt, scale: 1, duration: 0.3, ease: 'back.out(1.4)' })
+      .to(el, { y: `+=${floatY}`, rotation: `+=${floatR}`, duration: 0.4, ease: 'sine.inOut' })
+      .to(el, { y: '+=20', opacity: 0, rotation: '-=8', duration: 0.28, ease: 'power2.in' })
 
-  function onMouseLeave() {
-    if (!charmRef.current || !isShowing.current) return
-    hideCharm(charmRef.current)
+    activeTLs.current.push(timeline)
   }
 
   function onMouseMove(e: React.MouseEvent<HTMLElement>) {
-    if (!charmRef.current) return
-    if (isShowing.current || inCooldown.current) return
+    const now = Date.now()
+    if (now - lastShownAt.current < 420) return
+    lastShownAt.current = now
 
     const rect = e.currentTarget.getBoundingClientRect()
-    const el   = charmRef.current
-
-    gsap.set(el, {
-      left:     e.clientX - rect.left,
-      top:      e.clientY - rect.top,
-      y:        -60,
-      opacity:  0,
-      rotation: -18,
-      scale:    0.82,
-    })
-
-    const next = (charmIdxRef.current + 1) % CHARMS.length
-    charmIdxRef.current = next
-    setCharmIdx(next)
-    isShowing.current = true
-
-    killActive()
-
-    gsap.to(el, {
-      y:        0,
-      opacity:  1,
-      rotation: 0,
-      scale:    1,
-      duration: 0.72,
-      ease:     'back.out(1.6)',
-      onComplete: () => startFloat(el),
-    })
-
-    hideTween.current = gsap.delayedCall(1.4, () => hideCharm(el))
+    spawnCharm(e.clientX - rect.left, e.clientY - rect.top)
   }
 
   return (
     <section
+      ref={sectionRef}
       className="hero-section"
-      onMouseLeave={onMouseLeave}
       onMouseMove={onMouseMove}
       style={{
         minHeight: '100svh',
@@ -143,26 +115,6 @@ export default function Hero() {
         padding: 0,
       }}
     >
-      {/* ── Key charm — follows mouse cursor ── */}
-      <div ref={charmRef} style={{
-        position:      'absolute',
-        top:           0,
-        left:          0,
-        transform:     'translate(-50%, -50%)',
-        zIndex:        10,
-        pointerEvents: 'none',
-        opacity:       0,
-        willChange:    'transform, opacity',
-      }}>
-        <Image
-          src={CHARMS[charmIdx]}
-          alt="charm"
-          width={380}
-          height={380}
-          style={{ objectFit: 'contain', filter: 'drop-shadow(0 32px 56px rgba(0,0,0,0.22))' }}
-          priority
-        />
-      </div>
       {/* ── MASSIVE headline ── */}
       <div
         ref={headRef}
