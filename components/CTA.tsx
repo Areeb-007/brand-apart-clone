@@ -333,12 +333,12 @@ export default function CTA() {
         {/* Overlapping client avatars */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
           {[
-            { src: '/images/clients/boss-media.png', pos: 'center 25%' },
-            { src: '/images/clients/teo.png',        pos: 'center center' },
-            { src: '/images/clients/matt.png',       pos: 'center 28%' },
-            { src: '/images/clients/william.png',    pos: 'center 22%' },
-            { src: '/images/clients/j-thomas.png',   pos: 'center 28%' },
-          ].map(({ src, pos }, i) => (
+            '/images/clients/avatar-1.png',
+            '/images/clients/avatar-2.png',
+            '/images/clients/avatar-3.png',
+            '/images/clients/avatar-4.png',
+            '/images/clients/avatar-5.png',
+          ].map((src, i) => (
             <div key={i} style={{
               width:        '38px',
               height:       '38px',
@@ -349,9 +349,9 @@ export default function CTA() {
               position:     'relative',
               zIndex:       5 - i,
               flexShrink:   0,
-              background:   '#333',
+              background:   'transparent',
             }}>
-              <Image src={src} alt="" fill style={{ objectFit: 'cover', objectPosition: pos }} sizes="38px" />
+              <Image src={src} alt="" fill style={{ objectFit: 'cover', objectPosition: 'center center' }} sizes="38px" />
             </div>
           ))}
         </div>
