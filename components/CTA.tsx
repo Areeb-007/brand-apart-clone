@@ -332,13 +332,13 @@ export default function CTA() {
             '/images/clients/avatar-5.png',
           ].map((src, i) => (
             <div key={i} style={{
-              width:        '68px',
-              height:       '68px',
+              width:        '36px',
+              height:       '36px',
               borderRadius: '50%',
               overflow:     'hidden',
               isolation:    'isolate',
               position:     'relative',
-              marginLeft:   i > 0 ? '-32px' : 0,
+              marginLeft:   i > 0 ? '-14px' : 0,
               zIndex:       5 - i,
               flexShrink:   0,
             }}>
@@ -352,7 +352,7 @@ export default function CTA() {
                   transform:       'scale(4.32)',
                   transformOrigin: 'center center',
                 }}
-                sizes="68px"
+                sizes="160px"
               />
             </div>
           ))}

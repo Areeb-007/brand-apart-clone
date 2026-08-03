@@ -82,16 +82,16 @@ export default function Hero() {
       },
     })
     timeline
-      .to(el, { y: my, opacity: 1, rotation: tilt, scale: 1, duration: 0.3, ease: 'back.out(1.4)' })
-      .to(el, { y: `+=${floatY}`, rotation: `+=${floatR}`, duration: 0.4, ease: 'sine.inOut' })
-      .to(el, { y: '+=20', opacity: 0, rotation: '-=8', duration: 0.28, ease: 'power2.in' })
+      .to(el, { y: my, opacity: 1, rotation: tilt, scale: 1, duration: 0.5, ease: 'back.out(1.1)' })
+      .to(el, { y: `+=${floatY}`, rotation: `+=${floatR}`, duration: 0.7, ease: 'sine.inOut' })
+      .to(el, { y: '+=20', opacity: 0, rotation: '-=8', duration: 0.5, ease: 'power2.in' })
 
     activeTLs.current.push(timeline)
   }
 
   function onMouseMove(e: React.MouseEvent<HTMLElement>) {
     const now = Date.now()
-    if (now - lastShownAt.current < 420) return
+    if (now - lastShownAt.current < 650) return
     lastShownAt.current = now
 
     const rect = e.currentTarget.getBoundingClientRect()
