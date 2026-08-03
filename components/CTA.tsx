@@ -349,7 +349,7 @@ export default function CTA() {
                 style={{
                   objectFit:       'cover',
                   objectPosition:  'center center',
-                  transform:       'scale(1.7)',
+                  transform:       'scale(4.32)',
                   transformOrigin: 'center center',
                 }}
                 sizes="68px"
