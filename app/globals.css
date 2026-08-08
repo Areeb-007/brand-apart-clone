@@ -453,26 +453,26 @@ footer {
 .work-tile-overlay {
   height: 0;
   overflow: hidden;
-  transition: height 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: height 0.56s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 .work-tile:hover .work-tile-overlay {
   height: 72px;
 }
 .work-tile-badge {
-  transition: opacity 0.25s ease;
+  transition: opacity 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 .work-tile:hover .work-tile-badge {
   opacity: 0;
 }
 .work-tile-cta {
   opacity: 0;
-  transition: opacity 0.2s ease 0.18s;
+  transition: opacity 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) 0.22s;
 }
 .work-tile:hover .work-tile-cta {
   opacity: 1;
 }
 .work-tile-img {
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
 }
 .work-tile:hover .work-tile-img {
   transform: scale(1.04) !important;

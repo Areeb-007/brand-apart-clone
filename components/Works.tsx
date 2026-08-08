@@ -15,43 +15,54 @@ const PROJECTS = [
     category: 'VIDEO EDITING',
     year: '2024',
     media: '/images/covers/video-editing.png',
-    full: true,
     slug: 'video-editing',
   },
   {
     id: 2,
     client: 'FILMFX',
-    category: 'BUSINESS DEV',
+    category: 'GRAPHIC DESIGN',
     year: '2024',
-    media: '/images/covers/business-dev.png',
-    full: false,
-    slug: 'business-dev',
+    media: '/images/covers/graphic-design.png',
+    slug: 'graphic-design',
   },
   {
     id: 3,
     client: 'FILMFX',
-    category: 'GRAPHIC DESIGN',
+    category: 'SOCIAL MEDIA',
     year: '2024',
-    media: '/images/covers/graphic-design.png',
-    full: false,
-    slug: 'graphic-design',
+    media: '/images/covers/social-media.png',
+    slug: 'social-media',
   },
   {
     id: 4,
     client: 'FILMFX',
-    category: 'SOCIAL MEDIA',
+    category: 'BUSINESS DEV',
     year: '2024',
-    media: '/images/covers/social-media.png',
-    full: true,
-    slug: 'social-media',
+    media: '/images/covers/business-dev.png',
+    slug: 'business-dev',
   },
 ]
 
-function ProjectTile({ project }: { project: typeof PROJECTS[number] }) {
+// Mosaic placement, repeating every 8 tiles: 1st-of-4 is full width & short;
+// 3rd-and-6th-of-8 is tall, spanning both rows of its bento pair.
+function tilePlacement(position: number) {
+  const isFull = position % 4 === 1
+  const cycle  = ((position - 1) % 8) + 1
+  const isTall = cycle === 3 || cycle === 6
+  return { isFull, isTall }
+}
+
+function ProjectTile({ project, position }: { project: typeof PROJECTS[number]; position: number }) {
+  const { isFull, isTall } = tilePlacement(position)
   return (
     <Link
       href={`/work/${project.slug}`}
-      style={{ display: 'block', textDecoration: 'none' }}
+      style={{
+        display: 'block',
+        textDecoration: 'none',
+        gridColumn: isFull ? '1 / -1' : undefined,
+        gridRow:    isTall ? 'span 2' : undefined,
+      }}
     >
     <div
       className="work-tile"
@@ -60,7 +71,8 @@ function ProjectTile({ project }: { project: typeof PROJECTS[number] }) {
         borderRadius: '20px',
         overflow: 'hidden',
         background: '#001941',
-        aspectRatio: project.full ? '16/6' : '16/11',
+        aspectRatio: isTall ? undefined : (isFull ? '1000/540' : '500/350'),
+        height: isTall ? '100%' : undefined,
         cursor: 'none',
       }}
     >
@@ -155,20 +167,23 @@ export default function Works() {
       .fromTo(arrowRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.3')
       .fromTo(paraRef.current,  { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.75, ease: 'power2.out' }, '-=0.15')
 
-    // Grid tiles stagger in
+    // Each tile animates up on its own — triggered the moment it reaches
+    // the center of the viewport, not in one batch for the whole grid.
     if (gridRef.current) {
-      gsap.fromTo(
-        Array.from(gridRef.current.children),
-        { y: 80, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', stagger: 0.12,
-          scrollTrigger: {
-            trigger: gridRef.current,
-            start: 'top 82%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      )
+      Array.from(gridRef.current.children).forEach((tile) => {
+        gsap.fromTo(
+          tile,
+          { y: 60, opacity: 0 },
+          {
+            y: 0, opacity: 1, duration: 0.85, ease: 'power2.out',
+            scrollTrigger: {
+              trigger: tile,
+              start: 'center center',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        )
+      })
     }
   }, [])
 
@@ -222,27 +237,19 @@ export default function Works() {
         </p>
       </div>
 
-      {/* Project grid */}
+      {/* Project grid — bento mosaic, see tilePlacement() for the recipe */}
       <div
         ref={gridRef}
         style={{
           padding: '0 clamp(24px, 4vw, 60px)',
-          display: 'flex',
-          flexDirection: 'column',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
           gap: '20px',
         }}
       >
-        {/* Row 1, full width: Video Editing */}
-        <ProjectTile project={PROJECTS[0]} />
-
-        {/* Row 2, two equal tiles: Business Dev + Graphic Design */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-          <ProjectTile project={PROJECTS[1]} />
-          <ProjectTile project={PROJECTS[2]} />
-        </div>
-
-        {/* Row 3, full width: Social Media */}
-        <ProjectTile project={PROJECTS[3]} />
+        {PROJECTS.map((project, i) => (
+          <ProjectTile key={project.id} project={project} position={i + 1} />
+        ))}
       </div>
 
     </section>
