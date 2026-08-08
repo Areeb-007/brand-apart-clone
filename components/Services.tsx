@@ -198,7 +198,6 @@ export default function Services() {
                 left:         '50%',
                 transform:    'translateX(-50%)',
                 width:        'min(980px, 92vw)',
-                height:       cardH,
                 borderRadius: '20px',
                 background:   svc.bg,
                 overflow:     'hidden',
