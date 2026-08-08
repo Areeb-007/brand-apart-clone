@@ -8,6 +8,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// 8 tiles to fill the full sketch (2 full-width + 2 bento blocks). We only
+// have 4 real case studies right now, so tiles 5-8 re-show the same 4
+// projects in a different order as placeholders — swap their client/category/
+// media/slug for real covers as soon as they're ready, no layout changes needed.
 const PROJECTS = [
   {
     id: 1,
@@ -40,6 +44,39 @@ const PROJECTS = [
     year: '2024',
     media: '/images/covers/business-dev.png',
     slug: 'business-dev',
+  },
+  // placeholders — replace with real projects when available
+  {
+    id: 5,
+    client: 'FILMFX',
+    category: 'GRAPHIC DESIGN',
+    year: '2024',
+    media: '/images/covers/graphic-design.png',
+    slug: 'graphic-design',
+  },
+  {
+    id: 6,
+    client: 'FILMFX',
+    category: 'BUSINESS DEV',
+    year: '2024',
+    media: '/images/covers/business-dev.png',
+    slug: 'business-dev',
+  },
+  {
+    id: 7,
+    client: 'FILMFX',
+    category: 'SOCIAL MEDIA',
+    year: '2024',
+    media: '/images/covers/social-media.png',
+    slug: 'social-media',
+  },
+  {
+    id: 8,
+    client: 'FILMFX',
+    category: 'VIDEO EDITING',
+    year: '2024',
+    media: '/images/covers/video-editing.png',
+    slug: 'video-editing',
   },
 ]
 
@@ -167,8 +204,8 @@ export default function Works() {
       .fromTo(arrowRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.3')
       .fromTo(paraRef.current,  { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.75, ease: 'power2.out' }, '-=0.15')
 
-    // Each tile animates up on its own — triggered the moment it reaches
-    // the center of the viewport, not in one batch for the whole grid.
+    // Each tile animates up on its own — triggered the moment its top edge
+    // reaches the bottom of the viewport, not in one batch for the whole grid.
     if (gridRef.current) {
       Array.from(gridRef.current.children).forEach((tile) => {
         gsap.fromTo(
@@ -178,7 +215,7 @@ export default function Works() {
             y: 0, opacity: 1, duration: 0.85, ease: 'power2.out',
             scrollTrigger: {
               trigger: tile,
-              start: 'center center',
+              start: 'top bottom',
               toggleActions: 'play none none reverse',
             },
           }
