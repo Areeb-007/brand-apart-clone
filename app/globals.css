@@ -450,26 +450,44 @@ footer {
 .tcard-light.t-active .tcard-btn { background: #fff; }
 
 /* ── Works tiles hover ── */
-.work-tile-overlay {
-  height: 0;
-  overflow: hidden;
-  transition: height 0.56s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-.work-tile:hover .work-tile-overlay {
-  height: 72px;
-}
+/* Badge starts as a small top-left pill and grows horizontally + vertically
+   into a full-width bar on hover, rather than being swapped for a separate element. */
 .work-tile-badge {
-  transition: opacity 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  top: 16px;
+  left: 16px;
+  width: 210px;
+  height: 44px;
+  border-radius: 8px;
+  padding: 0 12px;
+  background: rgba(0,25,65,0.82);
+  overflow: hidden;
+  transition:
+    top 0.56s cubic-bezier(0.22, 0.61, 0.36, 1),
+    left 0.56s cubic-bezier(0.22, 0.61, 0.36, 1),
+    width 0.56s cubic-bezier(0.22, 0.61, 0.36, 1),
+    height 0.56s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-radius 0.56s cubic-bezier(0.22, 0.61, 0.36, 1),
+    padding 0.56s cubic-bezier(0.22, 0.61, 0.36, 1),
+    background-color 0.4s ease;
 }
 .work-tile:hover .work-tile-badge {
-  opacity: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  border-radius: 0;
+  padding: 0 20px;
+  background: rgba(0,25,65,0.92);
 }
 .work-tile-cta {
   opacity: 0;
-  transition: opacity 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) 0.22s;
+  max-width: 0;
+  white-space: nowrap;
+  transition: opacity 0.32s cubic-bezier(0.22, 0.61, 0.36, 1) 0.22s, max-width 0.32s cubic-bezier(0.22, 0.61, 0.36, 1) 0.22s;
 }
 .work-tile:hover .work-tile-cta {
   opacity: 1;
+  max-width: 200px;
 }
 .work-tile-img {
   transition: transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) !important;

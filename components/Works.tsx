@@ -122,47 +122,19 @@ function ProjectTile({ project, position }: { project: typeof PROJECTS[number]; 
         sizes="(max-width: 768px) 100vw, 65vw"
       />
 
-      {/* Normal badge, top left, fades out on hover */}
+      {/* Badge — a small top-left pill that grows into a full-width bar on hover */}
       <div
         className="work-tile-badge"
         style={{
-          position: 'absolute', top: '16px', left: '16px',
-          background: 'rgba(0,25,65,0.82)',
+          position: 'absolute',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
           border: '1px solid rgba(255,255,255,0.08)',
-          borderRadius: '8px',
-          padding: '8px 12px',
-          display: 'flex', alignItems: 'center', gap: '10px',
-        }}
-      >
-        <span style={{ fontSize: '13px', fontWeight: 800, color: '#fff', letterSpacing: '0.03em' }}>
-          {project.client}
-        </span>
-        <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.3 }}>
-          <span style={{ fontSize: '9px', fontWeight: 700, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            {project.category}
-          </span>
-          <span style={{ fontSize: '9px', fontWeight: 600, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em' }}>
-            {project.year}
-          </span>
-        </div>
-      </div>
-
-      {/* Hover bar, slides down from top */}
-      <div
-        className="work-tile-overlay"
-        style={{
-          position: 'absolute', top: 0, left: 0, right: 0,
-          background: 'rgba(0,25,65,0.92)',
-          backdropFilter: 'blur(4px)',
-          WebkitBackdropFilter: 'blur(4px)',
-          padding: '0 20px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span style={{ fontSize: '14px', fontWeight: 800, color: '#fff', letterSpacing: '0.04em' }}>
+          <span style={{ fontSize: '13px', fontWeight: 800, color: '#fff', letterSpacing: '0.03em' }}>
             {project.client}
           </span>
           <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.3 }}>

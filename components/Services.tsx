@@ -205,12 +205,12 @@ export default function Services() {
                 boxShadow:    '0 32px 80px rgba(0,0,0,0.28), 0 4px 20px rgba(0,0,0,0.12)',
                 display:      'flex',
                 flexDirection:'column',
-                padding:      'clamp(24px,3.5vw,48px)',
+                padding:      'clamp(16px, min(3.5vw, 5vh), 48px)',
                 willChange:   'transform',
               }}
             >
               {/* Top row: tagline + number */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'clamp(10px,1.5vh,20px)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'clamp(8px,1.5vh,20px)' }}>
                 <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>
                   {svc.tagline}
                 </span>
@@ -222,7 +222,7 @@ export default function Services() {
               {/* Heading */}
               <h3 style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(22px,3.2vw,54px)',
+                fontSize: 'clamp(18px, min(3.2vw, 6vh), 54px)',
                 fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05,
                 color: '#fff', whiteSpace: 'pre-line', maxWidth: '600px',
                 margin: 0,
@@ -231,17 +231,17 @@ export default function Services() {
               </h3>
 
               {/* Description */}
-              <p style={{ fontSize: 'clamp(11px,1.1vw,14px)', color: 'rgba(255,255,255,0.58)', lineHeight: 1.6, maxWidth: '480px', marginTop: 'clamp(8px,1vh,14px)', marginBottom: 0 }}>
+              <p style={{ fontSize: 'clamp(11px,1.1vw,14px)', color: 'rgba(255,255,255,0.58)', lineHeight: 1.6, maxWidth: '480px', marginTop: 'clamp(6px,1vh,14px)', marginBottom: 0 }}>
                 {svc.description}
               </p>
 
               {/* Bottom: testimonial + carousel + CTA */}
-              <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: 'minmax(180px,1fr) minmax(0,2.2fr)', gap: 'clamp(12px,1.8vw,24px)', alignItems: 'end', paddingTop: 'clamp(12px,2vh,24px)' }}>
+              <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: 'minmax(180px,1fr) minmax(0,2.2fr)', gap: 'clamp(12px,1.8vw,24px)', alignItems: 'end', paddingTop: 'clamp(8px,2vh,24px)' }}>
 
                 {/* Testimonial */}
-                <div style={{ background: 'rgba(0,25,65,0.35)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: 'clamp(12px,1.4vw,20px)' }}>
-                  <p style={{ fontSize: 'clamp(11px,1vw,13px)', color: 'rgba(255,255,255,0.72)', lineHeight: 1.6, fontStyle: 'italic', marginBottom: '12px',
-                    display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                <div style={{ background: 'rgba(0,25,65,0.35)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: 'clamp(10px, min(1.4vw, 2vh), 20px)' }}>
+                  <p style={{ fontSize: 'clamp(11px,1vw,13px)', color: 'rgba(255,255,255,0.72)', lineHeight: 1.6, fontStyle: 'italic', marginBottom: '8px',
+                    display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     &ldquo;{svc.clientQuote}&rdquo;
                   </p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -260,16 +260,16 @@ export default function Services() {
 
                 {/* Carousel + CTA */}
                 <div>
-                  <div style={{ display: 'flex', gap: 'clamp(6px,0.7vw,10px)', marginBottom: '12px' }}>
+                  <div style={{ display: 'flex', gap: 'clamp(6px,0.7vw,10px)', marginBottom: 'clamp(6px,1vh,12px)' }}>
                     {svc.carousel.map((src, j) => (
-                      <div key={j} style={{ flex: '1 1 0', minWidth: 0, height: 'clamp(90px,13vh,160px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
+                      <div key={j} style={{ flex: '1 1 0', minWidth: 0, height: 'clamp(56px,13vh,160px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
                         <Image src={src} alt="" fill style={{ objectFit: 'cover' }} sizes="200px" />
                       </div>
                     ))}
                   </div>
                   <a href="#contact" style={{
                     display: 'inline-flex', alignItems: 'center', gap: '8px',
-                    padding: '10px 22px',
+                    padding: 'clamp(6px,1vh,10px) 22px',
                     background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)',
                     borderRadius: '100px', fontSize: '11px', fontWeight: 700,
                     letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff',
