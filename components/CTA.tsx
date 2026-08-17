@@ -205,7 +205,7 @@ export default function CTA() {
         }}
       >
         <div style={{
-          fontFamily:    "var(--font-neue-montreal)",
+          fontFamily:    "'Youth', Arial, sans-serif",
           fontSize:      'clamp(52px, 8.5vw, 132px)',
           fontWeight:    900,
           letterSpacing: '-0.01em',
@@ -215,7 +215,7 @@ export default function CTA() {
           Make every
         </div>
         <div style={{
-          fontFamily:    "var(--font-neue-montreal)",
+          fontFamily:    "'Youth', Arial, sans-serif",
           fontSize:      'clamp(52px, 8.5vw, 132px)',
           fontWeight:    900,
           letterSpacing: '-0.01em',
@@ -225,7 +225,7 @@ export default function CTA() {
           frame work for
         </div>
         <div style={{
-          fontFamily:    "var(--font-neue-montreal)",
+          fontFamily:    "'Youth', Arial, sans-serif",
           fontSize:      'clamp(52px, 8.5vw, 132px)',
           fontWeight:    900,
           letterSpacing: '-0.01em',

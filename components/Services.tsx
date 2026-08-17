@@ -13,7 +13,7 @@ const services = [
     heading: 'Cinematic edits that\ncapture & convert.',
     tagline: 'Video Editing',
     description: 'We don\'t just edit clips, we craft stories. From transitions to pacing, colour tone to sound flow, every frame is shaped to keep your audience hooked.',
-    client: 'TEO', clientRole: 'Founder, Content Studio',
+    client: 'TEO', clientRole: 'Founder, Content Studio', clientPhoto: '/images/clients/teo.png',
     clientQuote: 'FilmFX Studio delivered a cinematic, high-quality edit ahead of schedule. Truly impressive work.',
     bg: '#3B2FC9',
     carousel: ['/images/portfolio/we-ve-1.jpg','/images/portfolio/we-ve-2.jpg','/images/portfolio/we-ve-3.jpg','/images/portfolio/we-ve-4.jpg'],
@@ -23,7 +23,7 @@ const services = [
     heading: 'Designs that speak\nbefore you do.',
     tagline: 'Graphic Design',
     description: 'Great design is silent marketing, and we make it loud. High-impact visuals from posters to branding and social creatives, designed to leave a lasting impression.',
-    client: 'MATT', clientRole: 'Creative Director',
+    client: 'MATT', clientRole: 'Creative Director', clientPhoto: '/images/clients/matt.png',
     clientQuote: 'FilmFX Studio created amazing custom designs that elevated our brand. Talented and creative team.',
     bg: '#C9302F',
     carousel: ['/images/portfolio/we-gd-1.jpg','/images/portfolio/we-gd-2.jpg','/images/portfolio/we-gd-3.jpg','/images/portfolio/we-gd-4.jpg'],
@@ -33,7 +33,7 @@ const services = [
     heading: 'We don\'t chase trends,\nwe create them.',
     tagline: 'Social Media Marketing',
     description: 'Smart strategies and campaigns that make people stop scrolling and start engaging, building brand presence that turns audiences into loyal followers.',
-    client: 'J. THOMAS', clientRole: 'Head of Growth',
+    client: 'J. THOMAS', clientRole: 'Head of Growth', clientPhoto: '/images/clients/j-thomas.png',
     clientQuote: 'FilmFX Studio doubled our social media engagement in 2 months with smart, creative strategies.',
     bg: '#C96B14',
     carousel: ['/images/portfolio/we-smm-1.jpg','/images/portfolio/we-smm-2.jpg','/images/portfolio/we-smm-3.jpg','/images/portfolio/we-smm-4.jpg'],
@@ -78,6 +78,25 @@ export default function Services() {
   const headRef  = useRef<HTMLDivElement>(null)
   const outerRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const labelRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  function handleCardMouseMove(e: React.MouseEvent<HTMLDivElement>, i: number) {
+    const label = labelRefs.current[i]
+    const card  = cardRefs.current[i]
+    if (!label || !card) return
+    const rect = card.getBoundingClientRect()
+    label.style.transform = `translate(${e.clientX - rect.left}px, ${e.clientY - rect.top}px) translate(16px, -50%)`
+  }
+
+  function handleCardMouseEnter(i: number) {
+    const label = labelRefs.current[i]
+    if (label) label.style.opacity = '1'
+  }
+
+  function handleCardMouseLeave(i: number) {
+    const label = labelRefs.current[i]
+    if (label) label.style.opacity = '0'
+  }
 
   useEffect(() => {
     const head  = headRef.current
@@ -136,8 +155,10 @@ export default function Services() {
     return () => ScrollTrigger.getAll().forEach(t => t.kill())
   }, [])
 
-  // Card height: fills the sticky viewport minus top padding and the stack strips below
-  const cardH = `calc(100vh - ${PAD_T}px - ${(N - 1) * STRIP}px - 20px)`
+  // Card height matches the reference's aspect-ratio (1000/540) at the card's own
+  // width — NOT the viewport height — so there's never leftover empty space inside
+  // the card. The vh term is only a safety ceiling for unusually short viewports.
+  const cardH = `min(calc(100vh - ${PAD_T}px - 48px), calc(min(980px, 92vw) * 0.54))`
 
   return (
     <section id="services" style={{ background: 'var(--bg)' }}>
@@ -191,7 +212,11 @@ export default function Services() {
           {services.map((svc, i) => (
             <div
               key={svc.slug}
+              className="services-card"
               ref={(el) => { cardRefs.current[i] = el }}
+              onMouseMove={(e) => handleCardMouseMove(e, i)}
+              onMouseEnter={() => handleCardMouseEnter(i)}
+              onMouseLeave={() => handleCardMouseLeave(i)}
               style={{
                 position:     'absolute',
                 top:          `${PAD_T}px`,
@@ -202,6 +227,7 @@ export default function Services() {
                 background:   svc.bg,
                 overflow:     'hidden',
                 boxShadow:    '0 32px 80px rgba(0,0,0,0.28), 0 4px 20px rgba(0,0,0,0.12)',
+                ['--card-h' as string]: cardH,
                 display:      'flex',
                 flexDirection:'column',
                 padding:      'clamp(16px, min(3.5vw, 5vh), 48px)',
@@ -210,7 +236,7 @@ export default function Services() {
             >
               {/* Top row: tagline + number */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'clamp(8px,1.5vh,20px)' }}>
-                <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>
+                <span style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>
                   {svc.tagline}
                 </span>
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 600, color: 'rgba(255,255,255,0.28)', letterSpacing: '0.04em' }}>
@@ -230,59 +256,64 @@ export default function Services() {
               </h3>
 
               {/* Description */}
-              <p style={{ fontSize: 'clamp(11px,1.1vw,14px)', color: 'rgba(255,255,255,0.58)', lineHeight: 1.6, maxWidth: '480px', marginTop: 'clamp(6px,1vh,14px)', marginBottom: 0 }}>
+              <p style={{ fontSize: 'clamp(11px,1.1vw,14px)', color: 'rgba(255,255,255,0.5)', lineHeight: 1.2, maxWidth: '480px', marginTop: 'clamp(6px,1vh,14px)', marginBottom: 0 }}>
                 {svc.description}
               </p>
 
-              {/* Bottom: testimonial + carousel + CTA */}
-              <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: 'minmax(180px,1fr) minmax(0,2.2fr)', gap: 'clamp(12px,1.8vw,24px)', alignItems: 'end', paddingTop: 'clamp(8px,2vh,24px)' }}>
+              {/* Bottom: testimonial + carousel — sits a fixed distance below the
+                  description (not stretched/pinned to the card's bottom), bottom-aligned
+                  to each other. The "see case studies" CTA no longer lives here as a
+                  static button — it follows the cursor while hovering the card instead. */}
+              <div className="services-bottom-grid" style={{ marginTop: 'clamp(20px,4vh,40px)', display: 'grid', gridTemplateColumns: 'minmax(180px,1fr) minmax(0,3fr)', gap: 'clamp(16px,2.5vw,40px)', alignItems: 'end' }}>
 
-                {/* Testimonial */}
-                <div style={{ background: 'rgba(0,25,65,0.35)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: 'clamp(10px, min(1.4vw, 2vh), 20px)' }}>
-                  <p style={{ fontSize: 'clamp(11px,1vw,13px)', color: 'rgba(255,255,255,0.72)', lineHeight: 1.6, fontStyle: 'italic', marginBottom: '8px',
+                {/* Testimonial — plain on the card background, matching the reference (no boxed border) */}
+                <div>
+                  <p style={{ fontSize: 'clamp(11px,1vw,13px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, marginBottom: '105px',
                     display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     &ldquo;{svc.clientQuote}&rdquo;
                   </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 700, color: '#fff', flexShrink: 0 }}>
-                      {svc.client[0]}
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                    <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 700, color: '#fff', flexShrink: 0, position: 'relative', overflow: 'hidden' }}>
+                      {svc.clientPhoto
+                        ? <Image src={svc.clientPhoto} alt={svc.client} fill style={{ objectFit: 'cover' }} sizes="38px" />
+                        : svc.client[0]}
                     </div>
                     <div style={{ minWidth: 0 }}>
-                      <div style={{ fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.05em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{svc.client}</div>
-                      <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginTop: '1px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{svc.clientRole}</div>
-                    </div>
-                    <div style={{ marginLeft: 'auto', display: 'flex', gap: '1px', flexShrink: 0 }}>
-                      {[...Array(5)].map((_,j) => <span key={j} style={{ color: '#FBBF24', fontSize: '10px' }}>★</span>)}
+                      <div style={{ fontSize: '13px', fontWeight: 700, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{svc.client}</div>
+                      <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.55)', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{svc.clientRole}</div>
                     </div>
                   </div>
                 </div>
 
-                {/* Carousel + CTA */}
-                <div>
-                  <div style={{ display: 'flex', gap: 'clamp(6px,0.7vw,10px)', marginBottom: 'clamp(6px,1vh,12px)' }}>
-                    {svc.carousel.map((src, j) => (
-                      <div key={j} style={{ flex: '1 1 0', minWidth: 0, height: 'clamp(56px,13vh,160px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
-                        <Image src={src} alt="" fill style={{ objectFit: 'cover' }} sizes="200px" />
-                      </div>
-                    ))}
-                  </div>
-                  <a href="#contact" style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '8px',
-                    padding: 'clamp(6px,1vh,10px) 22px',
-                    background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)',
-                    borderRadius: '100px', fontSize: '11px', fontWeight: 700,
-                    letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff',
-                    textDecoration: 'none', cursor: 'none', transition: 'background 0.2s',
-                  }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.2)' }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)' }}
-                  >
-                    See our case studies
-                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </a>
+                {/* Carousel images */}
+                <div style={{ display: 'flex', gap: 'clamp(6px,0.7vw,10px)' }}>
+                  {svc.carousel.map((src, j) => (
+                    <div key={j} style={{ flex: '1 1 0', minWidth: 0, height: 'clamp(56px,13vh,160px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
+                      <Image src={src} alt="" fill style={{ objectFit: 'cover' }} sizes="200px" />
+                    </div>
+                  ))}
                 </div>
+              </div>
+
+              {/* Cursor-follow "see case studies" label — fades in and tracks the mouse while hovering the card */}
+              <div
+                ref={(el) => { labelRefs.current[i] = el }}
+                style={{
+                  position: 'absolute', top: 0, left: 0,
+                  opacity: 0, pointerEvents: 'none',
+                  transition: 'opacity 0.25s ease',
+                  display: 'inline-flex', alignItems: 'center', gap: '8px',
+                  padding: '10px 22px', whiteSpace: 'nowrap',
+                  background: 'rgba(255,255,255,0.92)', color: '#0d0d0d',
+                  borderRadius: '100px', fontSize: '11px', fontWeight: 700,
+                  letterSpacing: '0.1em', textTransform: 'uppercase',
+                  zIndex: 5,
+                }}
+              >
+                See our case studies
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </div>
             </div>
           ))}

@@ -57,6 +57,30 @@ body {
   .cursor-dot, .cursor-ring { display: none !important; }
 }
 
+/* Services deck cards: fixed height (fills the pinned viewport) on desktop/tablet,
+   auto height on mobile — phone aspect ratios vary too much for one formula to fit reliably. */
+@media (min-width: 769px) {
+  .services-card { height: var(--card-h); }
+}
+@media (max-width: 768px) {
+  .services-card { height: auto; }
+}
+
+/* Testimonial + carousel: side-by-side on desktop/tablet, stacked on mobile
+   so the carousel images and CTA get the card's full width instead of being squeezed. */
+@media (max-width: 768px) {
+  .services-bottom-grid {
+    grid-template-columns: 1fr !important;
+    align-items: stretch !important;
+  }
+}
+
+/* Featured Projects grid: fluid 67.2vw (matching the reference) on desktop/tablet;
+   below that the reference switches to a fixed near-full-width single column. */
+@media (max-width: 768px) {
+  .works-grid { width: calc(100% - 40px) !important; }
+}
+
 /* ── Logo badge — top left ── */
 .nav-logo-badge {
   position: fixed;
@@ -96,7 +120,7 @@ body {
 /* ── Dock icons — individual cards, centered left ── */
 .dock-nav {
   position: fixed;
-  left: 24px;
+  left: 32px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 200;

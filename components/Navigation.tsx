@@ -38,11 +38,6 @@ const PORTFOLIO_ITEMS = [
   { label: 'Staff Augmentation',           icon: '⊕', subs: [] },
 ]
 
-const PRICING_ITEMS = [
-  { label: 'Monthly Subscription Plans', icon: '◉', href: '#pricing' },
-  { label: 'Per-Project Pricing',        icon: '◇', href: '#pricing' },
-]
-
 const ABOUT_ITEMS = [
   { label: 'Who We Are',   icon: '◐', href: '#about' },
   { label: 'Our Process',  icon: '◑', href: '#about' },
@@ -82,14 +77,6 @@ const NAV_ITEMS = [
     ),
   },
   {
-    id: 'pricing', label: 'PRICING', href: '#pricing', dropdown: 'pricing',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M4.5 3A1.5 1.5 0 0 0 3 4.5v6.379a1.5 1.5 0 0 0 .44 1.06l8.62 8.622a1.5 1.5 0 0 0 2.12 0l6.38-6.38a1.5 1.5 0 0 0 0-2.12L12.06 3.44A1.5 1.5 0 0 0 11 3H4.5ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/>
-      </svg>
-    ),
-  },
-  {
     id: 'about', label: 'ABOUT US', href: '#about', dropdown: 'about',
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -111,8 +98,8 @@ const NAV_ITEMS = [
   },
 ]
 
-const BASE_SIZE = 48
-const MAX_SIZE  = 76
+const BASE_SIZE = 64
+const MAX_SIZE  = 92
 const SPREAD    = 2.5   // icons within this distance get magnified
 
 function getSize(i: number, hovered: number | null): number {
@@ -495,11 +482,6 @@ export default function Navigation() {
                 </div>
               )}
 
-              {/* ── Pricing dropdown ── */}
-              {item.id === 'pricing' && isOpen && (
-                <SimpleDropdown title="Pricing" items={PRICING_ITEMS} size={size} onClose={closeAll} />
-              )}
-
               {/* ── About dropdown ── */}
               {item.id === 'about' && isOpen && (
                 <SimpleDropdown title="About Us" items={ABOUT_ITEMS} size={size} onClose={closeAll} />
@@ -656,7 +638,6 @@ export default function Navigation() {
                       </p>
                       {(item.id === 'services' ? SERVICE_ITEMS.map(s => ({ label: s.label, icon: s.icon, href: s.href }))
                         : item.id === 'works'   ? PORTFOLIO_ITEMS.map(p => ({ label: p.label, icon: p.icon, href: '#works' }))
-                        : item.id === 'pricing' ? PRICING_ITEMS
                         : ABOUT_ITEMS
                       ).map(sub => (
                         <a

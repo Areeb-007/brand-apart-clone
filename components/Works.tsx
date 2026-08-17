@@ -246,14 +246,18 @@ export default function Works() {
         </p>
       </div>
 
-      {/* Project grid — bento mosaic, see tilePlacement() for the recipe */}
+      {/* Project grid — bento mosaic, see tilePlacement() for the recipe.
+          Width matches the reference exactly: a fluid 67.2vw (no fixed max-width
+          cap), measured directly off brandappart.com from 1920px down to 768px. */}
       <div
         ref={gridRef}
+        className="works-grid"
         style={{
-          padding: '0 clamp(24px, 4vw, 60px)',
+          width: '67.2vw',
+          margin: '0 auto',
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gap: '20px',
+          gap: '16px',
         }}
       >
         {PROJECTS.map((project, i) => (

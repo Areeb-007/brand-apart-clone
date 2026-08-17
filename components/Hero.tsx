@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -133,11 +134,11 @@ export default function Hero() {
       >
         <h1 style={{
           fontFamily: "'Youth', Arial, sans-serif",
-          fontSize: 'clamp(44px, 7.8vw, 128px)',
+          fontSize: 'clamp(44px, 7.8vw, 180px)',
           fontWeight: 900,
           WebkitTextStroke: '1.5px currentColor',
-          lineHeight: 0.95,
-          letterSpacing: '-0.03em',
+          lineHeight: 0.92,
+          letterSpacing: '-0.05em',
           color: 'var(--fg)',
           margin: 0,
           maxWidth: 'min(88vw, 1100px)',
@@ -216,8 +217,11 @@ export default function Hero() {
                   fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, color: '#fff',
                   zIndex: 3 - i,
                   position: 'relative',
+                  overflow: 'hidden',
                 }}>
-                  {['FX','★','▶'][i]}
+                  {i === 0
+                    ? <Image src="/images/logo.webp" alt="FilmFX" width={22} height={22} style={{ objectFit: 'contain' }} />
+                    : ['','★','▶'][i]}
                 </div>
               ))}
             </div>
