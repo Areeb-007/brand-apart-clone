@@ -30,7 +30,17 @@ function LiveClock() {
   return <>{time}</>
 }
 
-const CLIENT_LOGOS = ['J.Thomas', 'Matt', 'Teo', 'Albert', 'Shahmir', 'Williem', 'Mike', 'Tareen Alam', 'Dmetrey', 'Kyle']
+const CLIENT_LOGOS = [
+  { src: '/images/logos/3.png',  w: 556, h: 240 },
+  { src: '/images/logos/4.png',  w: 349, h: 100 },
+  { src: '/images/logos/5.png',  w: 582, h: 168 },
+  { src: '/images/logos/6.png',  w: 734, h: 147 },
+  { src: '/images/logos/7.png',  w: 417, h: 133 },
+  { src: '/images/logos/8.png',  w: 472, h: 157 },
+  { src: '/images/logos/9.png',  w: 359, h: 153 },
+  { src: '/images/logos/11.png', w: 357, h: 203 },
+  { src: '/images/logos/12.png', w: 330, h: 214 },
+]
 
 export default function Hero() {
   const headRef      = useRef<HTMLDivElement>(null)
@@ -172,21 +182,26 @@ export default function Hero() {
           marginTop: 'clamp(72px, 10vh, 120px)',
           marginBottom: 'clamp(96px, 14vh, 150px)',
           width: '100%',
-          maxWidth: '380px',
+          maxWidth: 'min(90vw, 640px)',
           overflow: 'hidden',
           maskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
           WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
         }}>
-          <div className="marquee-track" style={{ gap: '28px' }}>
-            {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((name, i) => (
-              <span key={i} style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(13px, 1.2vw, 17px)',
-                fontWeight: 700,
-                color: 'rgba(0,25,65,0.28)',
-                letterSpacing: '-0.01em',
-                whiteSpace: 'nowrap',
-              }}>{name}</span>
+          <div className="marquee-track" style={{ gap: '48px', alignItems: 'center' }}>
+            {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((logo, i) => (
+              <Image
+                key={i}
+                src={logo.src}
+                alt=""
+                width={logo.w}
+                height={logo.h}
+                style={{
+                  height: '26px',
+                  width: 'auto',
+                  opacity: 0.5,
+                  flexShrink: 0,
+                }}
+              />
             ))}
           </div>
         </div>
