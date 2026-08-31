@@ -596,17 +596,22 @@ footer {
   }
 }
 
-/* works grid responsive */
-@media (max-width: 640px) {
+/* Featured Projects bento grid on mobile: single column, every tile (including
+   the full-width and tall ones) collapses to a normal span-1 stacked tile —
+   the tall tile also needs its height/aspect-ratio reset since "height:100%"
+   only makes sense next to a 2-row span, which no longer exists here. */
+@media (max-width: 768px) {
   .works-grid {
     grid-template-columns: 1fr !important;
   }
-}
-
-/* works asymmetric grid — collapse col spans on mobile */
-@media (max-width: 768px) {
-  #works [style*="grid-column"] { grid-column: span 1 !important; }
-  #works [style*="gridColumn"]  { grid-column: span 1 !important; }
+  .work-tile-cell {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+  }
+  .work-tile-tall {
+    height: auto !important;
+    aspect-ratio: 500/350 !important;
+  }
 }
 
 /* ══════════════════════════════════════════════

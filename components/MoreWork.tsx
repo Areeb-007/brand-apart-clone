@@ -26,13 +26,36 @@ export default function MoreWork() {
   const circleRef   = useRef<HTMLDivElement>(null)
   const textRef     = useRef<HTMLDivElement>(null)
   const cardRefs    = useRef<(HTMLDivElement | null)[]>([])
-  const orbitTweens = useRef<gsap.core.Tween[]>([])
 
   useEffect(() => {
     const section = sectionRef.current
     const circle  = circleRef.current
     const text    = textRef.current
+    const cards   = cardRefs.current.filter(Boolean) as HTMLDivElement[]
     if (!section || !circle || !text) return
+
+    // Background eases from the page's light bg to navy as the section
+    // reaches ~20% into the viewport — same technique as the final CTA section.
+    const bgInST = gsap.fromTo(section,
+      { backgroundColor: 'var(--bg)' },
+      {
+        backgroundColor: '#001941',
+        ease: 'none',
+        scrollTrigger: { trigger: section, start: 'top 90%', end: 'top 60%', scrub: 1 },
+      }
+    )
+
+    // ...and eases back to light again as the section's bottom edge nears the
+    // viewport, since (unlike the final CTA section) something lighter — the
+    // Services heading — follows right after this one, not the page's end.
+    const bgOutST = gsap.fromTo(section,
+      { backgroundColor: '#001941' },
+      {
+        backgroundColor: 'var(--bg)',
+        ease: 'none',
+        scrollTrigger: { trigger: section, start: 'bottom 55%', end: 'bottom 15%', scrub: 1 },
+      }
+    )
 
     // Text fade-in on scroll only
     const textST = gsap.fromTo(
@@ -52,45 +75,41 @@ export default function MoreWork() {
       }
     )
 
-    // Build hover-driven orbit tweens (paused initially)
-    const circleTween = gsap.to(circle, {
-      rotation: '+=360',
-      duration: 20,
-      repeat: -1,
-      ease: 'none',
-      paused: true,
+    // One-time "emerge" reveal: cards pop in from the centre (scale/opacity 0)
+    // the first time the section enters view — plays once, not tied to scroll.
+    gsap.set(cards, { scale: 0, opacity: 0, transformOrigin: 'center center' })
+    gsap.to(cards, {
+      scale: 1,
+      opacity: 1,
+      duration: 0.8,
+      stagger: 0.06,
+      ease: 'back.out(1.6)',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 75%',
+        toggleActions: 'play none none reverse',
+      },
     })
 
-    const cardTweens = cardRefs.current.filter(Boolean).map((card) =>
-      gsap.to(card!, {
-        rotation: '-=360',
-        duration: 20,
-        repeat: -1,
-        ease: 'none',
-        paused: true,
-      })
-    )
-
-    orbitTweens.current = [circleTween, ...cardTweens]
-
-    const handleMouseEnter = () => {
-      orbitTweens.current.forEach((t) => t.play())
-    }
-
-    const handleMouseLeave = () => {
-      orbitTweens.current.forEach((t) => t.pause())
-    }
-
-    section.addEventListener('mouseenter', handleMouseEnter)
-    section.addEventListener('mouseleave', handleMouseLeave)
+    // Rotation is driven purely by scroll position across the section — no
+    // autoplay, nothing happens while the page is static. Cards counter-rotate
+    // so their images stay upright as the wheel turns.
+    const rotationST = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top bottom',
+        end:   'bottom top',
+        scrub: 1,
+      },
+    })
+    rotationST.to(circle, { rotation: 180, ease: 'none' }, 0)
+    cards.forEach((card) => {
+      rotationST.to(card, { rotation: -180, ease: 'none' }, 0)
+    })
 
     return () => {
-      section.removeEventListener('mouseenter', handleMouseEnter)
-      section.removeEventListener('mouseleave', handleMouseLeave)
-      orbitTweens.current.forEach((t) => t.kill())
-      orbitTweens.current = []
-      if (textST.scrollTrigger) textST.scrollTrigger.kill()
-      textST.kill()
+      [bgInST, bgOutST, textST, rotationST].forEach((t) => { if (t.scrollTrigger) t.scrollTrigger.kill(); t.kill() })
+      ScrollTrigger.getAll().filter(st => st.trigger === section).forEach(st => st.kill())
     }
   }, [])
 

@@ -94,6 +94,7 @@ function ProjectTile({ project, position }: { project: typeof PROJECTS[number]; 
   return (
     <Link
       href={`/work/${project.slug}`}
+      className="work-tile-cell"
       style={{
         display: 'block',
         textDecoration: 'none',
@@ -102,7 +103,7 @@ function ProjectTile({ project, position }: { project: typeof PROJECTS[number]; 
       }}
     >
     <div
-      className="work-tile"
+      className={`work-tile${isTall ? ' work-tile-tall' : ''}`}
       style={{
         position: 'relative',
         borderRadius: '20px',

@@ -56,17 +56,27 @@ const BASE = [
 
 const BASE_Z = [2, 3, 5, 3, 2]
 
+// The fan is designed for a ~900px+ wide viewport — on narrower screens
+// (tablet/mobile) the ±420px spread would push cards way past the edges,
+// cutting off text. Scale the whole fan down proportionally instead.
+function fanScale() {
+  if (typeof window === 'undefined') return 1
+  return Math.min(1, window.innerWidth / 900)
+}
+
 export default function Testimonials() {
   const headRef  = useRef<HTMLDivElement>(null)
   const fanRef   = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const scaleRef = useRef(1)
 
   function applyBase() {
+    const s = scaleRef.current
     cardRefs.current.forEach((card, i) => {
       if (!card) return
       card.classList.remove('t-active')
       gsap.to(card, {
-        x:        BASE[i].x,
+        x:        BASE[i].x * s,
         rotation: BASE[i].rotate,
         scale:    1,
         zIndex:   BASE_Z[i],
@@ -77,6 +87,7 @@ export default function Testimonials() {
   }
 
   function applyHover(active: number) {
+    const s = scaleRef.current
     cardRefs.current.forEach((card, i) => {
       if (!card) return
       if (i === active) {
@@ -90,9 +101,9 @@ export default function Testimonials() {
         })
       } else {
         card.classList.remove('t-active')
-        const shift = i < active ? -SHIFT : SHIFT
+        const shift = (i < active ? -SHIFT : SHIFT) * s
         gsap.to(card, {
-          x:        BASE[i].x + shift,
+          x:        BASE[i].x * s + shift,
           rotation: BASE[i].rotate,
           scale:    1,
           zIndex:   BASE_Z[i],
@@ -104,6 +115,9 @@ export default function Testimonials() {
   }
 
   useEffect(() => {
+    const s = fanScale()
+    scaleRef.current = s
+
     // Place cards off-screen to the right at their target rotation
     cardRefs.current.forEach((card, i) => {
       if (!card) return
@@ -137,7 +151,7 @@ export default function Testimonials() {
 
       cardRefs.current.forEach((card, i) => {
         entryTl.to(card, {
-          x:        BASE[i].x,
+          x:        BASE[i].x * s,
           duration: 1.4,
           ease:     'expo.out',
         }, i * 0.07)

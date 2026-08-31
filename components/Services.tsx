@@ -286,9 +286,9 @@ export default function Services() {
                 </div>
 
                 {/* Carousel images */}
-                <div style={{ display: 'flex', gap: 'clamp(6px,0.7vw,10px)' }}>
+                <div style={{ display: 'flex', gap: '13px' }}>
                   {svc.carousel.map((src, j) => (
-                    <div key={j} style={{ flex: '1 1 0', minWidth: 0, height: 'clamp(56px,13vh,160px)', borderRadius: '10px', overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <div key={j} style={{ flex: '1 1 0', minWidth: 0, height: '149px', borderRadius: '10px', overflow: 'hidden', position: 'relative' }}>
                       <Image src={src} alt="" fill style={{ objectFit: 'cover' }} sizes="200px" />
                     </div>
                   ))}

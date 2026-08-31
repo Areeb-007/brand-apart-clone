@@ -169,8 +169,8 @@ export default function CTA() {
             href={s.href}
             aria-label={s.label}
             style={{
-              width: '54px',
-              height: '54px',
+              width: 'clamp(38px, 9vw, 54px)',
+              height: 'clamp(38px, 9vw, 54px)',
               borderRadius: '12px',
               textDecoration: 'none',
               cursor: 'none',
