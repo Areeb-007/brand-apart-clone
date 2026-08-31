@@ -135,9 +135,11 @@ export default function Services() {
     for (let i = 0; i < N - 1; i++) {
       const at = i * segLen
 
-      // Active card exits upward
+      // Active card zooms in slightly while it exits upward — same plain
+      // y translation as before, just with a subtle scale-up added.
       tl.to(cardRefs.current[i], {
         y: '-100vh',
+        scale: 1.25,
         ease: 'power2.inOut',
         duration: segLen,
       }, at)
