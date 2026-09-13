@@ -187,7 +187,7 @@ export default function Hero() {
           maskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
           WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
         }}>
-          <div className="marquee-track" style={{ gap: '48px', alignItems: 'center' }}>
+          <div className="marquee-track" style={{ gap: '32px', alignItems: 'center' }}>
             {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((logo, i) => (
               <Image
                 key={i}
@@ -196,8 +196,8 @@ export default function Hero() {
                 width={logo.w}
                 height={logo.h}
                 style={{
-                  height: '26px',
-                  width: 'auto',
+                  width: '48px',
+                  height: 'auto',
                   opacity: 0.5,
                   flexShrink: 0,
                 }}

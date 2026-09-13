@@ -232,7 +232,7 @@ export default function Services() {
                 ['--card-h' as string]: cardH,
                 display:      'flex',
                 flexDirection:'column',
-                padding:      'clamp(16px, min(3.5vw, 5vh), 48px)',
+                padding:      'clamp(16px, min(3.5vw, 5vh, 37px), 48px)',
                 willChange:   'transform',
               }}
             >
@@ -249,7 +249,7 @@ export default function Services() {
               {/* Heading */}
               <h3 style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(18px, min(3.2vw, 6vh), 54px)',
+                fontSize: 'clamp(18px, min(3.2vw, 6vh, 34px), 54px)',
                 fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05,
                 color: '#fff', whiteSpace: 'pre-line', maxWidth: '600px',
                 margin: 0,
@@ -266,11 +266,11 @@ export default function Services() {
                   description (not stretched/pinned to the card's bottom), bottom-aligned
                   to each other. The "see case studies" CTA no longer lives here as a
                   static button — it follows the cursor while hovering the card instead. */}
-              <div className="services-bottom-grid" style={{ marginTop: 'clamp(20px,4vh,40px)', display: 'grid', gridTemplateColumns: 'minmax(180px,1fr) minmax(0,3fr)', gap: 'clamp(16px,2.5vw,40px)', alignItems: 'end' }}>
+              <div className="services-bottom-grid" style={{ marginTop: 'clamp(16px,3.5vh,40px)', display: 'grid', gridTemplateColumns: 'minmax(180px,1fr) minmax(0,3fr)', gap: 'clamp(16px, min(2.5vw, 26.6px), 40px)', alignItems: 'end' }}>
 
                 {/* Testimonial — plain on the card background, matching the reference (no boxed border) */}
                 <div>
-                  <p style={{ fontSize: 'clamp(11px,1vw,13px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, marginBottom: '105px',
+                  <p style={{ fontSize: 'clamp(11px, min(1vw, 10.7px), 13px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, marginBottom: 'min(105px, 10.5vw)',
                     display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     &ldquo;{svc.clientQuote}&rdquo;
                   </p>

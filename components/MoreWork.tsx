@@ -7,19 +7,26 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// 10 items with mixed sizes, matching the reference's own scatter of large/
+// small tiles rather than one uniform size. The last 2 reuse existing cover
+// images as placeholders (marked below) since there are only 8 dedicated
+// "see more work" images in the project — swap them for real ones any time.
 const ITEMS = [
-  { id: 1, src: '/images/portfolio/smw-1.jpg', label: 'Website Development' },
-  { id: 2, src: '/images/portfolio/smw-2.jpg', label: 'Social Media' },
-  { id: 3, src: '/images/portfolio/smw-3.jpg', label: 'Typography Design' },
-  { id: 4, src: '/images/portfolio/smw-4.jpg', label: 'Social Media Marketing' },
-  { id: 5, src: '/images/portfolio/smw-5.jpg', label: 'Podcast Clips' },
-  { id: 6, src: '/images/portfolio/smw-6.jpg', label: 'UGC Ads' },
-  { id: 7, src: '/images/portfolio/smw-7.jpg', label: 'Automobile Edits' },
-  { id: 8, src: '/images/portfolio/smw-8.jpg', label: 'Brand Content' },
+  { id: 1,  src: '/images/portfolio/smw-1.jpg',    label: 'Website Development',  size: 230 },
+  { id: 2,  src: '/images/portfolio/smw-2.jpg',    label: 'Social Media',         size: 190 },
+  { id: 3,  src: '/images/portfolio/smw-3.jpg',    label: 'Typography Design',    size: 240 },
+  { id: 4,  src: '/images/portfolio/smw-4.jpg',    label: 'Social Media Marketing', size: 205 },
+  { id: 5,  src: '/images/portfolio/smw-5.jpg',    label: 'Podcast Clips',        size: 215 },
+  { id: 6,  src: '/images/portfolio/smw-6.jpg',    label: 'UGC Ads',              size: 225 },
+  { id: 7,  src: '/images/portfolio/smw-7.jpg',    label: 'Automobile Edits',     size: 185 },
+  { id: 8,  src: '/images/portfolio/smw-8.jpg',    label: 'Brand Content',        size: 150 },
+  // placeholders — replace with real "see more work" images when available
+  { id: 9,  src: '/images/portfolio/ve-1.jpg',     label: 'Video Edits',          size: 150 },
+  { id: 10, src: '/images/portfolio/we-sa-1.jpg',  label: 'Staff Augmentation',   size: 120 },
 ]
 
-const CARD   = 190
-const RADIUS = 370
+const RADIUS   = 370
+const MAX_SIZE = Math.max(...ITEMS.map(i => i.size))
 
 export default function MoreWork() {
   const sectionRef  = useRef<HTMLDivElement>(null)
@@ -99,7 +106,7 @@ export default function MoreWork() {
         trigger: section,
         start: 'top bottom',
         end:   'bottom top',
-        scrub: 1,
+        scrub: 1.4,
       },
     })
     rotationST.to(circle, { rotation: 180, ease: 'none' }, 0)
@@ -118,7 +125,7 @@ export default function MoreWork() {
       ref={sectionRef}
       data-nav-dark
       style={{
-        minHeight: `${(RADIUS + CARD) * 2 + 80}px`,
+        minHeight: `${(RADIUS + MAX_SIZE) * 2 + 80}px`,
         width: '100vw',
         background: '#001941',
         display: 'flex',
@@ -199,8 +206,8 @@ export default function MoreWork() {
           left: '50%',
           top: '50%',
           transform: 'translate(-50%, -50%)',
-          width:  `${(RADIUS + CARD) * 2}px`,
-          height: `${(RADIUS + CARD) * 2}px`,
+          width:  `${(RADIUS + MAX_SIZE) * 2}px`,
+          height: `${(RADIUS + MAX_SIZE) * 2}px`,
           willChange: 'transform',
         }}
       >
@@ -229,9 +236,9 @@ export default function MoreWork() {
                 left:   `calc(50% + ${cx}px)`,
                 top:    `calc(50% + ${cy}px)`,
                 transform: 'translate(-50%, -50%)',
-                width:  `${CARD}px`,
-                height: `${CARD}px`,
-                borderRadius: '18px',
+                width:  `${item.size}px`,
+                height: `${item.size}px`,
+                borderRadius: '13px',
                 overflow: 'hidden',
                 border: '2px solid rgba(255,255,255,0.12)',
                 boxShadow: '0 6px 28px rgba(0,0,0,0.4)',
@@ -243,7 +250,7 @@ export default function MoreWork() {
                 alt={item.label}
                 fill
                 style={{ objectFit: 'cover' }}
-                sizes={`${CARD}px`}
+                sizes={`${item.size}px`}
               />
             </div>
           )

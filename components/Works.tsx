@@ -226,7 +226,7 @@ export default function Works() {
             color: 'rgba(0,25,65,0.22)',
           }}
         >
-          Projects
+          Work
         </div>
 
         <div ref={arrowRef} style={{ margin: '52px 0 44px', fontSize: '22px', color: 'var(--fg-muted)' }}>
