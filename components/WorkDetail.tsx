@@ -64,7 +64,7 @@ export default function WorkDetail({ project }: { project: Project }) {
       <Navigation />
 
       {/* ── Hero: dark, full viewport ── */}
-      <section style={{
+      <section data-nav-dark style={{
         minHeight: '100svh',
         background: '#001941',
         display: 'flex',
@@ -167,7 +167,7 @@ export default function WorkDetail({ project }: { project: Project }) {
             }}>
               {project.description}
             </p>
-            <Link href="#contact" style={{
+            <Link href="/#contact" style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
@@ -252,7 +252,7 @@ export default function WorkDetail({ project }: { project: Project }) {
       </section>
 
       {/* ── Testimonial ── */}
-      <section ref={testimonialRef} style={{
+      <section ref={testimonialRef} data-nav-dark style={{
         background: '#001941',
         padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)',
       }}>

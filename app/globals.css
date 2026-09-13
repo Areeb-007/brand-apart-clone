@@ -224,11 +224,14 @@ footer {
   }
 }
 
-/* custom cursor — a single soft dot, no ring */
+/* custom cursor — a single soft dot, no ring. Solid white + difference blend
+   so it stays visible over both light and dark section backgrounds, instead
+   of a fixed navy tint that disappears on dark backgrounds. */
 .cursor-dot {
-  width: 24px;
-  height: 24px;
-  background: rgba(0,25,65,0.16);
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  mix-blend-mode: difference;
   border-radius: 50%;
   position: fixed;
   top: 0;
@@ -236,13 +239,12 @@ footer {
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
-  transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
+  transition: width 0.25s ease, height 0.25s ease;
 }
 
 .cursor-dot.hovered {
-  width: 40px;
-  height: 40px;
-  background: rgba(0,25,65,0.12);
+  width: 28px;
+  height: 28px;
 }
 
 /* ── Dock icon CSS tooltip (no JS re-render) ── */

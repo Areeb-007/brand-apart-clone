@@ -6,10 +6,16 @@ import Link from 'next/link'
 
 /* ─── Data ──────────────────────────────────────────────────── */
 
+// The 7 Video Editing subcategory pages — single source for both dropdowns
+// below. Slugs match lib/subcategories.ts (/services/video-editing/[slug]).
 const VIDEO_EDITING_SUBS = [
-  'Wedding','Short Videos','Motion Graphics','Youtube Video',
-  'Real Estate Video','Documentaries','Promotional Videos',
-  'AI Video','Corporate Videos','Marketing Campaigns','Before & After Edits',
+  { label: 'Wedding video',        slug: 'wedding-video' },
+  { label: 'Short form videos',    slug: 'short-form-videos' },
+  { label: 'Youtube videos',       slug: 'youtube-videos' },
+  { label: 'Real estate videos',   slug: 'real-estate-videos' },
+  { label: 'Documentaries',        slug: 'documentaries' },
+  { label: 'Promotional videos',   slug: 'promotional-videos' },
+  { label: 'AI videos',            slug: 'ai-videos' },
 ]
 
 const VIDEO_EDITING_IMAGES = [
@@ -18,38 +24,33 @@ const VIDEO_EDITING_IMAGES = [
 ]
 
 const SERVICE_ITEMS = [
-  { label: 'Video Editing',                href: '#services', icon: '✂', hasSub: true  },
-  { label: 'Graphic Design',               href: '#services', icon: '✦', hasSub: false },
-  { label: 'Social Media Marketing',       href: '#services', icon: '◎', hasSub: false },
-  { label: 'Sales & Business Development', href: '#services', icon: '◈', hasSub: false },
-  { label: 'Staff Augmentation',           href: '#services', icon: '⊕', hasSub: false },
+  { label: 'Video Editing',                href: '/services/video-editing', icon: '✂', hasSub: true  },
+  { label: 'Graphic Design',               href: '/#services', icon: '✦', hasSub: false },
+  { label: 'Social Media Marketing',       href: '/#services', icon: '◎', hasSub: false },
+  { label: 'Sales & Business Development', href: '/#services', icon: '◈', hasSub: false },
+  { label: 'Staff Augmentation',           href: '/#services', icon: '⊕', hasSub: false },
 ]
 
 const PORTFOLIO_ITEMS = [
-  {
-    label: 'Video Editing', icon: '✂',
-    subs: ['Wedding','Short Videos','Motion Graphics','Youtube Video','Real Estate Video',
-           'Documentaries','Promotional Videos','AI Video','Corporate Videos',
-           'Marketing Campaigns','Before & After Edits'],
-  },
-  { label: 'Graphic Design',               icon: '✦', subs: [] },
-  { label: 'Social Media Marketing',       icon: '◎', subs: [] },
-  { label: 'Sales & Business Development', icon: '◈', subs: [] },
-  { label: 'Staff Augmentation',           icon: '⊕', subs: [] },
+  { label: 'Video Editing', icon: '✂', href: '/services/video-editing', subs: VIDEO_EDITING_SUBS },
+  { label: 'Graphic Design',               icon: '✦', href: '/#works', subs: [] },
+  { label: 'Social Media Marketing',       icon: '◎', href: '/#works', subs: [] },
+  { label: 'Sales & Business Development', icon: '◈', href: '/#works', subs: [] },
+  { label: 'Staff Augmentation',           icon: '⊕', href: '/#works', subs: [] },
 ]
 
 const ABOUT_ITEMS = [
-  { label: 'Who We Are',   icon: '◐', href: '#about' },
-  { label: 'Our Process',  icon: '◑', href: '#about' },
-  { label: 'Our Team',     icon: '◒', href: '#about' },
-  { label: 'Testimonials', icon: '★', href: '#about' },
+  { label: 'Who We Are',   icon: '◐', href: '/#about' },
+  { label: 'Our Process',  icon: '◑', href: '/#about' },
+  { label: 'Our Team',     icon: '◒', href: '/#about' },
+  { label: 'Testimonials', icon: '★', href: '/#about' },
 ]
 
 /* ─── Nav items ─────────────────────────────────────────────── */
 
 const NAV_ITEMS = [
   {
-    id: 'home', label: 'HOME', href: '#',
+    id: 'home', label: 'HOME', href: '/',
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <path d="M11.03 2.59a1.5 1.5 0 0 1 1.94 0l7 6.07A1.5 1.5 0 0 1 20.5 9.8V19.5a1.5 1.5 0 0 1-1.5 1.5h-4a1 1 0 0 1-1-1v-4h-4v4a1 1 0 0 1-1 1H5A1.5 1.5 0 0 1 3.5 19.5V9.8a1.5 1.5 0 0 1 .53-1.14l7-6.07Z"/>
@@ -58,7 +59,7 @@ const NAV_ITEMS = [
     ),
   },
   {
-    id: 'services', label: 'SERVICES', href: '#services', dropdown: 'services',
+    id: 'services', label: 'SERVICES', href: '/#services', dropdown: 'services',
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <rect x="3" y="3" width="7.5" height="7.5" rx="2"/>
@@ -69,7 +70,7 @@ const NAV_ITEMS = [
     ),
   },
   {
-    id: 'works', label: 'PORTFOLIO', href: '#works', dropdown: 'portfolio',
+    id: 'works', label: 'PORTFOLIO', href: '/#works', dropdown: 'portfolio',
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <path d="M19 7h-1V6a3 3 0 0 0-3-3H9a3 3 0 0 0-3 3v1H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-9-1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h-6V6Z"/>
@@ -77,7 +78,7 @@ const NAV_ITEMS = [
     ),
   },
   {
-    id: 'about', label: 'ABOUT US', href: '#about', dropdown: 'about',
+    id: 'about', label: 'ABOUT US', href: '/#about', dropdown: 'about',
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <circle cx="12" cy="12" r="10"/>
@@ -88,7 +89,7 @@ const NAV_ITEMS = [
     ),
   },
   {
-    id: 'contact', label: 'CONTACT', href: '#contact',
+    id: 'contact', label: 'CONTACT', href: '/#contact',
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
@@ -99,7 +100,7 @@ const NAV_ITEMS = [
 ]
 
 const BASE_SIZE = 64
-const MAX_SIZE  = 92
+const MAX_SIZE  = 76
 const SPREAD    = 2.5   // icons within this distance get magnified
 
 function getSize(i: number, hovered: number | null): number {
@@ -357,7 +358,7 @@ export default function Navigation() {
                       onMouseEnter={() => { if (svc.hasSub) openSub() ; else closeSub() }}
                       onMouseLeave={() => { if (svc.hasSub) closeSub() }}
                     >
-                      <a href={svc.href} onClick={() => { setActive(1); closeAll() }} style={{
+                      <Link href={svc.href} onClick={() => { setActive(1); closeAll() }} style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                         gap: '8px', padding: '9px 10px', borderRadius: '8px',
                         textDecoration: 'none', color: 'var(--fg)', fontSize: '13px', fontWeight: 500, cursor: 'none',
@@ -372,7 +373,7 @@ export default function Navigation() {
                           {svc.label}
                         </span>
                         {svc.hasSub && chevron}
-                      </a>
+                      </Link>
 
                       {/* Video Editing mega panel */}
                       {svc.hasSub && videoSubOpen && (
@@ -388,7 +389,7 @@ export default function Navigation() {
                           <div style={{ flex: 1 }}>
                             <p style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--fg-muted)', padding: '2px 4px 8px', borderBottom: '1px solid var(--border)', marginBottom: '4px' }}>Video Editing</p>
                             {VIDEO_EDITING_SUBS.map((sub, idx) => (
-                              <a key={sub} href="#services" onClick={() => { setActive(1); closeAll() }} style={{
+                              <Link key={sub.slug} href={`/services/video-editing/${sub.slug}`} onClick={() => { setActive(1); closeAll() }} style={{
                                 display: 'flex', alignItems: 'center', gap: '8px',
                                 padding: '7px 8px', borderRadius: '7px',
                                 textDecoration: 'none', color: 'var(--fg)', fontSize: '12px', fontWeight: 500, cursor: 'none',
@@ -398,8 +399,8 @@ export default function Navigation() {
                                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent' }}
                               >
                                 <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--accent)', flexShrink: 0, display: 'inline-block' }} />
-                                {sub}
-                              </a>
+                                {sub.label}
+                              </Link>
                             ))}
                           </div>
                           <div style={{ width: '130px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -437,7 +438,7 @@ export default function Navigation() {
                       onMouseEnter={() => setPortSubItem(p.subs.length ? p.label : null)}
                       onMouseLeave={() => setPortSubItem(null)}
                     >
-                      <a href="#works" onClick={() => { setActive(2); closeAll() }} style={{
+                      <Link href={p.href} onClick={() => { setActive(2); closeAll() }} style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                         gap: '8px', padding: '9px 10px', borderRadius: '8px',
                         textDecoration: 'none', color: 'var(--fg)', fontSize: '13px', fontWeight: 500, cursor: 'none',
@@ -451,7 +452,7 @@ export default function Navigation() {
                           {p.label}
                         </span>
                         {p.subs.length > 0 && chevron}
-                      </a>
+                      </Link>
                       {p.subs.length > 0 && portSubItem === p.label && (
                         <div style={{
                           position: 'absolute', left: '100%', top: '50%', transform: 'translateY(-50%)',
@@ -462,7 +463,7 @@ export default function Navigation() {
                           animation: 'dropdownIn 0.15s cubic-bezier(0.34,1.56,0.64,1)',
                         }}>
                           {p.subs.map(sub => (
-                            <a key={sub} href="#works" onClick={() => { setActive(2); closeAll() }} style={{
+                            <Link key={sub.slug} href={`/services/video-editing/${sub.slug}`} onClick={() => { setActive(2); closeAll() }} style={{
                               display: 'flex', alignItems: 'center', gap: '8px',
                               padding: '7px 10px', borderRadius: '7px',
                               textDecoration: 'none', color: 'var(--fg)', fontSize: '12px', fontWeight: 500, cursor: 'none',
@@ -472,8 +473,8 @@ export default function Navigation() {
                               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent' }}
                             >
                               <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--accent)', flexShrink: 0, display: 'inline-block' }} />
-                              {sub}
-                            </a>
+                              {sub.label}
+                            </Link>
                           ))}
                         </div>
                       )}
@@ -495,7 +496,7 @@ export default function Navigation() {
       {/* ── Book a Call ── */}
       <div className="dock-cta-btn">
         <a
-          href="#contact"
+          href="/#contact"
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             fontSize: '12px', padding: '10px 22px', textDecoration: 'none', cursor: 'none',
@@ -637,7 +638,7 @@ export default function Navigation() {
                         {item.label}
                       </p>
                       {(item.id === 'services' ? SERVICE_ITEMS.map(s => ({ label: s.label, icon: s.icon, href: s.href }))
-                        : item.id === 'works'   ? PORTFOLIO_ITEMS.map(p => ({ label: p.label, icon: p.icon, href: '#works' }))
+                        : item.id === 'works'   ? PORTFOLIO_ITEMS.map(p => ({ label: p.label, icon: p.icon, href: p.href }))
                         : ABOUT_ITEMS
                       ).map(sub => (
                         <a
@@ -667,7 +668,7 @@ export default function Navigation() {
 
           {/* Book a Call CTA */}
           <a
-            href="#contact"
+            href="/#contact"
             onClick={() => setMenuOpen(false)}
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',

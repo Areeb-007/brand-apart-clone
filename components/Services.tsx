@@ -250,7 +250,7 @@ export default function Services() {
         {/* ── Sticky viewport — cards rest vertically centered, so the resting/
             paused position has breathing room above and below it, not jammed
             near the top ── */}
-        <div style={{
+        <div data-nav-dark style={{
           position: 'sticky',
           top: 0,
           height: '100vh',
