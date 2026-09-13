@@ -76,6 +76,10 @@ const PAD_T = 48   // px from top of sticky viewport to first card
 
 export default function Services() {
   const headRef  = useRef<HTMLDivElement>(null)
+  const tagRef   = useRef<HTMLParagraphElement>(null)
+  const line1Ref = useRef<HTMLDivElement>(null)
+  const line2Ref = useRef<HTMLDivElement>(null)
+  const ctaRef   = useRef<HTMLAnchorElement>(null)
   const outerRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const labelRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -110,6 +114,18 @@ export default function Services() {
       scrollTrigger: { trigger: outer, start: 'top 85%', end: 'top 10%', scrub: 1 },
     })
 
+    // Same staggered reveal sequence as the Featured Work heading: tag, then
+    // each heading line, then the CTA link — plays once as the section first
+    // scrolls into view.
+    const introTL = gsap.timeline({
+      scrollTrigger: { trigger: head, start: 'top 85%', toggleActions: 'play none none reverse' },
+    })
+    introTL
+      .fromTo(tagRef.current,   { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' })
+      .fromTo(line1Ref.current, { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1,   ease: 'power3.out' }, '-=0.35')
+      .fromTo(line2Ref.current, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1,   ease: 'power3.out' }, '-=0.65')
+      .fromTo(ctaRef.current,   { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.3')
+
     // Initial stacked positions:
     //   card 0 → y = 0        (active, fully visible)
     //   card 1 → y = STRIP    (peeks below card 0)
@@ -121,40 +137,50 @@ export default function Services() {
       gsap.set(card, { y: i * STRIP, zIndex: N - i })
     })
 
-    const segLen = 1 / (N - 1)
+    // A short still "pause" right after the section settles at the trigger
+    // point — cards visibly stop there before anything moves — then the rest
+    // of the scroll is split evenly, one segment per card's own turn.
+    const PAUSE  = 0.12
+    const segLen = (1 - PAUSE) / (N - 1)
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: outer,
-        start: 'top top',
+        start: 'top center',
         end:   'bottom bottom',
         scrub: 1.2,
       },
     })
 
     for (let i = 0; i < N - 1; i++) {
-      const at = i * segLen
+      const at = PAUSE + i * segLen
 
-      // Active card zooms in slightly while it exits upward — same plain
-      // y translation as before, just with a subtle scale-up added.
+      // Each card sits completely still at its stacked, peeking position
+      // until it's its own turn — it only ever moves once, sliding straight
+      // from wherever it's been waiting all the way off-screen. No other
+      // card is touched while it does.
       tl.to(cardRefs.current[i], {
         y: '-100vh',
         scale: 1.25,
         ease: 'power2.inOut',
         duration: segLen,
       }, at)
-
-      // Every remaining card shifts up by STRIP so the deck keeps its shape
-      for (let j = i + 1; j < N; j++) {
-        tl.to(cardRefs.current[j], {
-          y: (j - i - 1) * STRIP,
-          ease: 'power2.inOut',
-          duration: segLen,
-        }, at)
-      }
     }
 
-    return () => ScrollTrigger.getAll().forEach(t => t.kill())
+    // The last card never gets an exit turn of its own — settle it into the
+    // hero slot at the same time the second-to-last card leaves, so the deck
+    // ends in a clean, fully-visible state instead of stuck mid-stack.
+    tl.to(cardRefs.current[N - 1], {
+      y: 0,
+      ease: 'power2.inOut',
+      duration: segLen,
+    }, PAUSE + (N - 2) * segLen)
+
+    return () => {
+      introTL.scrollTrigger?.kill()
+      introTL.kill()
+      ScrollTrigger.getAll().forEach(t => t.kill())
+    }
   }, [])
 
   // Card height matches the reference's aspect-ratio (1000/540) at the card's own
@@ -165,35 +191,52 @@ export default function Services() {
   return (
     <section id="services" style={{ background: 'var(--bg)' }}>
 
-      {/* ── Header ── */}
+      {/* ── Header — centered, same reveal sequence as Featured Work ── */}
       <div
         ref={headRef}
         style={{
           padding: 'clamp(72px,9vw,130px) clamp(32px,5vw,80px) 64px',
-          display: 'flex', alignItems: 'flex-end',
-          justifyContent: 'space-between', flexWrap: 'wrap', gap: '28px',
+          textAlign: 'center',
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
         }}
       >
-        <div>
-          <p className="section-tag" style={{ marginBottom: '14px' }}>What we do</p>
-          <h2 style={{
+        <p ref={tagRef} className="section-tag" style={{ marginBottom: '14px' }}>What we do</p>
+
+        <div
+          ref={line1Ref}
+          style={{
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(44px,6.5vw,96px)',
             fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 0.93,
             color: 'var(--fg)',
-          }}>
-            Our ways to<br />
-            <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'var(--fg-muted)' }}>
-              create impact.
-            </span>
-          </h2>
+          }}
+        >
+          Our ways to
         </div>
-        <a href="#works" style={{
-          display: 'inline-flex', alignItems: 'center', gap: '8px',
-          fontSize: '13px', fontWeight: 700, letterSpacing: '0.06em',
-          textTransform: 'uppercase', color: 'var(--fg)', textDecoration: 'none',
-          cursor: 'none', borderBottom: '1px solid var(--border)', paddingBottom: '2px',
-        }}>
+        <div
+          ref={line2Ref}
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(44px,6.5vw,96px)',
+            fontWeight: 400, fontStyle: 'italic',
+            letterSpacing: '-0.04em', lineHeight: 0.98,
+            color: 'var(--fg-muted)',
+          }}
+        >
+          create impact.
+        </div>
+
+        <a
+          ref={ctaRef}
+          href="#works"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '8px',
+            marginTop: '32px',
+            fontSize: '13px', fontWeight: 700, letterSpacing: '0.06em',
+            textTransform: 'uppercase', color: 'var(--fg)', textDecoration: 'none',
+            cursor: 'none', borderBottom: '1px solid var(--border)', paddingBottom: '2px',
+          }}
+        >
           See our case studies
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -204,12 +247,17 @@ export default function Services() {
       {/* ── Tall scroll container ── */}
       <div ref={outerRef} style={{ height: `${N * 100}vh` }}>
 
-        {/* ── Sticky viewport ── */}
+        {/* ── Sticky viewport — cards rest vertically centered, so the resting/
+            paused position has breathing room above and below it, not jammed
+            near the top ── */}
         <div style={{
           position: 'sticky',
           top: 0,
           height: '100vh',
           overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
           {services.map((svc, i) => (
             <div
@@ -221,9 +269,9 @@ export default function Services() {
               onMouseLeave={() => handleCardMouseLeave(i)}
               style={{
                 position:     'absolute',
-                top:          `${PAD_T}px`,
+                top:          '50%',
                 left:         '50%',
-                transform:    'translateX(-50%)',
+                transform:    'translate(-50%, -50%)',
                 width:        'min(980px, 92vw)',
                 borderRadius: '20px',
                 background:   svc.bg,
@@ -270,7 +318,7 @@ export default function Services() {
 
                 {/* Testimonial — plain on the card background, matching the reference (no boxed border) */}
                 <div>
-                  <p style={{ fontSize: 'clamp(11px, min(1vw, 10.7px), 13px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, marginBottom: 'min(105px, 10.5vw)',
+                  <p style={{ fontSize: 'clamp(11px, min(1vw, 10.7px), 13px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, marginBottom: 'min(28px, 3vw)',
                     display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     &ldquo;{svc.clientQuote}&rdquo;
                   </p>

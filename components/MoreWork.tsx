@@ -25,14 +25,38 @@ const ITEMS = [
   { id: 10, src: '/images/portfolio/we-sa-1.jpg',  label: 'Staff Augmentation',   size: 120 },
 ]
 
-const RADIUS   = 370
-const MAX_SIZE = Math.max(...ITEMS.map(i => i.size))
+const RADIUS       = 370
+const MAX_SIZE     = Math.max(...ITEMS.map(i => i.size))
+const HOVER_SHRINK = 0.72
+
+function cardOffset(i: number) {
+  const angle = (2 * Math.PI / ITEMS.length) * i - Math.PI / 2
+  return { cx: RADIUS * Math.cos(angle), cy: RADIUS * Math.sin(angle) }
+}
 
 export default function MoreWork() {
   const sectionRef  = useRef<HTMLDivElement>(null)
   const circleRef   = useRef<HTMLDivElement>(null)
   const textRef     = useRef<HTMLDivElement>(null)
+  const labelRef    = useRef<HTMLParagraphElement>(null)
   const cardRefs    = useRef<(HTMLDivElement | null)[]>([])
+
+  function handleLabelEnter() {
+    gsap.to(labelRef.current, { color: 'rgba(255,255,255,1)', duration: 0.4, ease: 'power2.out' })
+    cardRefs.current.forEach((card, i) => {
+      if (!card) return
+      const { cx, cy } = cardOffset(i)
+      gsap.to(card, { x: (cx * HOVER_SHRINK) - cx, y: (cy * HOVER_SHRINK) - cy, duration: 0.55, ease: 'power3.out' })
+    })
+  }
+
+  function handleLabelLeave() {
+    gsap.to(labelRef.current, { color: 'rgba(255,255,255,0.4)', duration: 0.4, ease: 'power2.out' })
+    cardRefs.current.forEach((card) => {
+      if (!card) return
+      gsap.to(card, { x: 0, y: 0, duration: 0.55, ease: 'power3.out' })
+    })
+  }
 
   useEffect(() => {
     const section = sectionRef.current
@@ -82,20 +106,23 @@ export default function MoreWork() {
       }
     )
 
-    // One-time "emerge" reveal: cards pop in from the centre (scale/opacity 0)
-    // the first time the section enters view — plays once, not tied to scroll.
-    gsap.set(cards, { scale: 0, opacity: 0, transformOrigin: 'center center' })
-    gsap.to(cards, {
-      scale: 1,
-      opacity: 1,
-      duration: 0.8,
-      stagger: 0.06,
-      ease: 'back.out(1.6)',
+    // One-time "emerge" reveal: every card starts collapsed at the wheel's
+    // centre (tiny scale, zero offset) and grows outward into its own spot on
+    // the circle — reads as all the images blooming out from one point, not
+    // just popping in place. Plays once the first time the section enters view.
+    cards.forEach((card, i) => {
+      const { cx, cy } = cardOffset(i)
+      gsap.set(card, { x: -cx, y: -cy, scale: 0.15, opacity: 0, transformOrigin: 'center center' })
+    })
+    const emergeTL = gsap.timeline({
       scrollTrigger: {
         trigger: section,
         start: 'top 75%',
         toggleActions: 'play none none reverse',
       },
+    })
+    cards.forEach((card, i) => {
+      emergeTL.to(card, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.9, ease: 'power3.out' }, i * 0.05)
     })
 
     // Rotation is driven purely by scroll position across the section — no
@@ -115,7 +142,7 @@ export default function MoreWork() {
     })
 
     return () => {
-      [bgInST, bgOutST, textST, rotationST].forEach((t) => { if (t.scrollTrigger) t.scrollTrigger.kill(); t.kill() })
+      [bgInST, bgOutST, textST, emergeTL, rotationST].forEach((t) => { if (t.scrollTrigger) t.scrollTrigger.kill(); t.kill() })
       ScrollTrigger.getAll().filter(st => st.trigger === section).forEach(st => st.kill())
     }
   }, [])
@@ -151,20 +178,30 @@ export default function MoreWork() {
           width: 'max-content',
         }}
       >
-        <p style={{
-          fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em',
-          textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)',
-          marginBottom: '12px',
-        }}>
+        <p
+          ref={labelRef}
+          onMouseEnter={handleLabelEnter}
+          onMouseLeave={handleLabelLeave}
+          style={{
+            fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em',
+            textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)',
+            marginBottom: '12px', pointerEvents: 'auto', cursor: 'none',
+            width: 'max-content', margin: '0 auto 12px',
+          }}
+        >
           See More Work
         </p>
 
-        <h2 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(34px, 4.2vw, 62px)',
-          fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.0,
-          color: '#fff',
-        }}>
+        <h2
+          onMouseEnter={handleLabelEnter}
+          onMouseLeave={handleLabelLeave}
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(34px, 4.2vw, 62px)',
+            fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.0,
+            color: '#fff', pointerEvents: 'auto', cursor: 'none',
+          }}
+        >
           500+ Projects<br />
           <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'rgba(255,255,255,0.35)' }}>
             delivered.
@@ -174,6 +211,7 @@ export default function MoreWork() {
         <p style={{
           fontSize: '14px', color: 'rgba(255,255,255,0.48)', lineHeight: 1.7,
           marginTop: '14px', marginBottom: '26px', maxWidth: '320px',
+          marginLeft: 'auto', marginRight: 'auto', textAlign: 'center',
         }}>
           From weddings to corporate films, every frame crafted with purpose.
         </p>
@@ -211,17 +249,6 @@ export default function MoreWork() {
           willChange: 'transform',
         }}
       >
-        <div style={{
-          position: 'absolute',
-          left: '50%', top: '50%',
-          transform: 'translate(-50%, -50%)',
-          width:  `${RADIUS * 2}px`,
-          height: `${RADIUS * 2}px`,
-          borderRadius: '50%',
-          border: '1px dashed rgba(255,255,255,0.08)',
-          pointerEvents: 'none',
-        }} />
-
         {ITEMS.map((item, i) => {
           const angle = (2 * Math.PI / ITEMS.length) * i - Math.PI / 2
           const cx    = RADIUS * Math.cos(angle)
