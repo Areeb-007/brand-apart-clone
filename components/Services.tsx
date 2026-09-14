@@ -143,12 +143,24 @@ export default function Services() {
     const PAUSE  = 0.12
     const segLen = (1 - PAUSE) / (N - 1)
 
+    // The card is inset (min(980px, 92vw)), not full-bleed — the dock nav
+    // (fixed at left:32px, up to ~108px wide while magnified) only actually
+    // sits behind the card's dark background once the viewport is narrow
+    // enough that the card's own side margin shrinks under it. Below ~1200px
+    // that's the case; above it, the dock sits clear in the light page
+    // margin and should stay in its default (light) styling.
+    const dockBehindCard = () => window.innerWidth <= 1200
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: outer,
         start: 'top center',
         end:   'bottom bottom',
         scrub: 1.2,
+        onEnter:     () => { if (dockBehindCard()) window.dispatchEvent(new CustomEvent('navtheme:dark')) },
+        onEnterBack: () => { if (dockBehindCard()) window.dispatchEvent(new CustomEvent('navtheme:dark')) },
+        onLeave:     () => window.dispatchEvent(new CustomEvent('navtheme:light')),
+        onLeaveBack: () => window.dispatchEvent(new CustomEvent('navtheme:light')),
       },
     })
 
@@ -250,7 +262,7 @@ export default function Services() {
         {/* ── Sticky viewport — cards rest vertically centered, so the resting/
             paused position has breathing room above and below it, not jammed
             near the top ── */}
-        <div data-nav-dark style={{
+        <div style={{
           position: 'sticky',
           top: 0,
           height: '100vh',
