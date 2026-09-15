@@ -170,10 +170,13 @@ export default function Services() {
       // Each card sits completely still at its stacked, peeking position
       // until it's its own turn — it only ever moves once, sliding straight
       // from wherever it's been waiting all the way off-screen. No other
-      // card is touched while it does.
+      // card is touched while it does. Scale kept modest (not the earlier
+      // 1.25) so the exiting card doesn't visibly balloon ~25% bigger than
+      // the still-stacked card behind it mid-scroll — reads as inconsistent
+      // box sizing otherwise, even though every card's resting size matches.
       tl.to(cardRefs.current[i], {
         y: '-100vh',
-        scale: 1.25,
+        scale: 1.08,
         ease: 'power2.inOut',
         duration: segLen,
       }, at)
@@ -322,11 +325,12 @@ export default function Services() {
                 {svc.description}
               </p>
 
-              {/* Bottom: testimonial + carousel — sits a fixed distance below the
-                  description (not stretched/pinned to the card's bottom), bottom-aligned
+              {/* Bottom: testimonial + carousel — pinned to the card's bottom edge via
+                  marginTop:auto (the card is a flex column), so shorter cards like
+                  Staff Augmentation don't leave a gap below the images; bottom-aligned
                   to each other. The "see case studies" CTA no longer lives here as a
                   static button — it follows the cursor while hovering the card instead. */}
-              <div className="services-bottom-grid" style={{ marginTop: 'clamp(16px,3.5vh,40px)', display: 'grid', gridTemplateColumns: 'minmax(180px,1fr) minmax(0,3fr)', gap: 'clamp(16px, min(2.5vw, 26.6px), 40px)', alignItems: 'end' }}>
+              <div className="services-bottom-grid" style={{ marginTop: 'auto', paddingTop: 'clamp(16px,3.5vh,40px)', display: 'grid', gridTemplateColumns: 'minmax(180px,1fr) minmax(0,3fr)', gap: 'clamp(16px, min(2.5vw, 26.6px), 40px)', alignItems: 'end' }}>
 
                 {/* Testimonial — plain on the card background, matching the reference (no boxed border) */}
                 <div>

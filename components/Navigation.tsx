@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 /* ─── Data ──────────────────────────────────────────────────── */
 
-// The 7 Video Editing subcategory pages — single source for both dropdowns
+// The Video Editing subcategory pages — single source for both dropdowns
 // below. Slugs match lib/subcategories.ts (/services/video-editing/[slug]).
 const VIDEO_EDITING_SUBS = [
   { label: 'Wedding video',        slug: 'wedding-video' },
@@ -16,6 +16,7 @@ const VIDEO_EDITING_SUBS = [
   { label: 'Documentaries',        slug: 'documentaries' },
   { label: 'Promotional videos',   slug: 'promotional-videos' },
   { label: 'AI videos',            slug: 'ai-videos' },
+  { label: 'Long form video',      slug: 'long-form-video' },
 ]
 
 const VIDEO_EDITING_IMAGES = [

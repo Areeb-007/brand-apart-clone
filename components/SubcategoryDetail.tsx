@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
@@ -15,11 +16,11 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
   const heroNameRef = useRef<HTMLDivElement>(null)
   const heroTagRef  = useRef<HTMLDivElement>(null)
   const heroIgRef   = useRef<HTMLDivElement>(null)
-  const servicesRef = useRef<HTMLDivElement>(null)
-  const descRef     = useRef<HTMLDivElement>(null)
+  const servicesRef  = useRef<HTMLDivElement>(null)
+  const descRef      = useRef<HTMLDivElement>(null)
+  const portfolioRef = useRef<HTMLDivElement>(null)
 
   const { onMouseMove } = useCharmSpawner(charmPaths(sub))
-  const heroBg = sub.theme === 'black' ? '#000' : category.accent
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.1 })
@@ -27,7 +28,7 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
       .fromTo(heroTagRef.current,  { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.5')
       .fromTo(heroIgRef.current,   { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.4')
 
-    const reveals = [servicesRef, descRef]
+    const reveals = [servicesRef, descRef, portfolioRef]
     reveals.forEach(ref => {
       if (!ref.current) return
       gsap.fromTo(ref.current,
@@ -50,7 +51,7 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
         onMouseMove={onMouseMove}
         style={{
           minHeight: '100svh',
-          background: heroBg,
+          background: sub.bg,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -72,17 +73,28 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
         </Link>
 
         <div ref={heroNameRef}>
-          <h1 style={{
-            fontFamily: "'Youth', Arial, sans-serif",
-            fontSize: 'clamp(48px, 9vw, 148px)',
-            fontWeight: 900,
-            letterSpacing: '-0.04em',
-            lineHeight: 0.9,
-            color: '#fff',
-            margin: 0,
-          }}>
-            {sub.name}
-          </h1>
+          {sub.logo ? (
+            <Image
+              src={sub.logo}
+              alt={sub.name}
+              width={900}
+              height={344}
+              style={{ width: 'clamp(220px, 26vw, 420px)', height: 'auto', margin: '0 auto' }}
+              priority
+            />
+          ) : (
+            <h1 style={{
+              fontFamily: "'Youth', Arial, sans-serif",
+              fontSize: 'clamp(48px, 9vw, 148px)',
+              fontWeight: 900,
+              letterSpacing: '-0.04em',
+              lineHeight: 0.9,
+              color: '#fff',
+              margin: 0,
+            }}>
+              {sub.name}
+            </h1>
+          )}
         </div>
 
         <div ref={heroTagRef} style={{ marginTop: '28px', maxWidth: 'min(88vw, 720px)' }}>
@@ -167,6 +179,33 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
           ))}
         </div>
       </section>
+
+      {/* ── Portfolio — actual clips, same rounded "boxes" tile style used on
+          the category page's subcategory grid ── */}
+      {sub.portfolioVideos && sub.portfolioVideos.length > 0 && (
+        <section ref={portfolioRef} style={{ background: 'var(--bg)', padding: 'clamp(24px,4vw,40px) clamp(24px,4vw,60px) clamp(70px,8vw,100px)' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--fg-muted)', marginBottom: '18px' }}>
+              Portfolio
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '14px' }}>
+              {sub.portfolioVideos.map((src, i) => (
+                <div key={i} style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', aspectRatio: '9/16', background: '#0d1f3c' }}>
+                  <video
+                    src={src}
+                    muted
+                    loop
+                    autoPlay
+                    playsInline
+                    preload="metadata"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Back to category ── */}
       <section style={{ background: 'var(--bg)', borderTop: '1px solid var(--border)', padding: 'clamp(40px,6vw,60px) clamp(24px,4vw,60px)', textAlign: 'center' }}>

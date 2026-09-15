@@ -39,11 +39,11 @@ export default function CTA() {
     const section = sectionRef.current
     if (!section) return
 
-    // Scroll-driven background: cream → black as section enters viewport
+    // Scroll-driven background: cream → dark navy as section enters viewport
     gsap.fromTo(section,
       { backgroundColor: '#F5F0E8' },
       {
-        backgroundColor: '#0d0d0d',
+        backgroundColor: '#001941',
         ease: 'none',
         scrollTrigger: {
           trigger: section,

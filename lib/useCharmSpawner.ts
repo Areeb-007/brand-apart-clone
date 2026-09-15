@@ -29,7 +29,7 @@ export function useCharmSpawner(charms: string[]) {
     const img = document.createElement('img')
     img.src = charms[next]
     img.alt = ''
-    img.style.cssText = 'width:clamp(140px,16vw,260px);height:auto;object-fit:contain;filter:drop-shadow(0 24px 48px rgba(0,0,0,0.22));display:block;'
+    img.style.cssText = 'width:clamp(90px,10vw,160px);height:auto;object-fit:contain;filter:drop-shadow(0 24px 48px rgba(0,0,0,0.22));display:block;'
     el.appendChild(img)
     section.appendChild(el)
 

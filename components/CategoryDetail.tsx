@@ -102,13 +102,13 @@ export default function CategoryDetail({ category }: { category: Category }) {
     <>
       <Navigation />
 
-      {/* ── Hero: solid black, matches the reference case-study layout ── */}
+      {/* ── Hero: dark navy — black is reserved for Morph Studio's theme ── */}
       <section
         data-nav-dark
         onMouseMove={onMouseMove}
         style={{
           minHeight: '100svh',
-          background: '#000',
+          background: '#001941',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -265,13 +265,7 @@ export default function CategoryDetail({ category }: { category: Category }) {
                     }} />
                     <div style={{ position: 'absolute', left: '20px', bottom: '18px', right: '20px' }}>
                       <span style={{ fontSize: '15px', fontWeight: 800, color: '#fff', letterSpacing: '-0.01em' }}>
-                        {i === 0 ? 'Wedding video'
-                          : i === 1 ? 'Short form videos'
-                          : i === 2 ? 'Youtube videos'
-                          : i === 3 ? 'Real estate videos'
-                          : i === 4 ? 'Documentaries'
-                          : i === 5 ? 'Promotional videos'
-                          : 'AI videos'}
+                        {sub.gridLabel}
                       </span>
                     </div>
                   </div>
