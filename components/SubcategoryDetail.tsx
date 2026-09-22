@@ -12,6 +12,18 @@ import type { Category } from '@/lib/categories'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// Perceived brightness of a hex color (0 = black, 1 = white) — used to flip
+// the hero text to dark when a subcategory's bg color is light (e.g. the
+// bright yellow Documentaries page), since white text would be unreadable.
+function isLightColor(hex: string): boolean {
+  const clean = hex.replace('#', '')
+  const full = clean.length === 3 ? clean.split('').map(c => c + c).join('') : clean.padStart(6, '0')
+  const r = parseInt(full.slice(0, 2), 16)
+  const g = parseInt(full.slice(2, 4), 16)
+  const b = parseInt(full.slice(4, 6), 16)
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.6
+}
+
 export default function SubcategoryDetail({ category, sub }: { category: Category; sub: Subcategory }) {
   const heroNameRef = useRef<HTMLDivElement>(null)
   const heroTagRef  = useRef<HTMLDivElement>(null)
@@ -21,6 +33,13 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
   const portfolioRef = useRef<HTMLDivElement>(null)
 
   const { onMouseMove } = useCharmSpawner(charmPaths(sub))
+  const lightBg  = isLightColor(sub.bg)
+  const heroFg   = lightBg ? '#0d0d0d' : '#fff'
+  const heroFg45 = lightBg ? 'rgba(13,13,13,0.45)' : 'rgba(255,255,255,0.45)'
+  const heroFg4  = lightBg ? 'rgba(13,13,13,0.4)'  : 'rgba(255,255,255,0.4)'
+  const heroFg3  = lightBg ? 'rgba(13,13,13,0.3)'  : 'rgba(255,255,255,0.3)'
+  const heroFg8  = lightBg ? 'rgba(13,13,13,0.8)'  : 'rgba(255,255,255,0.8)'
+  const heroFg1  = lightBg ? 'rgba(13,13,13,0.1)'  : 'rgba(255,255,255,0.1)'
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.1 })
@@ -66,7 +85,7 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
         <Link href={`/services/${category.slug}`} style={{
           position: 'absolute', top: 'clamp(88px,10vw,120px)',
           fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em',
-          textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)',
+          textTransform: 'uppercase', color: heroFg4,
           textDecoration: 'none', cursor: 'none',
         }}>
           ← {category.name}
@@ -89,7 +108,7 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
               fontWeight: 900,
               letterSpacing: '-0.04em',
               lineHeight: 0.9,
-              color: '#fff',
+              color: heroFg,
               margin: 0,
             }}>
               {sub.name}
@@ -101,7 +120,7 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
           {sub.tagline && (
             <p style={{
               fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em',
-              textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)',
+              textTransform: 'uppercase', color: heroFg45,
               marginBottom: '14px',
             }}>
               {sub.tagline}
@@ -111,7 +130,7 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(18px, 2.4vw, 30px)',
             fontWeight: 500,
-            color: 'rgba(255,255,255,0.8)',
+            color: heroFg8,
             lineHeight: 1.3,
             margin: 0,
           }}>
@@ -128,11 +147,11 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '8px',
                 padding: '10px 22px', borderRadius: '100px',
-                border: '1px solid rgba(255,255,255,0.3)', color: '#fff',
+                border: `1px solid ${heroFg3}`, color: heroFg,
                 fontSize: '13px', fontWeight: 600, textDecoration: 'none', cursor: 'none',
                 transition: 'background 0.2s',
               }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = heroFg1 }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent' }}
             >
               @{sub.igName}
