@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { getCategory, CATEGORIES } from '@/lib/categories'
 import CategoryDetail from '@/components/CategoryDetail'
+import GraphicDesignPage from '@/components/GraphicDesignPage'
 
 export function generateStaticParams() {
   return CATEGORIES.map(c => ({ slug: c.slug }))
@@ -20,5 +21,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const { slug } = await params
   const category = getCategory(slug)
   if (!category) notFound()
+  if (slug === 'graphic-design') return <GraphicDesignPage category={category} />
   return <CategoryDetail category={category} />
 }

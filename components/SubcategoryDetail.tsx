@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navigation from '@/components/Navigation'
+import VideoCard from '@/components/VideoCard'
 import { useCharmSpawner } from '@/lib/useCharmSpawner'
 import { charmPaths, type Subcategory } from '@/lib/subcategories'
 import type { Category } from '@/lib/categories'
@@ -201,15 +202,15 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
 
       {/* ── Portfolio — actual clips, same rounded "boxes" tile style used on
           the category page's subcategory grid ── */}
-      {sub.portfolioVideos && sub.portfolioVideos.length > 0 && (
+      {((sub.portfolioVideos && sub.portfolioVideos.length > 0) || (sub.youtubeShorts && sub.youtubeShorts.length > 0)) && (
         <section ref={portfolioRef} style={{ background: 'var(--bg)', padding: 'clamp(24px,4vw,40px) clamp(24px,4vw,60px) clamp(70px,8vw,100px)' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--fg-muted)', marginBottom: '18px' }}>
               Portfolio
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '14px' }}>
-              {sub.portfolioVideos.map((src, i) => (
-                <div key={i} style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', aspectRatio: '9/16', background: '#0d1f3c' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px' }}>
+              {sub.portfolioVideos?.map((src, i) => (
+                <div key={`clip-${i}`} style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', aspectRatio: '9/16', background: '#0d1f3c' }}>
                   <video
                     src={src}
                     muted
@@ -220,6 +221,9 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
                     style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                   />
                 </div>
+              ))}
+              {sub.youtubeShorts?.map(videoId => (
+                <VideoCard key={videoId} videoId={videoId} />
               ))}
             </div>
           </div>

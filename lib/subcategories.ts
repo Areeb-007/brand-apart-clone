@@ -17,6 +17,7 @@ export type Subcategory = {
   logo?: string          // optional brand logo image, rendered instead of the text title
   cover: string
   portfolioVideos?: string[] // optional grid of actual portfolio clips, shown as autoplay boxes
+  youtubeShorts?: string[]   // optional grid of YouTube Shorts (video IDs), click-to-play cards
   charmsDir: string      // '' if no charm set yet
   charmCount: number
 }
@@ -59,6 +60,12 @@ export const SUBCATEGORIES: Subcategory[] = [
     bg: '#000',
     logo: '/images/logos/morph-studio.png',
     cover: '/images/portfolio/we-ve-2.jpg',
+    // client-provided YouTube Shorts links, deduped (6niZoVGE758 was sent twice)
+    youtubeShorts: [
+      'jA34zlFpKWs', 'kSaXDC3Xgfw', 'FtNgJ6oKve0', 'up69HM6uCxc',
+      '65LpvBiH-jI', 'RjvsschPWDQ', '6niZoVGE758', 'IKpUxCojAXg',
+      '6bB8qQENErY', 'RQjatq_S4Wc', 'tRHbhROQKkk',
+    ],
     charmsDir: '/images/charms/short-form-videos',
     charmCount: 9,
   },
@@ -99,6 +106,12 @@ export const SUBCATEGORIES: Subcategory[] = [
     ],
     bg: '#3B2FC9',
     cover: '/images/portfolio/we-ve-3.jpg',
+    youtubeShorts: [
+      '4hakW8nYXrU', 'RvcgOcMVMI8', 'mujPnFmw304', '6Sv-tfBh4XQ',
+      'hR7Rj-RG-Yg', 'dzWBFYY6Ya4', 'V61K2IThL-c', 'gUXetQNLOaQ',
+      'g5vD3Z53Is0', 'z9xCq2bCFJU', '-BNH-USwiPI', 'Ht9tQgR1Mv8',
+      'ORgEUlTj6X4', '1abGI-hR6Fw',
+    ],
     charmsDir: '/images/charms/real-estate-videos',
     charmCount: 2,
   },
