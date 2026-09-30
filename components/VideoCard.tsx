@@ -90,7 +90,7 @@ export default function VideoCard({ videoId }: { videoId: string }) {
   }, [videoId])
 
   return (
-    <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', aspectRatio: '1/1', background: '#0d1f3c' }}>
+    <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', aspectRatio: '4/5', background: '#0d1f3c' }}>
       <div ref={hostRef} />
     </div>
   )

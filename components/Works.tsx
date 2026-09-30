@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -11,71 +10,79 @@ gsap.registerPlugin(ScrollTrigger)
 // 8 tiles to fill the full sketch (2 full-width + 2 bento blocks). We only
 // have 4 real case studies right now, so tiles 5-8 re-show the same 4
 // projects in a different order as placeholders — swap their client/category/
-// media/slug for real covers as soon as they're ready, no layout changes needed.
+// video/slug for real covers as soon as they're ready, no layout changes needed.
 const PROJECTS = [
+  // Tile shapes are fixed by position (see tilePlacement below): 1 & 5 are the
+  // wide "full" tile (1000/540, aspect 1.85), 3 & 6 are the tall portrait tile,
+  // 2/4/7/8 are the regular tile (500/350, aspect 1.43). Assignments below
+  // match each clip's real aspect ratio (checked via mdls) to the closest tile
+  // shape: social-media is 1920x1080 (1.78, closest to the full tile), the
+  // rest are 1200x840 (1.43, an exact match for the regular tile). Nothing is
+  // natively portrait, so the two tall slots still crop some — least-bad
+  // option, not a perfect fit.
   {
     id: 1,
     client: 'FILMFX',
-    category: 'VIDEO EDITING',
+    category: 'SOCIAL MEDIA',
     year: '2024',
-    media: '/images/covers/video-editing.png',
-    slug: 'video-editing',
+    video: '/videos/featured-work/social-media.mp4',
+    slug: 'social-media',
   },
   {
     id: 2,
     client: 'FILMFX',
-    category: 'GRAPHIC DESIGN',
+    category: 'VIDEO EDITING',
     year: '2024',
-    media: '/images/covers/graphic-design.png',
-    slug: 'graphic-design',
+    video: '/videos/featured-work/video-editing-1.mp4',
+    slug: 'video-editing',
   },
   {
     id: 3,
     client: 'FILMFX',
-    category: 'SOCIAL MEDIA',
+    category: 'BUSINESS DEV',
     year: '2024',
-    media: '/images/covers/social-media.png',
-    slug: 'social-media',
+    video: '/videos/featured-work/business-dev-1.mp4',
+    slug: 'business-dev',
   },
   {
     id: 4,
     client: 'FILMFX',
-    category: 'BUSINESS DEV',
+    category: 'GRAPHIC DESIGN',
     year: '2024',
-    media: '/images/covers/business-dev.png',
-    slug: 'business-dev',
+    video: '/videos/featured-work/graphic-design.mp4',
+    slug: 'graphic-design',
   },
   // placeholders — replace with real projects when available
   {
     id: 5,
     client: 'FILMFX',
-    category: 'GRAPHIC DESIGN',
+    category: 'SOCIAL MEDIA',
     year: '2024',
-    media: '/images/covers/graphic-design.png',
-    slug: 'graphic-design',
+    video: '/videos/featured-work/social-media.mp4',
+    slug: 'social-media',
   },
   {
     id: 6,
     client: 'FILMFX',
     category: 'BUSINESS DEV',
     year: '2024',
-    media: '/images/covers/business-dev.png',
+    video: '/videos/featured-work/business-dev-2.mp4',
     slug: 'business-dev',
   },
   {
     id: 7,
     client: 'FILMFX',
-    category: 'SOCIAL MEDIA',
+    category: 'GRAPHIC DESIGN',
     year: '2024',
-    media: '/images/covers/social-media.png',
-    slug: 'social-media',
+    video: '/videos/featured-work/graphic-design.mp4',
+    slug: 'graphic-design',
   },
   {
     id: 8,
     client: 'FILMFX',
     category: 'VIDEO EDITING',
     year: '2024',
-    media: '/images/covers/video-editing.png',
+    video: '/videos/featured-work/video-editing-2.mp4',
     slug: 'video-editing',
   },
 ]
@@ -114,13 +121,15 @@ function ProjectTile({ project, position }: { project: typeof PROJECTS[number]; 
         cursor: 'none',
       }}
     >
-      <Image
-        src={project.media}
-        alt={`${project.client} ${project.category}`}
-        fill
+      <video
+        src={project.video}
         className="work-tile-img"
-        style={{ objectFit: 'cover' }}
-        sizes="(max-width: 768px) 100vw, 65vw"
+        muted
+        loop
+        autoPlay
+        playsInline
+        preload="metadata"
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
       />
 
       {/* Badge — a small top-left pill that grows into a full-width bar on hover */}

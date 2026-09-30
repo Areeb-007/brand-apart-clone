@@ -202,7 +202,7 @@ export default function MoreWork() {
             color: '#fff', pointerEvents: 'auto', cursor: 'none',
           }}
         >
-          500+ Projects<br />
+          10K+ Projects<br />
           <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'rgba(255,255,255,0.35)' }}>
             delivered.
           </span>

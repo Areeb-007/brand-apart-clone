@@ -24,6 +24,33 @@ export type Subcategory = {
 
 export const SUBCATEGORIES: Subcategory[] = [
   {
+    slug: 'real-estate-videos',
+    categorySlug: 'video-editing',
+    name: 'The Nexa Homes',
+    gridLabel: 'Real estate videos',
+    igName: 'thenexahomes',
+    igUrl: 'https://www.instagram.com/thenexahomes/',
+    tagline: 'Real Estate Video Editing',
+    bottomLine: 'Cinematic real estate videos that sell the lifestyle, not just the property.',
+    services: [
+      'Real estate reels', 'Luxury property tours', 'Apartment walkthroughs', 'Drone footage edits',
+      'Listing videos', 'Interior showcases', 'Social media ads', 'Commercial property videos', 'Cinematic home highlights',
+    ],
+    description: [
+      'The Nexa Homes showcases properties through cinematic storytelling, clean editing, and high-end visual presentation — from luxury villas to commercial spaces. With professional color grading, motion graphics, and social-ready formats, every listing feels premium, inviting, and ready to sell.',
+    ],
+    bg: '#3B2FC9',
+    cover: '/images/portfolio/we-ve-3.jpg',
+    youtubeShorts: [
+      '4hakW8nYXrU', 'RvcgOcMVMI8', 'mujPnFmw304', '6Sv-tfBh4XQ',
+      'hR7Rj-RG-Yg', 'dzWBFYY6Ya4', 'V61K2IThL-c', 'gUXetQNLOaQ',
+      'g5vD3Z53Is0', 'z9xCq2bCFJU', '-BNH-USwiPI', 'Ht9tQgR1Mv8',
+      'ORgEUlTj6X4', '1abGI-hR6Fw',
+    ],
+    charmsDir: '/images/charms/real-estate-videos',
+    charmCount: 2,
+  },
+  {
     slug: 'wedding-video',
     categorySlug: 'video-editing',
     name: 'The Wedding Cuts',
@@ -87,33 +114,6 @@ export const SUBCATEGORIES: Subcategory[] = [
     cover: '/images/portfolio/ve-1.jpg',
     charmsDir: '',
     charmCount: 0,
-  },
-  {
-    slug: 'real-estate-videos',
-    categorySlug: 'video-editing',
-    name: 'The Nexa Homes',
-    gridLabel: 'Real estate videos',
-    igName: 'thenexahomes',
-    igUrl: 'https://www.instagram.com/thenexahomes/',
-    tagline: 'Real Estate Video Editing',
-    bottomLine: 'Cinematic real estate videos that sell the lifestyle, not just the property.',
-    services: [
-      'Real estate reels', 'Luxury property tours', 'Apartment walkthroughs', 'Drone footage edits',
-      'Listing videos', 'Interior showcases', 'Social media ads', 'Commercial property videos', 'Cinematic home highlights',
-    ],
-    description: [
-      'The Nexa Homes showcases properties through cinematic storytelling, clean editing, and high-end visual presentation — from luxury villas to commercial spaces. With professional color grading, motion graphics, and social-ready formats, every listing feels premium, inviting, and ready to sell.',
-    ],
-    bg: '#3B2FC9',
-    cover: '/images/portfolio/we-ve-3.jpg',
-    youtubeShorts: [
-      '4hakW8nYXrU', 'RvcgOcMVMI8', 'mujPnFmw304', '6Sv-tfBh4XQ',
-      'hR7Rj-RG-Yg', 'dzWBFYY6Ya4', 'V61K2IThL-c', 'gUXetQNLOaQ',
-      'g5vD3Z53Is0', 'z9xCq2bCFJU', '-BNH-USwiPI', 'Ht9tQgR1Mv8',
-      'ORgEUlTj6X4', '1abGI-hR6Fw',
-    ],
-    charmsDir: '/images/charms/real-estate-videos',
-    charmCount: 2,
   },
   {
     slug: 'documentaries',

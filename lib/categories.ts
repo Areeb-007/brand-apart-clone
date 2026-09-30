@@ -16,6 +16,7 @@ export type Category = {
   testimonial: { quote: string; author: string; role: string; photo: string }
   accent: string
   nextSlug: string
+  hideMeta?: boolean // hides the hero's YEAR / INDUSTRY row
 }
 
 export const CATEGORIES: Category[] = [
@@ -56,6 +57,7 @@ export const CATEGORIES: Category[] = [
     },
     accent: '#3B2FC9',
     nextSlug: 'graphic-design',
+    hideMeta: true,
   },
   {
     slug: 'graphic-design',

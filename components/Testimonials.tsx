@@ -232,9 +232,6 @@ export default function Testimonials() {
                 ))}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-                <span className="tcard-contact" style={{ fontSize: '8px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                  Contact Sales
-                </span>
                 <div className="tcard-btn" style={{
                   width: '26px', height: '26px', borderRadius: '50%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,

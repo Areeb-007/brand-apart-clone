@@ -153,7 +153,7 @@ export default function Hero() {
           margin: 0,
           maxWidth: 'min(88vw, 1100px)',
         }}>
-          The creative{' '}
+          Your creative{' '}
           {/* Orange badge — matches Brand Apart's © badge */}
           <span style={{
             display: 'inline-flex',
@@ -173,8 +173,7 @@ export default function Hero() {
             </svg>
           </span>
           <br />
-          partner for<br />
-          high-impact brands.
+          video partner.
         </h1>
 
         {/* ── Scrolling logo marquee — constrained box, centered ── */}

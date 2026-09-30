@@ -53,13 +53,15 @@ export default function CategoryDetail({ category }: { category: Category }) {
       { y: 80, opacity: 0 },
       { y: 0, opacity: 1, duration: 1.1, ease: 'power3.out' }
     )
-    .fromTo(heroMetaRef.current,
-      { y: 24, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.5'
-    )
-    .fromTo(heroTagRef.current,
+    if (heroMetaRef.current) {
+      tl.fromTo(heroMetaRef.current,
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.5'
+      )
+    }
+    tl.fromTo(heroTagRef.current,
       { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.4'
+      { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out' }, heroMetaRef.current ? '-=0.4' : '-=0.5'
     )
 
     // Scroll-in sections
@@ -136,21 +138,23 @@ export default function CategoryDetail({ category }: { category: Category }) {
           </div>
 
           {/* Year + Industry */}
-          <div ref={heroMetaRef} style={{ display: 'flex', gap: 'clamp(40px, 8vw, 120px)' }}>
-            {[
-              { label: 'YEAR', value: category.year },
-              { label: 'INDUSTRY', value: category.industry },
-            ].map(item => (
-              <div key={item.label} style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', marginBottom: '6px' }}>
-                  {item.label}
+          {!category.hideMeta && (
+            <div ref={heroMetaRef} style={{ display: 'flex', gap: 'clamp(40px, 8vw, 120px)' }}>
+              {[
+                { label: 'YEAR', value: category.year },
+                { label: 'INDUSTRY', value: category.industry },
+              ].map(item => (
+                <div key={item.label} style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', marginBottom: '6px' }}>
+                    {item.label}
+                  </div>
+                  <div style={{ fontSize: '16px', fontWeight: 500, color: '#fff', letterSpacing: '0.01em' }}>
+                    {item.value}
+                  </div>
                 </div>
-                <div style={{ fontSize: '16px', fontWeight: 500, color: '#fff', letterSpacing: '0.01em' }}>
-                  {item.value}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Tagline */}
           <div ref={heroTagRef}>
