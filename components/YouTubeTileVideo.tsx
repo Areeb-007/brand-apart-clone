@@ -3,8 +3,19 @@
 import { useEffect, useRef } from 'react'
 import { loadYouTubeApi, type YTPlayer } from '@/lib/youtube'
 
-export default function VideoCard({ videoId }: { videoId: string }) {
-  const hostRef = useRef<HTMLDivElement>(null)
+// Generalized to cover grid tiles of very different shapes (see Works.tsx).
+//
+// An iframe can't use object-fit, so "cover" is faked by giving the iframe
+// itself the video's real aspect ratio and sizing it so it overflows the
+// tile on whichever axis the tile is relatively narrower on — the standard
+// cover formula is: match the axis where containerAspect > contentAspect by
+// width, otherwise by height. Since both aspect ratios are known up front
+// per tile (see Works.tsx), the caller just passes which axis to match.
+
+export default function YouTubeTileVideo({
+  videoId, aspectRatio, matchByWidth, className,
+}: { videoId: string; aspectRatio: string; matchByWidth: boolean; className?: string }) {
+  const hostRef   = useRef<HTMLDivElement>(null)
   const playerRef = useRef<YTPlayer | null>(null)
 
   useEffect(() => {
@@ -25,9 +36,11 @@ export default function VideoCard({ videoId }: { videoId: string }) {
             const iframeEl = e.target.getIframe()
             Object.assign(iframeEl.style, {
               position: 'absolute', top: '50%', left: '50%',
-              width: '100%', height: '177.78%',
               transform: 'translate(-50%, -50%)',
               border: '0', pointerEvents: 'none',
+              aspectRatio,
+              width:  matchByWidth ? '100%' : 'auto',
+              height: matchByWidth ? 'auto' : '100%',
             })
             e.target.mute()
             e.target.playVideo()
@@ -46,10 +59,10 @@ export default function VideoCard({ videoId }: { videoId: string }) {
       cancelled = true
       playerRef.current?.destroy()
     }
-  }, [videoId])
+  }, [videoId, aspectRatio, matchByWidth])
 
   return (
-    <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', aspectRatio: '4/5', background: '#0d1f3c' }}>
+    <div className={className} style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
       <div ref={hostRef} />
     </div>
   )

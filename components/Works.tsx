@@ -4,86 +4,93 @@ import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import YouTubeTileVideo from '@/components/YouTubeTileVideo'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// 8 tiles to fill the full sketch (2 full-width + 2 bento blocks). We only
-// have 4 real case studies right now, so tiles 5-8 re-show the same 4
-// projects in a different order as placeholders — swap their client/category/
-// video/slug for real covers as soon as they're ready, no layout changes needed.
+// 8 tiles to fill the full sketch (2 full-width + 2 bento blocks), each now
+// backed by a client-provided YouTube video. Tile shapes are fixed by
+// position (see tilePlacement below): 1 & 5 are the wide "full" tile
+// (1000/540, aspect 1.85), 3 & 6 are the tall portrait tile, 2/4/7/8 are the
+// regular tile (500/350, aspect 1.43). `orientation` records whether the
+// source is a standard 16:9 upload or a 9:16 Short — assignments below put
+// horizontal clips in the full tile (closest aspect match) and vertical
+// clips in the tall tile, with the leftovers of each type filling the
+// regular slots (unavoidable crop there either way — nothing fits perfectly).
+// Boxes 7 & 8 share the exact same source video (client sent the same link
+// twice) — kept as given rather than guessing a replacement.
 const PROJECTS = [
-  // Tile shapes are fixed by position (see tilePlacement below): 1 & 5 are the
-  // wide "full" tile (1000/540, aspect 1.85), 3 & 6 are the tall portrait tile,
-  // 2/4/7/8 are the regular tile (500/350, aspect 1.43). Assignments below
-  // match each clip's real aspect ratio (checked via mdls) to the closest tile
-  // shape: social-media is 1920x1080 (1.78, closest to the full tile), the
-  // rest are 1200x840 (1.43, an exact match for the regular tile). Nothing is
-  // natively portrait, so the two tall slots still crop some — least-bad
-  // option, not a perfect fit.
   {
     id: 1,
     client: 'FILMFX',
-    category: 'SOCIAL MEDIA',
+    category: 'VIDEO EDITING',
     year: '2024',
-    video: '/videos/featured-work/social-media.mp4',
-    slug: 'social-media',
+    youtubeId: 'mGQ8a9gPeZQ',
+    orientation: 'horizontal' as const,
+    href: '/work/video-editing',
   },
   {
     id: 2,
     client: 'FILMFX',
-    category: 'VIDEO EDITING',
+    category: 'GRAPHIC DESIGN',
     year: '2024',
-    video: '/videos/featured-work/video-editing-1.mp4',
-    slug: 'video-editing',
+    youtubeId: 'xcvw284YMH0',
+    orientation: 'horizontal' as const,
+    href: '/work/graphic-design',
   },
   {
     id: 3,
     client: 'FILMFX',
-    category: 'BUSINESS DEV',
+    category: 'VIDEO EDITING VERTICAL',
     year: '2024',
-    video: '/videos/featured-work/business-dev-1.mp4',
-    slug: 'business-dev',
+    youtubeId: 'L9AVRyejy48',
+    orientation: 'vertical' as const,
+    href: '/work/video-editing',
   },
   {
     id: 4,
     client: 'FILMFX',
-    category: 'GRAPHIC DESIGN',
+    category: 'QUOTE',
     year: '2024',
-    video: '/videos/featured-work/graphic-design.mp4',
-    slug: 'graphic-design',
+    youtubeId: 'SDOlgidffE0',
+    orientation: 'horizontal' as const,
+    href: '/#testimonials',
   },
-  // placeholders — replace with real projects when available
   {
     id: 5,
     client: 'FILMFX',
-    category: 'SOCIAL MEDIA',
+    category: 'SOCIAL MEDIA MARKETING',
     year: '2024',
-    video: '/videos/featured-work/social-media.mp4',
-    slug: 'social-media',
+    youtubeId: 'XgKrdK6-Md8',
+    orientation: 'horizontal' as const,
+    href: '/work/social-media',
   },
   {
     id: 6,
     client: 'FILMFX',
-    category: 'BUSINESS DEV',
+    category: 'STAFF AUGMENTATION',
     year: '2024',
-    video: '/videos/featured-work/business-dev-2.mp4',
-    slug: 'business-dev',
+    youtubeId: 'zG3iTiM8ELg',
+    orientation: 'vertical' as const,
+    href: '/services/staff-augmentation',
   },
   {
     id: 7,
     client: 'FILMFX',
-    category: 'GRAPHIC DESIGN',
+    category: 'SALES',
     year: '2024',
-    video: '/videos/featured-work/graphic-design.mp4',
-    slug: 'graphic-design',
+    youtubeId: 'kgfN7mUAFaQ',
+    orientation: 'vertical' as const,
+    href: '/services/sales-marketing',
   },
   {
     id: 8,
     client: 'FILMFX',
-    category: 'VIDEO EDITING',
+    category: 'STAFF AUGMENTATION',
     year: '2024',
-    video: '/videos/featured-work/video-editing-2.mp4',
-    slug: 'video-editing',
+    youtubeId: 'zG3iTiM8ELg',
+    orientation: 'vertical' as const,
+    href: '/services/staff-augmentation',
   },
 ]
 
@@ -98,9 +105,14 @@ function tilePlacement(position: number) {
 
 function ProjectTile({ project, position }: { project: typeof PROJECTS[number]; position: number }) {
   const { isFull, isTall } = tilePlacement(position)
+  const shape = isFull ? 'full' : isTall ? 'tall' : 'regular'
+  // Cover formula: match the axis where containerAspect > contentAspect by
+  // width, otherwise by height. True everywhere except a horizontal clip in
+  // a regular tile (container is narrower than 16:9, so match by height).
+  const matchByWidth = !(shape === 'regular' && project.orientation === 'horizontal')
   return (
     <Link
-      href={`/work/${project.slug}`}
+      href={project.href}
       className="work-tile-cell"
       style={{
         display: 'block',
@@ -121,15 +133,11 @@ function ProjectTile({ project, position }: { project: typeof PROJECTS[number]; 
         cursor: 'none',
       }}
     >
-      <video
-        src={project.video}
+      <YouTubeTileVideo
+        videoId={project.youtubeId}
+        aspectRatio={project.orientation === 'horizontal' ? '16/9' : '9/16'}
+        matchByWidth={matchByWidth}
         className="work-tile-img"
-        muted
-        loop
-        autoPlay
-        playsInline
-        preload="metadata"
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
       />
 
       {/* Badge — a small top-left pill that grows into a full-width bar on hover */}

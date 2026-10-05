@@ -26,18 +26,18 @@ const VIDEO_EDITING_IMAGES = [
 
 const SERVICE_ITEMS = [
   { label: 'Video Editing',                href: '/services/video-editing', icon: '✂', hasSub: true  },
-  { label: 'Graphic Design',               href: '/#services', icon: '✦', hasSub: false },
-  { label: 'Social Media Marketing',       href: '/#services', icon: '◎', hasSub: false },
-  { label: 'Sales & Business Development', href: '/#services', icon: '◈', hasSub: false },
-  { label: 'Staff Augmentation',           href: '/#services', icon: '⊕', hasSub: false },
+  { label: 'Graphic Design',               href: '/services/graphic-design', icon: '✦', hasSub: false },
+  { label: 'Social Media Marketing',       href: '/services/smm', icon: '◎', hasSub: false },
+  { label: 'Sales & Business Development', href: '/services/sales-marketing', icon: '◈', hasSub: false },
+  { label: 'Staff Augmentation',           href: '/services/staff-augmentation', icon: '⊕', hasSub: false },
 ]
 
 const PORTFOLIO_ITEMS = [
   { label: 'Video Editing', icon: '✂', href: '/services/video-editing', subs: VIDEO_EDITING_SUBS },
-  { label: 'Graphic Design',               icon: '✦', href: '/#works', subs: [] },
-  { label: 'Social Media Marketing',       icon: '◎', href: '/#works', subs: [] },
-  { label: 'Sales & Business Development', icon: '◈', href: '/#works', subs: [] },
-  { label: 'Staff Augmentation',           icon: '⊕', href: '/#works', subs: [] },
+  { label: 'Graphic Design',               icon: '✦', href: '/services/graphic-design', subs: [] },
+  { label: 'Social Media Marketing',       icon: '◎', href: '/services/smm', subs: [] },
+  { label: 'Sales & Business Development', icon: '◈', href: '/services/sales-marketing', subs: [] },
+  { label: 'Staff Augmentation',           icon: '⊕', href: '/services/staff-augmentation', subs: [] },
 ]
 
 const ABOUT_ITEMS = [

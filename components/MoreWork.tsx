@@ -8,20 +8,21 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 // 10 items with mixed sizes, matching the reference's own scatter of large/
-// small tiles rather than one uniform size. Each source image is a fully
-// designed poster card (branding + headline baked in) — cropped small here,
-// same as every other tile in this wheel.
+// small tiles rather than one uniform size. The last 2 reuse existing cover
+// images as placeholders (marked below) since there are only 8 dedicated
+// "see more work" images in the project — swap them for real ones any time.
 const ITEMS = [
-  { id: 1,  src: '/images/portfolio/see-more-work/card-1.png',  label: 'Content Worth Watching — YouTube & Podcast Editing', size: 230 },
-  { id: 2,  src: '/images/portfolio/see-more-work/card-2.png',  label: 'Ideas in Motion — Motion Graphics',                  size: 190 },
-  { id: 3,  src: '/images/portfolio/see-more-work/card-3.png',  label: 'Make It Irresistible — Product Commercial Editing',  size: 240 },
-  { id: 4,  src: '/images/portfolio/see-more-work/card-4.png',  label: 'Driven by Detail — Automotive Video Editing',        size: 205 },
-  { id: 5,  src: '/images/portfolio/see-more-work/card-5.png',  label: 'Spaces That Sell — Real Estate Video Editing',       size: 215 },
-  { id: 6,  src: '/images/portfolio/see-more-work/card-6.png',  label: 'Stop the Scroll — Social Media Video Editing',       size: 225 },
-  { id: 7,  src: '/images/portfolio/see-more-work/card-7.png',  label: 'Made to Look Delicious — Restaurant Video Editing',  size: 185 },
-  { id: 8,  src: '/images/portfolio/see-more-work/card-8.png',  label: 'Love, Cinematically Told — Wedding Film Editing',    size: 150 },
-  { id: 9,  src: '/images/portfolio/see-more-work/card-9.png',  label: 'Relive the Energy — Event Highlight Editing',        size: 150 },
-  { id: 10, src: '/images/portfolio/see-more-work/card-10.png', label: 'Business, Better Presented — Corporate Video Editing', size: 120 },
+  { id: 1,  src: '/images/portfolio/smw-1.jpg',    label: 'Website Development',  size: 230 },
+  { id: 2,  src: '/images/portfolio/smw-2.jpg',    label: 'Social Media',         size: 190 },
+  { id: 3,  src: '/images/portfolio/smw-3.jpg',    label: 'Typography Design',    size: 240 },
+  { id: 4,  src: '/images/portfolio/smw-4.jpg',    label: 'Social Media Marketing', size: 205 },
+  { id: 5,  src: '/images/portfolio/smw-5.jpg',    label: 'Podcast Clips',        size: 215 },
+  { id: 6,  src: '/images/portfolio/smw-6.jpg',    label: 'UGC Ads',              size: 225 },
+  { id: 7,  src: '/images/portfolio/smw-7.jpg',    label: 'Automobile Edits',     size: 185 },
+  { id: 8,  src: '/images/portfolio/smw-8.jpg',    label: 'Brand Content',        size: 150 },
+  // placeholders — replace with real "see more work" images when available
+  { id: 9,  src: '/images/portfolio/ve-1.jpg',     label: 'Video Edits',          size: 150 },
+  { id: 10, src: '/images/portfolio/we-sa-1.jpg',  label: 'Staff Augmentation',   size: 120 },
 ]
 
 const RADIUS       = 370

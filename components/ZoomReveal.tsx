@@ -1,9 +1,9 @@
 'use client'
 
-import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import YouTubeBackgroundVideo from '@/components/YouTubeBackgroundVideo'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -101,15 +101,8 @@ export default function ZoomReveal() {
             willChange: 'transform, border-radius',
           }}
         >
-          {/* Featured work image */}
-          <Image
-            src="/images/hero-work.png"
-            alt="Make it Cinematic. Make it Unforgettable."
-            fill
-            style={{ objectFit: 'cover' }}
-            sizes="100vw"
-            priority
-          />
+          {/* Featured work video */}
+          <YouTubeBackgroundVideo videoId="KPpxF36yzSI" />
 
           {/* Bottom gradient + text overlay */}
           <div

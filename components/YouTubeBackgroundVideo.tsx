@@ -3,8 +3,14 @@
 import { useEffect, useRef } from 'react'
 import { loadYouTubeApi, type YTPlayer } from '@/lib/youtube'
 
-export default function VideoCard({ videoId }: { videoId: string }) {
-  const hostRef = useRef<HTMLDivElement>(null)
+// Full-bleed autoplay/loop background for a section sized exactly to the
+// viewport (100vw x 100vh), like ZoomReveal's pinned card. Unlike
+// YouTubeTileVideo (fixed, known tile shapes), this container's aspect ratio
+// is whatever the visitor's screen happens to be, so the usual vw/vh double
+// min-width/min-height "cover" trick applies here instead of a precomputed
+// aspect-ratio — it only works because the container truly is the viewport.
+export default function YouTubeBackgroundVideo({ videoId }: { videoId: string }) {
+  const hostRef   = useRef<HTMLDivElement>(null)
   const playerRef = useRef<YTPlayer | null>(null)
 
   useEffect(() => {
@@ -25,9 +31,10 @@ export default function VideoCard({ videoId }: { videoId: string }) {
             const iframeEl = e.target.getIframe()
             Object.assign(iframeEl.style, {
               position: 'absolute', top: '50%', left: '50%',
-              width: '100%', height: '177.78%',
               transform: 'translate(-50%, -50%)',
               border: '0', pointerEvents: 'none',
+              width: '100vw', height: '56.25vw',
+              minWidth: '177.78vh', minHeight: '100vh',
             })
             e.target.mute()
             e.target.playVideo()
@@ -49,7 +56,7 @@ export default function VideoCard({ videoId }: { videoId: string }) {
   }, [videoId])
 
   return (
-    <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', aspectRatio: '4/5', background: '#0d1f3c' }}>
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
       <div ref={hostRef} />
     </div>
   )

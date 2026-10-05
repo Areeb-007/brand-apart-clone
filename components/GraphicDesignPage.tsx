@@ -6,6 +6,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navigation from '@/components/Navigation'
 import { getCategory, type Category } from '@/lib/categories'
+import { MediaBox, SectionEyebrow, useReveal, useNextBandScrollPct } from '@/components/PortfolioPageKit'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -18,66 +19,28 @@ gsap.registerPlugin(ScrollTrigger)
 // public/images/graphic-design/ — drop the real file at that path and it
 // swaps in automatically; until then it shows a labeled placeholder.
 
+// Each tile is a pre-designed square graphic with its own service name baked
+// in (see public/images/graphic-design/services/), so the grid needs no
+// separate text label.
 const SERVICES = [
-  'Social media designs', 'Logo designs', 'Brand identity', 'Banner designs',
-  'Flyer and brochure designs', 'Thumbnail designs', 'Pitch deck and presentation designs',
-  'Carousel designs', 'Typography designs',
+  { label: 'Social media designs',               file: 'social-media-designs' },
+  { label: 'Logo designs',                        file: 'logo-designs' },
+  { label: 'Brand identity',                      file: 'brand-identity' },
+  { label: 'Banner designs',                      file: 'banner-designs' },
+  { label: 'Flyer and brochure designs',          file: 'flyer-brochure-designs' },
+  { label: 'Thumbnail designs',                   file: 'thumbnail-designs' },
+  { label: 'Pitch deck and presentation designs', file: 'pitch-deck-designs' },
+  { label: 'Carousel designs',                    file: 'carousel-designs' },
+  { label: 'Typography designs',                  file: 'typography-designs' },
 ]
-
-function MediaBox({ src, alt, label, style }: { src: string; alt: string; label: string; style?: React.CSSProperties }) {
-  const [failed, setFailed] = useState(false)
-  return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', background: '#0d1f3c', overflow: 'hidden', ...style }}>
-      {!failed && (
-        // eslint-disable-next-line @next/next/no-img-element -- placeholder-aware loader, swaps in the moment a real file lands at `src`
-        <img
-          src={src}
-          alt={alt}
-          onError={() => setFailed(true)}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        />
-      )}
-      {failed && (
-        <div style={{
-          position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          textAlign: 'center', padding: '16px', border: '1px dashed rgba(255,255,255,0.25)',
-          color: 'rgba(255,255,255,0.45)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.03em', lineHeight: 1.5,
-        }}>
-          {label}
-        </div>
-      )}
-    </div>
-  )
-}
-
-function SectionEyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '18px' }}>
-      {children}
-    </p>
-  )
-}
-
-function useReveal<T extends HTMLElement>() {
-  const ref = useRef<T>(null)
-  useEffect(() => {
-    if (!ref.current) return
-    const anim = gsap.fromTo(ref.current,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
-        scrollTrigger: { trigger: ref.current, start: 'top 85%', toggleActions: 'play none none reverse' } }
-    )
-    return () => { anim.scrollTrigger?.kill(); anim.kill() }
-  }, [])
-  return ref
-}
 
 export default function GraphicDesignPage({ category }: { category: Category }) {
   const heroTextRef  = useRef<HTMLDivElement>(null)
   const heroBoxesRef = useRef<HTMLDivElement>(null)
-  const [scrollPct, setScrollPct] = useState(0)
   const nextBandRef  = useRef<HTMLAnchorElement>(null)
   const nextCategory = getCategory(category.nextSlug)
+  const scrollPct = useNextBandScrollPct(nextBandRef)
+  const [activeBox, setActiveBox] = useState(0)
 
   const servicesRef  = useReveal<HTMLDivElement>()
   const principlesRef = useReveal<HTMLDivElement>()
@@ -105,24 +68,15 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
     gsap.set(boxes[0], { opacity: 1 })
     const tl = gsap.timeline({ repeat: -1, delay: 3 })
     boxes.forEach((box, i) => {
-      const next = boxes[(i + 1) % boxes.length]
+      const nextIndex = (i + 1) % boxes.length
+      const next = boxes[nextIndex]
       tl.to(box, { opacity: 0, duration: 1, ease: 'power2.inOut' }, `+=3`)
-        .to(next, { opacity: 1, duration: 1, ease: 'power2.inOut' }, '<')
+        .to(next, {
+          opacity: 1, duration: 1, ease: 'power2.inOut',
+          onStart: () => setActiveBox(nextIndex),
+        }, '<')
     })
     return () => { tl.kill() }
-  }, [])
-
-  useEffect(() => {
-    const pctST = ScrollTrigger.create({
-      trigger: nextBandRef.current,
-      start: 'top bottom',
-      end: 'top center',
-      onUpdate: (self) => setScrollPct(Math.round(self.progress * 100)),
-    })
-    return () => {
-      pctST.kill()
-      ScrollTrigger.getAll().forEach(t => t.kill())
-    }
   }, [])
 
   return (
@@ -164,11 +118,25 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
               {['box-1', 'box-2', 'box-3'].map((name, i) => (
                 <div key={name} style={{ position: 'absolute', inset: 0 }}>
                   <MediaBox
-                    src={`/images/graphic-design/hero/${name}.jpg`}
+                    src={`/images/graphic-design/hero/${name}.png`}
                     alt={`Featured design ${i + 1}`}
-                    label={`Drop portfolio image/clip here:\npublic/images/graphic-design/hero/${name}.jpg`}
+                    label={`Drop portfolio image/clip here:\npublic/images/graphic-design/hero/${name}.png`}
                   />
                 </div>
+              ))}
+            </div>
+
+            {/* Carousel dots — mirrors the reference site's active/inactive indicator row */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
+              {['box-1', 'box-2', 'box-3'].map((name, i) => (
+                <span
+                  key={name}
+                  style={{
+                    width: '8px', height: '8px', borderRadius: '50%',
+                    background: i === activeBox ? '#fff' : 'rgba(255,255,255,0.3)',
+                    transition: 'background 0.3s ease',
+                  }}
+                />
               ))}
             </div>
           </div>
@@ -177,24 +145,21 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
 
       {/* ── Services ── */}
       <section ref={servicesRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: 'clamp(40px,6vw,80px)' }}>
-          <div style={{ flex: '1 1 380px', minWidth: 0 }}>
-            <SectionEyebrow>Our Creative Services</SectionEyebrow>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '12px 20px' }}>
-              {SERVICES.map((s, i) => (
-                <div key={s} style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
-                  <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--accent)' }}>{String(i + 1).padStart(2, '0')}</span>
-                  <span style={{ fontSize: 'clamp(15px, 1.4vw, 18px)', fontWeight: 600, color: 'var(--fg)' }}>{s}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div style={{ flex: '1 1 320px', minWidth: '260px', borderRadius: '20px', overflow: 'hidden', aspectRatio: '4/5' }}>
-            <MediaBox
-              src="/images/graphic-design/services/cover.jpg"
-              alt="Our Creative Services"
-              label={'Drop services showcase image here:\npublic/images/graphic-design/services/cover.jpg\n(from the Drive folder)'}
-            />
+        <div style={{ maxWidth: '1100px', margin: '0 auto', textAlign: 'center' }}>
+          <SectionEyebrow>Our Creative Services</SectionEyebrow>
+          <div style={{
+            display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '16px',
+            textAlign: 'left', marginTop: '28px',
+          }}>
+            {SERVICES.map(s => (
+              <div key={s.file} style={{ borderRadius: '16px', overflow: 'hidden', aspectRatio: '1/1' }}>
+                <MediaBox
+                  src={`/images/graphic-design/services/${s.file}.jpg`}
+                  alt={s.label}
+                  label={`Drop tile here:\npublic/images/graphic-design/services/${s.file}.jpg`}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -264,9 +229,9 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
               <div key={box.key} style={{ background: 'var(--bg)', borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--border)' }}>
                 <div style={{ aspectRatio: '4/3' }}>
                   <MediaBox
-                    src={`/images/graphic-design/highlight/${box.key}.jpg`}
+                    src={`/images/graphic-design/highlight/${box.key}.png`}
                     alt={box.heading}
-                    label={`Drop image here:\npublic/images/graphic-design/highlight/${box.key}.jpg`}
+                    label={`Drop image here:\npublic/images/graphic-design/highlight/${box.key}.png`}
                   />
                 </div>
                 <div style={{ padding: 'clamp(20px,3vw,28px)' }}>
@@ -352,7 +317,7 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
             {[1, 2, 3].map(i => (
-              <div key={i} style={{ borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--border)', aspectRatio: '3/4' }}>
+              <div key={i} style={{ borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--border)', aspectRatio: '3/2' }}>
                 <MediaBox
                   src={`/images/graphic-design/testimonials/${i}.jpg`}
                   alt={`Client testimonial ${i}`}
@@ -366,7 +331,7 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
 
       {/* ── Quote ── */}
       <section ref={quoteRef} style={{ background: 'var(--bg)', padding: '0 clamp(24px,4vw,60px) clamp(90px,10vw,120px)' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', borderRadius: '24px', overflow: 'hidden', aspectRatio: '21/9' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', borderRadius: '24px', overflow: 'hidden', aspectRatio: '1614/422' }}>
           <MediaBox
             src="/images/graphic-design/quote/cover.jpg"
             alt="Quote"
