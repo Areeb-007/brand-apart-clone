@@ -17,7 +17,8 @@ export type Subcategory = {
   logo?: string          // optional brand logo image, rendered instead of the text title
   cover: string
   portfolioVideos?: string[] // optional grid of actual portfolio clips, shown as autoplay boxes
-  youtubeShorts?: string[]   // optional grid of YouTube Shorts (video IDs), click-to-play cards
+  youtubeShorts?: string[]   // optional grid of YouTube Shorts (video IDs), silent autoplay/loop cards
+  youtubeVideos?: string[]   // optional grid of regular long-form YouTube videos (video IDs), click-to-play with sound
   charmsDir: string      // '' if no charm set yet
   charmCount: number
 }
@@ -65,6 +66,10 @@ export const SUBCATEGORIES: Subcategory[] = [
     ],
     bg: '#02200B',
     cover: '/images/portfolio/we-ve-1.jpg',
+    youtubeVideos: [
+      'emyZ7jM1ghw', 'xQlQyExjnyw', '90V69ghdNq4', '9DZVGdq94Jk', 'b-5FS-1-MYg',
+      '8CCsYU0X6TU', 'zsY3kumRwks', 'wI7orq-NS1Q', 'sDJK-iK5Sks', 'b0XMJipzvEc',
+    ],
     charmsDir: '/images/charms/wedding-video',
     charmCount: 4,
   },
@@ -134,6 +139,7 @@ export const SUBCATEGORIES: Subcategory[] = [
     ],
     bg: '#FFED02',
     cover: '/images/portfolio/ve-2.jpg',
+    youtubeVideos: ['C3fhVbafdoc', 'ykyI5YA3V0Y', 'cqBfAwhX57s', 'YT-6r9BcB3A'],
     charmsDir: '/images/charms/documentaries',
     charmCount: 9,
   },
@@ -155,6 +161,11 @@ export const SUBCATEGORIES: Subcategory[] = [
     ],
     bg: '#0DEB24',
     cover: '/images/portfolio/ve-3.jpg',
+    youtubeShorts: [
+      'RF7pYHQyHIA', '39PaCQyKlVE', 'MR17rxvkpMM', 'TMampYcWQpw',
+      'qDhdvyKycTc', 'Rg-8y44fDPg', 'NU57W5XbWxc', 'c3ziTOW-eaI',
+      'YLW4HtGCqkA', '6HdQoTpxy8s', 'RVqxKW6GWyU', '_GnSnTJi8BU', 'i300kDdhido',
+    ],
     charmsDir: '/images/charms/promotional-videos',
     charmCount: 6,
   },

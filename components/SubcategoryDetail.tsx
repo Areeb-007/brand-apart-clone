@@ -7,6 +7,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navigation from '@/components/Navigation'
 import VideoCard from '@/components/VideoCard'
+import YouTubeEmbedCard from '@/components/YouTubeEmbedCard'
 import { useCharmSpawner } from '@/lib/useCharmSpawner'
 import { charmPaths, type Subcategory } from '@/lib/subcategories'
 import type { Category } from '@/lib/categories'
@@ -202,7 +203,7 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
 
       {/* ── Portfolio — actual clips, same rounded "boxes" tile style used on
           the category page's subcategory grid ── */}
-      {((sub.portfolioVideos && sub.portfolioVideos.length > 0) || (sub.youtubeShorts && sub.youtubeShorts.length > 0)) && (
+      {((sub.portfolioVideos && sub.portfolioVideos.length > 0) || (sub.youtubeShorts && sub.youtubeShorts.length > 0) || (sub.youtubeVideos && sub.youtubeVideos.length > 0)) && (
         <section ref={portfolioRef} style={{ background: 'var(--bg)', padding: 'clamp(24px,4vw,40px) clamp(24px,4vw,60px) clamp(70px,8vw,100px)' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--fg-muted)', marginBottom: '18px' }}>
@@ -224,6 +225,9 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
               ))}
               {sub.youtubeShorts?.map(videoId => (
                 <VideoCard key={videoId} videoId={videoId} />
+              ))}
+              {sub.youtubeVideos?.map(videoId => (
+                <YouTubeEmbedCard key={videoId} videoId={videoId} />
               ))}
             </div>
           </div>
