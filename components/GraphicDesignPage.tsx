@@ -167,7 +167,7 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
       {/* ── Principles ── */}
       <section ref={principlesRef} style={{ background: 'var(--bg)', padding: '0 clamp(24px,4vw,60px) clamp(80px,10vw,120px)' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', flexWrap: 'wrap-reverse', gap: 'clamp(40px,6vw,80px)' }}>
-          <div style={{ flex: '1 1 320px', minWidth: '260px', borderRadius: '20px', overflow: 'hidden', aspectRatio: '16/10' }}>
+          <div style={{ flex: '1 1 320px', minWidth: '260px', borderRadius: '20px', overflow: 'hidden', aspectRatio: '1/1' }}>
             <MediaBox
               src="/images/graphic-design/principles/cover.jpg"
               alt="Design principles"
@@ -227,7 +227,7 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
               },
             ].map(box => (
               <div key={box.key} style={{ background: 'var(--bg)', borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--border)' }}>
-                <div style={{ aspectRatio: '4/3' }}>
+                <div style={{ aspectRatio: '1/1' }}>
                   <MediaBox
                     src={`/images/graphic-design/highlight/${box.key}.png`}
                     alt={box.heading}
@@ -267,7 +267,7 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
               We don&apos;t just rely on creativity — we power it with the latest design and AI tools to ensure every project is modern, polished, and future ready.
             </p>
           </div>
-          <div style={{ flex: '1 1 320px', minWidth: '260px', borderRadius: '20px', overflow: 'hidden', aspectRatio: '16/10' }}>
+          <div style={{ flex: '1 1 320px', minWidth: '260px', borderRadius: '20px', overflow: 'hidden', aspectRatio: '1/1' }}>
             <MediaBox
               src="/images/graphic-design/tools/cover.jpg"
               alt="Creative tools"
@@ -280,7 +280,7 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
       {/* ── Brand identity ── */}
       <section ref={identityRef} style={{ background: '#001941', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }} data-nav-dark>
         <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', flexWrap: 'wrap-reverse', gap: 'clamp(40px,6vw,80px)' }}>
-          <div style={{ flex: '1 1 320px', minWidth: '260px', borderRadius: '20px', overflow: 'hidden', aspectRatio: '16/10' }}>
+          <div style={{ flex: '1 1 320px', minWidth: '260px', borderRadius: '20px', overflow: 'hidden', aspectRatio: '1/1' }}>
             <MediaBox
               src="/images/graphic-design/brand-identity/cover.jpg"
               alt="Brand identity"

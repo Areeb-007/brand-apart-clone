@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { loadYouTubeApi, type YTPlayer } from '@/lib/youtube'
+import { useEffect, useRef, useState } from 'react'
+import { loadYouTubeApi, ensurePlaying, type YTPlayer } from '@/lib/youtube'
 
 // Full-bleed autoplay/loop background for a section sized exactly to the
 // viewport (100vw x 100vh), like ZoomReveal's pinned card. Unlike
@@ -12,6 +12,10 @@ import { loadYouTubeApi, type YTPlayer } from '@/lib/youtube'
 export default function YouTubeBackgroundVideo({ videoId }: { videoId: string }) {
   const hostRef   = useRef<HTMLDivElement>(null)
   const playerRef = useRef<YTPlayer | null>(null)
+  // YouTube's own "paused" branding overlay lives inside the cross-origin
+  // iframe — mask it (and the initial load flash) with a same-origin cover
+  // that only lifts once the player is actually PLAYING.
+  const [playing, setPlaying] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -38,10 +42,19 @@ export default function YouTubeBackgroundVideo({ videoId }: { videoId: string })
             })
             e.target.mute()
             e.target.playVideo()
+            ensurePlaying(e.target)
           },
           onStateChange: (e: { data: number; target: YTPlayer }) => {
-            if (window.YT && e.data === window.YT.PlayerState.ENDED) {
+            if (!window.YT) return
+            setPlaying(e.data === window.YT.PlayerState.PLAYING)
+            if (e.data === window.YT.PlayerState.ENDED) {
               e.target.seekTo(0, true)
+              e.target.playVideo()
+            } else if (e.data === window.YT.PlayerState.PAUSED) {
+              // These are silent, uncontrollable background loops — the
+              // browser sometimes pauses off-screen/backgrounded iframes to
+              // save battery, which otherwise leaves YouTube's "paused"
+              // branding visible indefinitely. Always resume.
               e.target.playVideo()
             }
           },
@@ -58,6 +71,10 @@ export default function YouTubeBackgroundVideo({ videoId }: { videoId: string })
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
       <div ref={hostRef} />
+      <div style={{
+        position: 'absolute', inset: 0, background: '#000',
+        opacity: playing ? 0 : 1, transition: 'opacity 0.3s ease', pointerEvents: 'none',
+      }} />
     </div>
   )
 }

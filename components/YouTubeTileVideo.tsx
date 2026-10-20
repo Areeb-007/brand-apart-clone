@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { loadYouTubeApi, type YTPlayer } from '@/lib/youtube'
+import { useEffect, useRef, useState } from 'react'
+import { loadYouTubeApi, ensurePlaying, type YTPlayer } from '@/lib/youtube'
 
 // Generalized to cover grid tiles of very different shapes (see Works.tsx).
 //
@@ -11,14 +11,36 @@ import { loadYouTubeApi, type YTPlayer } from '@/lib/youtube'
 // cover formula is: match the axis where containerAspect > contentAspect by
 // width, otherwise by height. Since both aspect ratios are known up front
 // per tile (see Works.tsx), the caller just passes which axis to match.
+//
+// Players only initialize once the tile scrolls near the viewport — with
+// every tile on the page mounting (and trying to autoplay) at once, browsers
+// can silently stall a couple of them mid-start, leaving just their static
+// first-frame thumbnail showing instead of actually playing.
 
 export default function YouTubeTileVideo({
   videoId, aspectRatio, matchByWidth, className,
 }: { videoId: string; aspectRatio: string; matchByWidth: boolean; className?: string }) {
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const hostRef   = useRef<HTMLDivElement>(null)
   const playerRef = useRef<YTPlayer | null>(null)
+  const [inView, setInView] = useState(false)
+  // YouTube's own "paused" branding overlay lives inside the cross-origin
+  // iframe — mask it (and the initial load flash) with a same-origin cover
+  // that only lifts once the player is actually PLAYING.
+  const [playing, setPlaying] = useState(false)
 
   useEffect(() => {
+    if (!wrapperRef.current) return
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setInView(true); observer.disconnect() } },
+      { rootMargin: '400px' }
+    )
+    observer.observe(wrapperRef.current)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!inView) return
     let cancelled = false
 
     loadYouTubeApi().then(() => {
@@ -44,10 +66,19 @@ export default function YouTubeTileVideo({
             })
             e.target.mute()
             e.target.playVideo()
+            ensurePlaying(e.target)
           },
           onStateChange: (e: { data: number; target: YTPlayer }) => {
-            if (window.YT && e.data === window.YT.PlayerState.ENDED) {
+            if (!window.YT) return
+            setPlaying(e.data === window.YT.PlayerState.PLAYING)
+            if (e.data === window.YT.PlayerState.ENDED) {
               e.target.seekTo(0, true)
+              e.target.playVideo()
+            } else if (e.data === window.YT.PlayerState.PAUSED) {
+              // These are silent, uncontrollable background loops — the
+              // browser sometimes pauses off-screen/backgrounded iframes to
+              // save battery, which otherwise leaves YouTube's "paused"
+              // branding visible indefinitely. Always resume.
               e.target.playVideo()
             }
           },
@@ -59,11 +90,15 @@ export default function YouTubeTileVideo({
       cancelled = true
       playerRef.current?.destroy()
     }
-  }, [videoId, aspectRatio, matchByWidth])
+  }, [inView, videoId, aspectRatio, matchByWidth])
 
   return (
-    <div className={className} style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+    <div ref={wrapperRef} className={className} style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
       <div ref={hostRef} />
+      <div style={{
+        position: 'absolute', inset: 0, background: '#001941',
+        opacity: playing ? 0 : 1, transition: 'opacity 0.3s ease', pointerEvents: 'none',
+      }} />
     </div>
   )
 }

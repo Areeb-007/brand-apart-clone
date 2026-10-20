@@ -265,13 +265,12 @@ export default function Works() {
       </div>
 
       {/* Project grid — bento mosaic, see tilePlacement() for the recipe.
-          Width matches the reference exactly: a fluid 67.2vw (no fixed max-width
-          cap), measured directly off brandappart.com from 1920px down to 768px. */}
+          Fluid width (no fixed max-width cap), scales with viewport. */}
       <div
         ref={gridRef}
         className="works-grid"
         style={{
-          width: '67.2vw',
+          width: '74vw',
           margin: '0 auto',
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
