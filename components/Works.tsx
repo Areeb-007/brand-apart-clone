@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type CSSProperties } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import YouTubeTileVideo from '@/components/YouTubeTileVideo'
+import LocalVideoTile from '@/components/LocalVideoTile'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -19,14 +20,25 @@ gsap.registerPlugin(ScrollTrigger)
 // regular slots (unavoidable crop there either way — nothing fits perfectly).
 // Boxes 7 & 8 share the exact same source video (client sent the same link
 // twice) — kept as given rather than guessing a replacement.
-const PROJECTS = [
+type Project = {
+  id: number
+  client: string
+  category: string
+  year: string
+  orientation: 'horizontal' | 'vertical'
+  href?: string
+  youtubeId?: string
+  src?: string
+}
+
+const PROJECTS: Project[] = [
   {
     id: 1,
     client: 'FILMFX',
     category: 'VIDEO EDITING',
     year: '2024',
-    youtubeId: 'mGQ8a9gPeZQ',
-    orientation: 'horizontal' as const,
+    src: '/videos/featured-work/video-editing.mp4',
+    orientation: 'horizontal',
     href: '/work/video-editing',
   },
   {
@@ -34,8 +46,8 @@ const PROJECTS = [
     client: 'FILMFX',
     category: 'GRAPHIC DESIGN',
     year: '2024',
-    youtubeId: 'xcvw284YMH0',
-    orientation: 'horizontal' as const,
+    src: '/videos/featured-work/graphic-design.mp4',
+    orientation: 'horizontal',
     href: '/work/graphic-design',
   },
   {
@@ -43,8 +55,8 @@ const PROJECTS = [
     client: 'FILMFX',
     category: 'VIDEO EDITING VERTICAL',
     year: '2024',
-    youtubeId: 'L9AVRyejy48',
-    orientation: 'vertical' as const,
+    src: '/videos/featured-work/video-editing-2.mp4',
+    orientation: 'vertical',
     href: '/work/video-editing',
   },
   {
@@ -52,8 +64,8 @@ const PROJECTS = [
     client: 'FILMFX',
     category: 'QUOTE',
     year: '2024',
-    youtubeId: 'SDOlgidffE0',
-    orientation: 'horizontal' as const,
+    src: '/videos/featured-work/video-editing-1.mp4',
+    orientation: 'horizontal',
     href: '/#testimonials',
   },
   {
@@ -61,35 +73,35 @@ const PROJECTS = [
     client: 'FILMFX',
     category: 'SOCIAL MEDIA MARKETING',
     year: '2024',
-    youtubeId: 'XgKrdK6-Md8',
-    orientation: 'horizontal' as const,
+    src: '/videos/featured-work/social-media.mp4',
+    orientation: 'horizontal',
     href: '/work/social-media',
   },
   {
     id: 6,
     client: 'FILMFX',
-    category: 'STAFF AUGMENTATION',
+    category: 'SALES',
     year: '2024',
-    youtubeId: 'zG3iTiM8ELg',
-    orientation: 'vertical' as const,
-    href: '/services/staff-augmentation',
+    src: '/videos/featured-work/sales.mp4',
+    orientation: 'vertical',
+    href: '/services/sales-marketing',
   },
   {
     id: 7,
     client: 'FILMFX',
-    category: 'SALES',
+    category: 'SOFTWARE DEVELOPMENT',
     year: '2024',
-    youtubeId: 'kgfN7mUAFaQ',
-    orientation: 'vertical' as const,
-    href: '/services/sales-marketing',
+    src: '/videos/featured-work/software-development.mp4',
+    orientation: 'vertical',
+    // No dedicated service page for this yet — label-only tile, not clickable.
   },
   {
     id: 8,
     client: 'FILMFX',
     category: 'STAFF AUGMENTATION',
     year: '2024',
-    youtubeId: 'zG3iTiM8ELg',
-    orientation: 'vertical' as const,
+    src: '/videos/featured-work/business-dev-2.mp4',
+    orientation: 'horizontal',
     href: '/services/staff-augmentation',
   },
 ]
@@ -103,24 +115,20 @@ function tilePlacement(position: number) {
   return { isFull, isTall }
 }
 
-function ProjectTile({ project, position }: { project: typeof PROJECTS[number]; position: number }) {
+function ProjectTile({ project, position }: { project: Project; position: number }) {
   const { isFull, isTall } = tilePlacement(position)
   const shape = isFull ? 'full' : isTall ? 'tall' : 'regular'
   // Cover formula: match the axis where containerAspect > contentAspect by
   // width, otherwise by height. True everywhere except a horizontal clip in
   // a regular tile (container is narrower than 16:9, so match by height).
   const matchByWidth = !(shape === 'regular' && project.orientation === 'horizontal')
-  return (
-    <Link
-      href={project.href}
-      className="work-tile-cell"
-      style={{
-        display: 'block',
-        textDecoration: 'none',
-        gridColumn: isFull ? '1 / -1' : undefined,
-        gridRow:    isTall ? 'span 2' : undefined,
-      }}
-    >
+  const wrapperStyle: CSSProperties = {
+    display: 'block',
+    textDecoration: 'none',
+    gridColumn: isFull ? '1 / -1' : undefined,
+    gridRow:    isTall ? 'span 2' : undefined,
+  }
+  const tile = (
     <div
       className={`work-tile${isTall ? ' work-tile-tall' : ''}`}
       style={{
@@ -133,12 +141,16 @@ function ProjectTile({ project, position }: { project: typeof PROJECTS[number]; 
         cursor: 'none',
       }}
     >
-      <YouTubeTileVideo
-        videoId={project.youtubeId}
-        aspectRatio={project.orientation === 'horizontal' ? '16/9' : '9/16'}
-        matchByWidth={matchByWidth}
-        className="work-tile-img"
-      />
+      {project.src ? (
+        <LocalVideoTile src={project.src} className="work-tile-img" />
+      ) : (
+        <YouTubeTileVideo
+          videoId={project.youtubeId!}
+          aspectRatio={project.orientation === 'horizontal' ? '16/9' : '9/16'}
+          matchByWidth={matchByWidth}
+          className="work-tile-img"
+        />
+      )}
 
       {/* Badge — a small top-left pill that grows into a full-width bar on hover */}
       <div
@@ -164,13 +176,19 @@ function ProjectTile({ project, position }: { project: typeof PROJECTS[number]; 
             </span>
           </div>
         </div>
-        <span className="work-tile-cta" style={{ fontSize: '11px', fontWeight: 800, color: '#fff', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-          DISCOVER CASE
-        </span>
+        {project.href && (
+          <span className="work-tile-cta" style={{ fontSize: '11px', fontWeight: 800, color: '#fff', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+            DISCOVER CASE
+          </span>
+        )}
       </div>
     </div>
-    </Link>
   )
+
+  if (project.href) {
+    return <Link href={project.href} className="work-tile-cell" style={wrapperStyle}>{tile}</Link>
+  }
+  return <div className="work-tile-cell" style={{ ...wrapperStyle, cursor: 'default' }}>{tile}</div>
 }
 
 export default function Works() {

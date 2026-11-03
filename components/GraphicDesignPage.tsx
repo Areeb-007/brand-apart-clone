@@ -121,6 +121,7 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
                     src={`/images/graphic-design/hero/${name}.png`}
                     alt={`Featured design ${i + 1}`}
                     label={`Drop portfolio image/clip here:\npublic/images/graphic-design/hero/${name}.png`}
+                    style={{ background: '#001941' }}
                   />
                 </div>
               ))}
@@ -148,7 +149,7 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
         <div style={{ maxWidth: '1100px', margin: '0 auto', textAlign: 'center' }}>
           <SectionEyebrow>Our Creative Services</SectionEyebrow>
           <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '16px',
+            display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px',
             textAlign: 'left', marginTop: '28px',
           }}>
             {SERVICES.map(s => (
@@ -219,11 +220,13 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
                 key: 'logo-design',
                 heading: 'Logo Design That Leaves a Mark',
                 copy: 'Bold. Memorable. Instantly recognizable. We create logo identities that don’t just look good — they become the face of your brand.',
+                bg: '#C1FF72',
               },
               {
                 key: 'trusted-brands',
                 heading: 'Trusted by Growing Brands.',
                 copy: 'Every project is a collaboration built on trust, creativity, and exceptional design. We’re proud to help brands of all sizes stand out, grow confidently, and leave lasting impressions.',
+                bg: '#634277',
               },
             ].map(box => (
               <div key={box.key} style={{ background: 'var(--bg)', borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--border)' }}>
@@ -232,6 +235,7 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
                     src={`/images/graphic-design/highlight/${box.key}.png`}
                     alt={box.heading}
                     label={`Drop image here:\npublic/images/graphic-design/highlight/${box.key}.png`}
+                    style={{ background: box.bg }}
                   />
                 </div>
                 <div style={{ padding: 'clamp(20px,3vw,28px)' }}>

@@ -708,3 +708,11 @@ footer {
   .svc-card    { min-height: 90vh !important; }
   .about-stats { grid-template-columns: 1fr 1fr !important; }
 }
+
+@media (max-width: 1024px) {
+  .ugc-wall { grid-template-columns: repeat(4, 1fr) !important; }
+}
+
+@media (max-width: 560px) {
+  .ugc-wall { grid-template-columns: repeat(3, 1fr) !important; }
+}

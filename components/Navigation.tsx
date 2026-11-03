@@ -41,10 +41,10 @@ const PORTFOLIO_ITEMS = [
 ]
 
 const ABOUT_ITEMS = [
-  { label: 'Who We Are',   icon: '◐', href: '/#about' },
-  { label: 'Our Process',  icon: '◑', href: '/#about' },
-  { label: 'Our Team',     icon: '◒', href: '/#about' },
-  { label: 'Testimonials', icon: '★', href: '/#about' },
+  { label: 'Who We Are',   icon: '◐', href: '/about' },
+  { label: 'Our Process',  icon: '◑', href: '/about' },
+  { label: 'Our Team',     icon: '◒', href: '/about#team' },
+  { label: 'Testimonials', icon: '★', href: '/#testimonials' },
 ]
 
 /* ─── Nav items ─────────────────────────────────────────────── */
@@ -79,7 +79,7 @@ const NAV_ITEMS = [
     ),
   },
   {
-    id: 'about', label: 'ABOUT US', href: '/#about', dropdown: 'about',
+    id: 'about', label: 'ABOUT US', href: '/about', dropdown: 'about',
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <circle cx="12" cy="12" r="10"/>

@@ -15,11 +15,24 @@ gsap.registerPlugin(ScrollTrigger)
 
 export function MediaBox({ src, alt, label, style }: { src: string; alt: string; label: string; style?: React.CSSProperties }) {
   const [failed, setFailed] = useState(false)
+  const imgRef = useRef<HTMLImageElement>(null)
+
+  // A missing asset that 404s fast (e.g. on localhost) can finish loading —
+  // and fail — before React hydrates and attaches onError, so the native
+  // error event fires on no one and the browser's broken-image icon shows
+  // instead of the label. Catch that already-failed-by-mount case too.
+  useEffect(() => {
+    if (imgRef.current?.complete && imgRef.current.naturalWidth === 0) {
+      setFailed(true)
+    }
+  }, [src])
+
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', background: '#0d1f3c', overflow: 'hidden', ...style }}>
       {!failed && (
         // eslint-disable-next-line @next/next/no-img-element -- placeholder-aware loader, swaps in the moment a real file lands at `src`
         <img
+          ref={imgRef}
           src={src}
           alt={alt}
           onError={() => setFailed(true)}

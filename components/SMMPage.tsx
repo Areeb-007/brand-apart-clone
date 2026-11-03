@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navigation from '@/components/Navigation'
 import { getCategory, type Category } from '@/lib/categories'
 import { MediaBox, SectionEyebrow, useReveal, useNextBandScrollPct } from '@/components/PortfolioPageKit'
+import LazyVideoTile from '@/components/LazyVideoTile'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -52,6 +53,7 @@ export default function SMMPage({ category }: { category: Category }) {
   const nextCategory = getCategory(category.nextSlug)
   const scrollPct = useNextBandScrollPct(nextBandRef)
 
+  const piecesRef  = useReveal<HTMLDivElement>()
   const ugcRef    = useReveal<HTMLDivElement>()
   const whatRef   = useReveal<HTMLDivElement>()
   const quoteRef  = useReveal<HTMLDivElement>()
@@ -111,21 +113,51 @@ export default function SMMPage({ category }: { category: Category }) {
         </div>
       </section>
 
-      {/* ── UGC video showcase ── */}
-      <section ref={ugcRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <SectionEyebrow>Short-Form UGC</SectionEyebrow>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '16px' }}>
-            {[1, 2, 3, 4, 5, 6].map(i => (
-              <div key={i} style={{ borderRadius: '16px', overflow: 'hidden', aspectRatio: '9/16' }}>
-                <MediaBox
-                  src={`/images/smm/ugc-${i}.jpg`}
-                  alt={`UGC clip ${i}`}
-                  label={`Drop UGC clip/thumbnail here:\npublic/images/smm/ugc-${i}.jpg`}
+      {/* ── Brands we've worked with — auto-scrolling marquee, styled after
+          later.com's partner-logo strip ── */}
+      <section ref={brandsRef} style={{ background: 'var(--bg)', padding: 'clamp(40px,6vw,60px) 0', textAlign: 'center' }}>
+        <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--fg-muted)', marginBottom: '32px' }}>
+          Brands We&apos;ve Worked With
+        </p>
+        <div style={{
+          width: '100%', overflow: 'hidden',
+          maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+        }}>
+          <div className="marquee-track" style={{ gap: 'clamp(32px,5vw,56px)', alignItems: 'center' }}>
+            {[...BRANDS, ...BRANDS].map((brand, i) => (
+              // Source files are 1000x1000 canvases with the logo mark small and
+              // centered — zoom in and clip the overflow to crop out that padding.
+              <div key={`${brand}-${i}`} style={{ height: '64px', width: '140px', flexShrink: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element -- transparent logo, cropped via the wrapper above */}
+                <img
+                  src={`/images/smm/brands/${brand}.png`}
+                  alt={brand}
+                  style={{ height: '160px', width: 'auto', flexShrink: 0, opacity: 0.85 }}
                 />
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── UGC video showcase — dense, full-bleed mosaic wall (40 tiles,
+          flush edge-to-edge, no gaps/rounding) matching the client's
+          reference layout. Each tile autoplays/loops a real client clip,
+          re-encoded down from the ~2.9GB of raw masters the client sent
+          (up to 542MB each) to ~68MB total (480px wide, no audio, CRF 30) —
+          lazy-loaded via LazyVideoTile so 40 videos don't all start
+          downloading/decoding at once on page load. ── */}
+      <section ref={ugcRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) 0' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto clamp(36px,5vw,56px)', padding: '0 clamp(24px,4vw,60px)' }}>
+          <SectionEyebrow>Short-Form UGC</SectionEyebrow>
+        </div>
+        <div className="ugc-wall" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '14px', padding: '0 clamp(24px,4vw,60px)' }}>
+          {Array.from({ length: 40 }, (_, idx) => idx + 1).map(i => (
+            <div key={i} style={{ aspectRatio: '4/5', overflow: 'hidden', borderRadius: '16px' }}>
+              <LazyVideoTile src={`/videos/smm-ugc/clip-${String(i).padStart(2, '0')}.mp4`} />
+            </div>
+          ))}
         </div>
       </section>
 
@@ -146,6 +178,17 @@ export default function SMMPage({ category }: { category: Category }) {
           }}>
             Everything Your Brand Needs to Win on Social Media.
           </h2>
+        </div>
+
+        {/* Services puzzle-piece graphic — the client's own illustration of
+            these same 4 services, shown above the interactive tabs below */}
+        <div ref={piecesRef} style={{ maxWidth: '1100px', margin: '0 auto clamp(48px,6vw,72px)' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- transparent illustration, shown as-is (no crop box) */}
+          <img
+            src="/images/smm/what-we-do-pieces.png"
+            alt="Social Media Management, Short Form Video Editing, Content Strategy AND GTM Launch, UGC AND Creator Content"
+            style={{ width: '100%', height: 'auto', display: 'block' }}
+          />
         </div>
 
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
@@ -188,38 +231,11 @@ export default function SMMPage({ category }: { category: Category }) {
       <section ref={quoteRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto', borderRadius: '24px', overflow: 'hidden', aspectRatio: '16/9' }}>
           <MediaBox
-            src="/images/smm/quote.jpg"
-            alt="Quote"
-            label={'Drop quote graphic here:\npublic/images/smm/quote.jpg\n(or send the quote text and I’ll typeset it instead)'}
+            src="/images/smm/quote.png"
+            alt="Social media isn't about being everywhere. It's unforgettable."
+            label={'Drop quote graphic here:\npublic/images/smm/quote.png'}
+            style={{ background: 'var(--bg)' }}
           />
-        </div>
-      </section>
-
-      {/* ── Brands we've worked with — auto-scrolling marquee, styled after
-          later.com's partner-logo strip ── */}
-      <section ref={brandsRef} style={{ background: 'var(--bg)', padding: 'clamp(40px,6vw,60px) 0', textAlign: 'center' }}>
-        <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--fg-muted)', marginBottom: '32px' }}>
-          Brands We&apos;ve Worked With
-        </p>
-        <div style={{
-          width: '100%', overflow: 'hidden',
-          maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
-        }}>
-          <div className="marquee-track" style={{ gap: 'clamp(32px,5vw,56px)', alignItems: 'center' }}>
-            {[...BRANDS, ...BRANDS].map((brand, i) => (
-              // Source files are 1000x1000 canvases with the logo mark small and
-              // centered — zoom in and clip the overflow to crop out that padding.
-              <div key={`${brand}-${i}`} style={{ height: '64px', width: '140px', flexShrink: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {/* eslint-disable-next-line @next/next/no-img-element -- transparent logo, cropped via the wrapper above */}
-                <img
-                  src={`/images/smm/brands/${brand}.png`}
-                  alt={brand}
-                  style={{ height: '160px', width: 'auto', flexShrink: 0, opacity: 0.85 }}
-                />
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

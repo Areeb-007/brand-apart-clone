@@ -8,14 +8,16 @@ const CARD_W = 200
 const CARD_H = 270
 
 const TEAM = [
-  { name: 'Ahmed R.',  role: 'Creative Director',  initials: 'AR', photo: null as string|null, tilt:  -12 },
-  { name: 'Sara M.',   role: 'Video Editor',        initials: 'SM', photo: null as string|null, tilt:    6 },
-  { name: 'James K.',  role: 'Motion Designer',     initials: 'JK', photo: null as string|null, tilt:   -5 },
-  { name: 'Layla H.',  role: 'Brand Designer',      initials: 'LH', photo: null as string|null, tilt:   10 },
-  { name: 'Tom W.',    role: 'Graphic Designer',    initials: 'TW', photo: null as string|null, tilt:   -8 },
-  { name: 'Nina V.',   role: 'Social Media',        initials: 'NV', photo: null as string|null, tilt:    4 },
-  { name: 'Omar A.',   role: 'Web Developer',       initials: 'OA', photo: null as string|null, tilt:  -14 },
-  { name: 'Zoe B.',    role: 'Strategist',          initials: 'ZB', photo: null as string|null, tilt:    9 },
+  { name: 'Ali Arsala',  role: 'Co-Founder',             initials: 'AA', photo: '/images/team/ali-arsala.jpg', tilt:  -12 },
+  { name: 'Noman Khan',  role: 'Founder',                initials: 'NK', photo: '/images/team/noman-khan.jpg', tilt:    6 },
+  { name: 'Alizeh',      role: 'Social Media Marketer',  initials: 'AL', photo: '/images/team/alizeh.jpg',     tilt:   -5 },
+  { name: 'Arsha',       role: 'Graphic Designer',       initials: 'AR', photo: '/images/team/arsha.jpg',      tilt:   10 },
+  { name: 'Atika',       role: 'Business Developer',     initials: 'AT', photo: '/images/team/atika.jpg',      tilt:   -8 },
+  { name: 'Hadeed',      role: 'Video Editor',           initials: 'HA', photo: '/images/team/hadeed.jpg',     tilt:    4 },
+  { name: 'Khurram',     role: 'Video Editor',           initials: 'KH', photo: '/images/team/khurram.jpg',    tilt:  -14 },
+  { name: 'Wahaj',       role: 'Project Manager',        initials: 'WA', photo: '/images/team/wahaj.jpg',      tilt:    9 },
+  { name: 'Zeeshan',     role: 'Business Developer',     initials: 'ZE', photo: '/images/team/zeeshan.jpg',    tilt:  -10 },
+  { name: 'Moiz',        role: 'Editor',                 initials: 'MO', photo: '/images/team/moiz.jpg',       tilt:   13 },
 ]
 
 const RX    = 320   // horizontal radius
@@ -153,12 +155,14 @@ export default function Team() {
               />
             )}
 
-            {/* Orange gradient — full card without photo, overlay with photo */}
+            {/* Orange gradient fills the whole card when there's no photo;
+                with a photo, just a minimal bottom scrim so the name/role
+                text stays legible — the photo itself is shown clean. */}
             <div style={{
               position:   'absolute',
               inset:       0,
               background: member.photo
-                ? 'linear-gradient(to top, rgba(183,70,8,0.88) 0%, rgba(249,115,22,0.45) 55%, transparent 100%)'
+                ? 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 38%)'
                 : 'linear-gradient(155deg, #f97316 0%, #e77c24 45%, #b85a10 100%)',
             }} />
 
