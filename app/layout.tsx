@@ -8,7 +8,7 @@ import ScrollProgress from '@/components/ScrollProgress'
 const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-outfit',
-  weight: ['400', '500', '600', '700', '800', '900'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
 })
 
 const plusJakarta = Plus_Jakarta_Sans({

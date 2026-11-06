@@ -8,6 +8,7 @@ import About from '@/components/About'
 import Testimonials from '@/components/Testimonials'
 import Team from '@/components/Team'
 import CTA from '@/components/CTA'
+import SiteFooter from '@/components/SiteFooter'
 
 export default function Home() {
   return (
@@ -24,6 +25,8 @@ export default function Home() {
         <Team />
         <CTA />
       </main>
+      {/* Navy to continue the CTA's scroll-in navy background as one block */}
+      <SiteFooter background="#001941" />
     </>
   )
 }

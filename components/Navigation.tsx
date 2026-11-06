@@ -90,7 +90,7 @@ const NAV_ITEMS = [
     ),
   },
   {
-    id: 'contact', label: 'CONTACT', href: '/#contact',
+    id: 'contact', label: 'CONTACT', href: '/contact',
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
@@ -176,8 +176,12 @@ export default function Navigation() {
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
-  // Watch dark sections via IntersectionObserver (e.g. MoreWork)
-  // rootMargin shrinks the effective viewport so the section must be well inside view
+  // Watch dark sections via IntersectionObserver (e.g. MoreWork).
+  // rootMargin collapses the viewport to a thin band at its vertical
+  // centre (where the dock sits), so a section counts as "dark" exactly while
+  // it's behind the middle of the screen — this works for sections of any
+  // height, unlike a visible-ratio threshold, which sections taller than the
+  // viewport could never reach.
   useEffect(() => {
     const intersecting = new Set<Element>()
     const observer = new IntersectionObserver(
@@ -188,7 +192,7 @@ export default function Navigation() {
         })
         setIntersectionDark(intersecting.size > 0)
       },
-      { threshold: 0.45, rootMargin: '-15% 0px' }
+      { threshold: 0, rootMargin: '-49% 0px -50% 0px' }
     )
     document.querySelectorAll('[data-nav-dark]').forEach(el => observer.observe(el))
     return () => observer.disconnect()
@@ -274,7 +278,13 @@ export default function Navigation() {
       {/* ── Dock ── */}
       <nav className={`dock-nav${navDark ? ' dock-dark' : ''}`} onMouseLeave={() => { closeDrop(); setHoveredDock(null) }}>
         {NAV_ITEMS.map((item, i) => {
-          const size     = getSize(i, hoveredDock)
+          // Client asked for Portfolio to be dropped from the side dock only
+          // (it stays in the mobile menu). Skipped rather than filtered so
+          // the indices that setActive() relies on stay the same.
+          if (item.id === 'works') return null
+          // Position among the visible dock icons (drives hover magnification).
+          const dockPos  = NAV_ITEMS.slice(0, i).filter(x => x.id !== 'works').length
+          const size     = getSize(dockPos, hoveredDock)
           const isActive = active === i
           const hasDrop  = !!item.dropdown
           const isOpen   = openDropdown === item.id
@@ -307,7 +317,7 @@ export default function Navigation() {
                   transition: 'width 0.2s cubic-bezier(0.34,1.4,0.64,1), height 0.2s cubic-bezier(0.34,1.4,0.64,1), border-radius 0.2s, box-shadow 0.3s, color 0.35s ease, background 0.35s ease, border-color 0.35s ease',
                 }}
                 onMouseEnter={e => {
-                  setHoveredDock(i)
+                  setHoveredDock(dockPos)
                   const el = e.currentTarget as HTMLElement
                   if (navDark) {
                     el.style.background = 'rgba(255,255,255,0.22)'

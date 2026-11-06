@@ -7,17 +7,18 @@ import { gsap } from 'gsap'
 const CARD_W = 200
 const CARD_H = 270
 
+// Homepage ring shows the 9 people the client listed for this section (the
+// full team, incl. Khubab & Abdul Nafay, is on the About page).
 const TEAM = [
-  { name: 'Ali Arsala',  role: 'Co-Founder',             initials: 'AA', photo: '/images/team/ali-arsala.jpg', tilt:  -12 },
-  { name: 'Noman Khan',  role: 'Founder',                initials: 'NK', photo: '/images/team/noman-khan.jpg', tilt:    6 },
-  { name: 'Alizeh',      role: 'Social Media Marketer',  initials: 'AL', photo: '/images/team/alizeh.jpg',     tilt:   -5 },
-  { name: 'Arsha',       role: 'Graphic Designer',       initials: 'AR', photo: '/images/team/arsha.jpg',      tilt:   10 },
-  { name: 'Atika',       role: 'Business Developer',     initials: 'AT', photo: '/images/team/atika.jpg',      tilt:   -8 },
-  { name: 'Hadeed',      role: 'Video Editor',           initials: 'HA', photo: '/images/team/hadeed.jpg',     tilt:    4 },
-  { name: 'Khurram',     role: 'Video Editor',           initials: 'KH', photo: '/images/team/khurram.jpg',    tilt:  -14 },
-  { name: 'Wahaj',       role: 'Project Manager',        initials: 'WA', photo: '/images/team/wahaj.jpg',      tilt:    9 },
-  { name: 'Zeeshan',     role: 'Business Developer',     initials: 'ZE', photo: '/images/team/zeeshan.jpg',    tilt:  -10 },
-  { name: 'Moiz',        role: 'Editor',                 initials: 'MO', photo: '/images/team/moiz.jpg',       tilt:   13 },
+  { name: 'Noman Khan',      role: 'Founder',                initials: 'NK', photo: '/images/about/team/noman-khan.jpg',  tilt:    6 },
+  { name: 'Ali Arsala Sher', role: 'Co-Founder',             initials: 'AA', photo: '/images/about/team/ali-arsala.jpg',  tilt:  -12 },
+  { name: 'Arsha',           role: 'Graphic Designer',       initials: 'AR', photo: '/images/about/team/arsha.jpg',       tilt:   10 },
+  { name: 'Alizeh',          role: 'Social Media Marketer',  initials: 'AL', photo: '/images/about/team/alizeh.png',      tilt:   -5 },
+  { name: 'Atika',           role: 'Business Developer',     initials: 'AT', photo: '/images/about/team/atika.png',       tilt:   -8 },
+  { name: 'Zeeshan',         role: 'Business Developer',     initials: 'ZE', photo: '/images/about/team/zeeshan.jpg',     tilt:  -10 },
+  { name: 'Wahaj',           role: 'Project Manager',        initials: 'WA', photo: '/images/about/team/wahaj.jpg',       tilt:    9 },
+  { name: 'Hadeed',          role: 'Video Editor',           initials: 'HA', photo: '/images/about/team/hadeed.png',      tilt:    4 },
+  { name: 'Moiz',            role: 'Editor',                 initials: 'MO', photo: '/images/about/team/moiz.jpg',        tilt:   13 },
 ]
 
 const RX    = 320   // horizontal radius

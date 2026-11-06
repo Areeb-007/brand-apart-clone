@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { getCategory, CATEGORIES } from '@/lib/categories'
 import { getSubcategory, getSubcategoriesFor } from '@/lib/subcategories'
 import SubcategoryDetail from '@/components/SubcategoryDetail'
+import SiteFooter from '@/components/SiteFooter'
 
 export function generateStaticParams() {
   return CATEGORIES.flatMap(c =>
@@ -24,5 +25,10 @@ export default async function SubcategoryPage({ params }: { params: Promise<{ sl
   const category = getCategory(slug)
   const sub = getSubcategory(slug, piece)
   if (!category || !sub) notFound()
-  return <SubcategoryDetail category={category} sub={sub} />
+  return (
+    <>
+      <SubcategoryDetail category={category} sub={sub} />
+      <SiteFooter />
+    </>
+  )
 }

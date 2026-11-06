@@ -23,7 +23,7 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'video-editing',
     name: 'Video Editing',
-    year: '2024',
+    year: '2026',
     industry: 'Video Production',
     tagline: 'Cinematic edits that capture & convert.',
     description:
@@ -62,7 +62,7 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'graphic-design',
     name: 'Graphic Design',
-    year: '2024',
+    year: '2026',
     industry: 'Brand & Design',
     tagline: 'Designs that speak before you do.',
     description:
@@ -95,7 +95,7 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'smm',
     name: 'Social Media Marketing',
-    year: '2024',
+    year: '2026',
     industry: 'Digital Marketing',
     tagline: 'We don\'t chase trends, we create them.',
     description:
@@ -128,7 +128,7 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'sales-marketing',
     name: 'Sales & Business Development',
-    year: '2024',
+    year: '2026',
     industry: 'Business Growth',
     tagline: 'Marketing with one goal: results.',
     description:
@@ -160,7 +160,7 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'website-development',
     name: 'Website Development',
-    year: '2024',
+    year: '2026',
     industry: 'Web & Digital',
     tagline: 'Websites built to impress & convert.',
     description:
@@ -192,7 +192,7 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'staff-augmentation',
     name: 'Staff Augmentation',
-    year: '2024',
+    year: '2026',
     industry: 'Talent & Operations',
     tagline: 'Expand your workforce effortlessly.',
     description:

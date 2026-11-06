@@ -9,8 +9,9 @@ import LocalVideoTile from '@/components/LocalVideoTile'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// 8 tiles to fill the full sketch (2 full-width + 2 bento blocks), each now
-// backed by a client-provided YouTube video. Tile shapes are fixed by
+// 8 tiles following the client's sketch (full / bento / full / bento),
+// each backed by a client-provided local video — or, for the Quote
+// tile, a still post image (\`image\`). Tile shapes are fixed by
 // position (see tilePlacement below): 1 & 5 are the wide "full" tile
 // (1000/540, aspect 1.85), 3 & 6 are the tall portrait tile, 2/4/7/8 are the
 // regular tile (500/350, aspect 1.43). `orientation` records whether the
@@ -29,6 +30,7 @@ type Project = {
   href?: string
   youtubeId?: string
   src?: string
+  image?: string
 }
 
 const PROJECTS: Project[] = [
@@ -36,7 +38,7 @@ const PROJECTS: Project[] = [
     id: 1,
     client: 'FILMFX',
     category: 'VIDEO EDITING',
-    year: '2024',
+    year: '2026',
     src: '/videos/featured-work/video-editing.mp4',
     orientation: 'horizontal',
     href: '/work/video-editing',
@@ -45,7 +47,7 @@ const PROJECTS: Project[] = [
     id: 2,
     client: 'FILMFX',
     category: 'GRAPHIC DESIGN',
-    year: '2024',
+    year: '2026',
     src: '/videos/featured-work/graphic-design.mp4',
     orientation: 'horizontal',
     href: '/work/graphic-design',
@@ -54,7 +56,7 @@ const PROJECTS: Project[] = [
     id: 3,
     client: 'FILMFX',
     category: 'VIDEO EDITING VERTICAL',
-    year: '2024',
+    year: '2026',
     src: '/videos/featured-work/video-editing-2.mp4',
     orientation: 'vertical',
     href: '/work/video-editing',
@@ -63,8 +65,9 @@ const PROJECTS: Project[] = [
     id: 4,
     client: 'FILMFX',
     category: 'QUOTE',
-    year: '2024',
-    src: '/videos/featured-work/video-editing-1.mp4',
+    year: '2026',
+    // Client's quote post (still image) in place of the old quote video.
+    image: '/images/featured-work/quote-post.jpg',
     orientation: 'horizontal',
     href: '/#testimonials',
   },
@@ -72,7 +75,7 @@ const PROJECTS: Project[] = [
     id: 5,
     client: 'FILMFX',
     category: 'SOCIAL MEDIA MARKETING',
-    year: '2024',
+    year: '2026',
     src: '/videos/featured-work/social-media.mp4',
     orientation: 'horizontal',
     href: '/work/social-media',
@@ -81,7 +84,7 @@ const PROJECTS: Project[] = [
     id: 6,
     client: 'FILMFX',
     category: 'SALES',
-    year: '2024',
+    year: '2026',
     src: '/videos/featured-work/sales.mp4',
     orientation: 'vertical',
     href: '/services/sales-marketing',
@@ -90,7 +93,7 @@ const PROJECTS: Project[] = [
     id: 7,
     client: 'FILMFX',
     category: 'SOFTWARE DEVELOPMENT',
-    year: '2024',
+    year: '2026',
     src: '/videos/featured-work/software-development.mp4',
     orientation: 'vertical',
     // No dedicated service page for this yet — label-only tile, not clickable.
@@ -99,7 +102,7 @@ const PROJECTS: Project[] = [
     id: 8,
     client: 'FILMFX',
     category: 'STAFF AUGMENTATION',
-    year: '2024',
+    year: '2026',
     src: '/videos/featured-work/business-dev-2.mp4',
     orientation: 'horizontal',
     href: '/services/staff-augmentation',
@@ -141,7 +144,16 @@ function ProjectTile({ project, position }: { project: Project; position: number
         cursor: 'none',
       }}
     >
-      {project.src ? (
+      {project.image ? (
+        // Shown whole (contain) on a matching navy so the post isn't cropped.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={project.image}
+          alt={`${project.category} — ${project.client}`}
+          className="work-tile-img"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', background: '#090537' }}
+        />
+      ) : project.src ? (
         <LocalVideoTile src={project.src} className="work-tile-img" />
       ) : (
         <YouTubeTileVideo

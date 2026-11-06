@@ -7,22 +7,25 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// 10 items, all rendered at one uniform card size. The last 2 reuse existing
-// cover images as placeholders (marked below) since there are only 8 dedicated
-// "see more work" images in the project — swap them for real ones any time.
+// 10 posts the client supplied for this ring (2026 revision), all shown at
+// one uniform card size — the source posts are 525×497, the same ratio as
+// the 168×159 cards, so nothing is cropped.
 const ITEMS = [
-  { id: 1,  src: '/images/portfolio/smw-1.jpg',    label: 'Website Development' },
-  { id: 2,  src: '/images/portfolio/smw-2.jpg',    label: 'Social Media' },
-  { id: 3,  src: '/images/portfolio/smw-3.jpg',    label: 'Typography Design' },
-  { id: 4,  src: '/images/portfolio/smw-4.jpg',    label: 'Social Media Marketing' },
-  { id: 5,  src: '/images/portfolio/smw-5.jpg',    label: 'Podcast Clips' },
-  { id: 6,  src: '/images/portfolio/smw-6.jpg',    label: 'UGC Ads' },
-  { id: 7,  src: '/images/portfolio/smw-7.jpg',    label: 'Automobile Edits' },
-  { id: 8,  src: '/images/portfolio/smw-8.jpg',    label: 'Brand Content' },
-  // placeholders — replace with real "see more work" images when available
-  { id: 9,  src: '/images/portfolio/ve-1.jpg',     label: 'Video Edits' },
-  { id: 10, src: '/images/portfolio/we-sa-1.jpg',  label: 'Staff Augmentation' },
+  { id: 1,  src: '/images/portfolio/see-more-1.jpg',  label: 'Prompt Generation' },
+  { id: 2,  src: '/images/portfolio/see-more-2.jpg',  label: 'Higgsfield' },
+  { id: 3,  src: '/images/portfolio/see-more-3.jpg',  label: 'Claude' },
+  { id: 4,  src: '/images/portfolio/see-more-4.jpg',  label: 'Grok AI' },
+  { id: 5,  src: '/images/portfolio/see-more-5.jpg',  label: 'Gemini' },
+  { id: 6,  src: '/images/portfolio/see-more-6.jpg',  label: 'Nano Banana' },
+  { id: 7,  src: '/images/portfolio/see-more-7.jpg',  label: 'AI Tools' },
+  { id: 8,  src: '/images/portfolio/see-more-8.jpg',  label: 'Prompt Generation — character' },
+  { id: 9,  src: '/images/portfolio/see-more-9.jpg',  label: 'AI Cartoon Animations' },
+  { id: 10, src: '/images/portfolio/see-more-10.jpg', label: 'AI assistant character' },
 ]
+
+// Client's AI video portfolio (Notion) — the "Start an AI project" button
+// opens it in a new tab.
+const AI_PORTFOLIO_URL = 'https://app.notion.com/p/FilmFX-Studio-Video-Portfolio-40259b5b379d8199b53ac64e70e9aac4'
 
 const RADIUS       = 370
 const CARD_W       = 168
@@ -190,7 +193,7 @@ export default function MoreWork() {
             width: 'max-content', margin: '0 auto 12px',
           }}
         >
-          See More Work
+          See AI Work
         </p>
 
         <h2
@@ -218,7 +221,9 @@ export default function MoreWork() {
         </p>
 
         <a
-          href="#contact"
+          href={AI_PORTFOLIO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '8px',
             padding: '12px 26px', background: '#fff', color: '#001941',
@@ -229,7 +234,7 @@ export default function MoreWork() {
           onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f0ebe2' }}
           onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#fff' }}
         >
-          Start a project
+          Start an AI project
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>

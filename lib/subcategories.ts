@@ -1,7 +1,5 @@
 // Subcategories nested under a category (e.g. /services/video-editing/wedding-video).
-// Only wedding-video, short-form-videos and real-estate-videos have real
-// client-provided copy + charm art so far — the other 4 Video Editing entries
-// are placeholders (marked below) until that content is provided.
+// Video lists follow the client's Video Editing portfolio doc (2026 revision).
 export type Subcategory = {
   slug: string
   categorySlug: string
@@ -104,7 +102,6 @@ export const SUBCATEGORIES: Subcategory[] = [
   {
     slug: 'youtube-videos',
     categorySlug: 'video-editing',
-    // placeholder — real content pending
     name: 'YouTube Videos',
     gridLabel: 'Youtube videos',
     igName: '',
@@ -113,10 +110,16 @@ export const SUBCATEGORIES: Subcategory[] = [
     bottomLine: 'Long-form storytelling that keeps viewers watching.',
     services: ['YouTube Editing', 'Thumbnails', 'Intros & Outros', 'Sound Design', 'Color Grading'],
     description: [
-      'Content coming soon — this page will showcase FilmFX Studio’s YouTube editing work once finalized.',
+      // placeholder copy — no description supplied for this page yet
+      'YouTube edits built for retention — tight pacing, clean structure, and platform-ready formatting for every upload.',
     ],
     bg: '#CC0012',
     cover: '/images/portfolio/ve-1.jpg',
+    youtubeShorts: [
+      'RWmBxge5uxg', '9hSlHSUS6xs', 'pEV3GLL6Bf0', 'JtoHMvuAJRE',
+      'sYQXZYbdERE', 'sJeawF1fEL8', 'x6Fg3w7XKmY', 'oXF-XcTwgBc',
+      '1nOWVgd2PXA', 'emKX-HJRDzc', '5KN95_Uz4zM', 'Ua0ci3I2WBw',
+    ],
     charmsDir: '',
     charmCount: 0,
   },
@@ -189,7 +192,11 @@ export const SUBCATEGORIES: Subcategory[] = [
     ],
     bg: '#8000FF',
     cover: '/images/portfolio/ve-4.jpg',
-    portfolioVideos: Array.from({ length: 21 }, (_, i) => `/videos/ai-videos/clip-${i + 1}.mp4`),
+    // clips 22–31 are the client's latest AI set (2026 revision), shown first
+    portfolioVideos: [
+      ...Array.from({ length: 10 }, (_, i) => `/videos/ai-videos/clip-${i + 22}.mp4`),
+      ...Array.from({ length: 21 }, (_, i) => `/videos/ai-videos/clip-${i + 1}.mp4`),
+    ],
     charmsDir: '/images/charms/ai-videos',
     charmCount: 5,
   },
@@ -208,6 +215,11 @@ export const SUBCATEGORIES: Subcategory[] = [
     ],
     bg: '#0003FF',
     cover: '/images/portfolio/ve-1.jpg',
+    youtubeVideos: [
+      'm40jdfY43as', 'Luu3Llz9aow', 'vdhPqq43f5I', 'f09l5M-IVSw',
+      'la27rMpo9_I', '-DLXdyWb6yQ', 'e1B1AifRD2U', 'kO-cNsZ5G_M',
+      'wrD-7oLIFvM', '1yNBuFJPk10', 'Svu2Kmfz2k0', 'wuAn1MRcCVk',
+    ],
     charmsDir: '/images/charms/long-form-video',
     charmCount: 4,
   },

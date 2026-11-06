@@ -6,7 +6,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navigation from '@/components/Navigation'
 import { getCategory, type Category } from '@/lib/categories'
-import { MediaBox, SectionEyebrow, useReveal, useNextBandScrollPct } from '@/components/PortfolioPageKit'
+import { SectionEyebrow, useReveal, useNextBandScrollPct } from '@/components/PortfolioPageKit'
 import LazyVideoTile from '@/components/LazyVideoTile'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -78,10 +78,12 @@ export default function SMMPage({ category }: { category: Category }) {
           maxWidth: '1200px', margin: '0 auto',
           display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'clamp(40px,6vw,80px)',
         }}>
-          <div ref={heroRef} style={{ flex: '1 1 420px', minWidth: 0 }}>
+          {/* Text column and illustration sized to balance each other (client
+              revision: larger elements, heading + copy aligned to one width). */}
+          <div ref={heroRef} style={{ flex: '1 1 460px', minWidth: 0, maxWidth: '640px' }}>
             <h1 style={{
               fontFamily: "'Youth', Arial, sans-serif",
-              fontSize: 'clamp(40px, 6vw, 72px)',
+              fontSize: 'clamp(44px, 6.4vw, 84px)',
               fontWeight: 900,
               letterSpacing: '-0.03em',
               lineHeight: 0.98,
@@ -92,17 +94,16 @@ export default function SMMPage({ category }: { category: Category }) {
             </h1>
             <p style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(16px, 1.6vw, 20px)',
+              fontSize: 'clamp(17px, 1.7vw, 22px)',
               color: 'rgba(255,255,255,0.65)',
-              lineHeight: 1.7,
-              maxWidth: '520px',
+              lineHeight: 1.65,
               margin: 0,
             }}>
               At FilmFX Studio, we blend creativity with strategy to build impactful social media campaigns that capture attention, inspire action, and fuel sustainable brand growth.
             </p>
           </div>
 
-          <div style={{ flex: '1 1 280px', minWidth: '240px', maxWidth: '380px', margin: '0 auto' }}>
+          <div style={{ flex: '1 1 340px', minWidth: '260px', maxWidth: '500px', margin: '0 auto' }}>
             {/* eslint-disable-next-line @next/next/no-img-element -- transparent illustration, shown as-is (no crop box) */}
             <img
               src="/images/smm/hero.png"
@@ -229,13 +230,32 @@ export default function SMMPage({ category }: { category: Category }) {
 
       {/* ── Quote ── */}
       <section ref={quoteRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }}>
-        <div style={{ maxWidth: '1000px', margin: '0 auto', borderRadius: '24px', overflow: 'hidden', aspectRatio: '16/9' }}>
-          <MediaBox
-            src="/images/smm/quote.png"
-            alt="Social media isn't about being everywhere. It's unforgettable."
-            label={'Drop quote graphic here:\npublic/images/smm/quote.png'}
-            style={{ background: 'var(--bg)' }}
+        {/* Client's quote design as separate layers: the quote text plus its 4
+            3D elements (each a full 16:9 transparent canvas, pre-positioned),
+            stacked so the elements can float gently on their own. */}
+        <style>{`
+          @keyframes smm-float{0%,100%{transform:translate3d(0,0,0) rotate(0deg)}50%{transform:translate3d(0,-1.6%,0) rotate(1.5deg)}}
+          .smm-quote-el{position:absolute;inset:0;width:100%;height:100%;animation:smm-float 6s ease-in-out infinite;pointer-events:none}
+          @media (prefers-reduced-motion:reduce){.smm-quote-el{animation:none}}
+        `}</style>
+        <div style={{ position: 'relative', maxWidth: '1000px', margin: '0 auto', aspectRatio: '16/9' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- transparent layered artwork */}
+          <img
+            src="/images/smm/quote-layers/quote.png"
+            alt="Social media isn't about being everywhere. It's about being unforgettable."
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
           />
+          {[1, 2, 3, 4].map(n => (
+            // eslint-disable-next-line @next/next/no-img-element -- transparent layered artwork
+            <img
+              key={n}
+              src={`/images/smm/quote-layers/elements-${n}.png`}
+              alt=""
+              aria-hidden
+              className="smm-quote-el"
+              style={{ animationDelay: `${-n * 1.4}s`, animationDuration: `${5 + n * 0.8}s` }}
+            />
+          ))}
         </div>
       </section>
 

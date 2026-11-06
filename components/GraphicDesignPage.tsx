@@ -148,10 +148,14 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
       <section ref={servicesRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', textAlign: 'center' }}>
           <SectionEyebrow>Our Creative Services</SectionEyebrow>
-          <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px',
-            textAlign: 'left', marginTop: '28px',
-          }}>
+          {/* Fixed 3 × 3 grid (client revision) — drops to 2 / 1 columns on
+              narrower screens so the baked-in tile text stays readable. */}
+          <style>{`
+            .gd-services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;text-align:left;margin-top:28px;}
+            @media (max-width:820px){.gd-services-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+            @media (max-width:520px){.gd-services-grid{grid-template-columns:minmax(0,1fr);}}
+          `}</style>
+          <div className="gd-services-grid">
             {SERVICES.map(s => (
               <div key={s.file} style={{ borderRadius: '16px', overflow: 'hidden', aspectRatio: '1/1' }}>
                 <MediaBox
@@ -220,13 +224,13 @@ export default function GraphicDesignPage({ category }: { category: Category }) 
                 key: 'logo-design',
                 heading: 'Logo Design That Leaves a Mark',
                 copy: 'Bold. Memorable. Instantly recognizable. We create logo identities that don’t just look good — they become the face of your brand.',
-                bg: '#C1FF72',
+                bg: '#00512a',
               },
               {
                 key: 'trusted-brands',
                 heading: 'Trusted by Growing Brands.',
                 copy: 'Every project is a collaboration built on trust, creativity, and exceptional design. We’re proud to help brands of all sizes stand out, grow confidently, and leave lasting impressions.',
-                bg: '#634277',
+                bg: '#d2b2e6',
               },
             ].map(box => (
               <div key={box.key} style={{ background: 'var(--bg)', borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--border)' }}>

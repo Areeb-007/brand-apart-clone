@@ -6,28 +6,62 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navigation from '@/components/Navigation'
 import { getCategory, type Category } from '@/lib/categories'
-import { MediaBox, SectionEyebrow, useReveal, useNextBandScrollPct } from '@/components/PortfolioPageKit'
+import { useReveal, useNextBandScrollPct } from '@/components/PortfolioPageKit'
 
 gsap.registerPlugin(ScrollTrigger)
 
 // Bespoke page for Staff Augmentation — same pattern as GraphicDesignPage.tsx
 // (replaces CategoryDetail for this route; see app/services/[slug]/page.tsx).
-// Assets live under public/images/staff-augmentation/.
-// The role list and stats aren't spelled out as FilmFX-specific numbers in
-// the source spec (it points to Superside's own marketing site as visual
-// reference) — filled in with reasonable placeholders; swap for the real
-// figures/roles when available.
-const ROLES = [
-  'Video editors', 'Motion designers', 'Graphic designers',
-  'VFX artists', 'Social media managers', 'Project managers',
+// Content and section order follow Tab 4 of the client's content doc
+// (superside.com as layout reference); each section's artwork is the
+// client's own graphic, under public/images/staff-augmentation/.
+
+const SERVICE_TILES = [
+  'Video Editors', 'Motion Graphics Designers', 'VFX Artists',
+  'Social Media Video Editors', 'Color Grading Specialists', 'Sound Designers & Audio Editors',
 ]
 
-const STATS = [
-  { value: '500+', label: 'Projects delivered' },
-  { value: '12K+', label: 'Hours of creative work' },
-  { value: '94%', label: 'Client retention rate' },
-  { value: '6 months', label: 'Average engagement length' },
+const HOW_STEPS = [
+  '1 — Tell us what you need. Share your project goals, preferred tools, timeline, and required skill set.',
+  '2 — Meet your creative talent. We’ll match you with professionals that fit your workflow and production style.',
+  '3 — Start working immediately. Your creative team integrates seamlessly into your workflow.',
+  '4 — Scale anytime. Increase or reduce team size as projects evolve without recruitment headaches.',
 ]
+
+/* eslint-disable @next/next/no-img-element -- transparent client artwork, shown whole at its natural ratio */
+function Art({ src, alt, style }: { src: string; alt: string; style?: React.CSSProperties }) {
+  return <img src={src} alt={alt} loading="lazy" style={{ display: 'block', width: '100%', height: 'auto', ...style }} />
+}
+/* eslint-enable @next/next/no-img-element */
+
+function SectionHeading({ title, tagline, dark }: { title: string; tagline?: string; dark?: boolean }) {
+  return (
+    <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto clamp(40px,5vw,64px)' }}>
+      <h2 style={{
+        fontFamily: "'Youth', Arial, sans-serif",
+        fontSize: 'clamp(30px, 4vw, 52px)',
+        fontWeight: 900,
+        letterSpacing: '-0.03em',
+        lineHeight: 1.02,
+        color: dark ? '#fff' : 'var(--fg)',
+        margin: tagline ? '0 0 16px' : 0,
+      }}>
+        {title}
+      </h2>
+      {tagline && (
+        <p style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 'clamp(17px, 1.8vw, 22px)',
+          fontWeight: 600,
+          color: dark ? 'rgba(255,255,255,0.65)' : 'var(--fg-muted)',
+          margin: 0,
+        }}>
+          {tagline}
+        </p>
+      )}
+    </div>
+  )
+}
 
 export default function StaffAugmentationPage({ category }: { category: Category }) {
   const heroRef = useRef<HTMLDivElement>(null)
@@ -35,11 +69,11 @@ export default function StaffAugmentationPage({ category }: { category: Category
   const nextCategory = getCategory(category.nextSlug)
   const scrollPct = useNextBandScrollPct(nextBandRef)
 
-  const trustedRef = useReveal<HTMLDivElement>()
+  const trustedRef  = useReveal<HTMLDivElement>()
   const whyRef      = useReveal<HTMLDivElement>()
-  const rolesRef    = useReveal<HTMLDivElement>()
+  const servicesRef = useReveal<HTMLDivElement>()
+  const howRef      = useReveal<HTMLDivElement>()
   const statsRef    = useReveal<HTMLDivElement>()
-  const workRef     = useReveal<HTMLDivElement>()
   const ctaRef      = useReveal<HTMLDivElement>()
 
   useEffect(() => {
@@ -53,139 +87,119 @@ export default function StaffAugmentationPage({ category }: { category: Category
     <>
       <Navigation />
 
-      {/* ── Hero ── */}
-      <section data-nav-dark style={{ background: '#001941', padding: 'clamp(120px,14vw,160px) clamp(24px,4vw,60px) clamp(70px,8vw,100px)', textAlign: 'center' }}>
-        <div ref={heroRef} style={{ maxWidth: '760px', margin: '0 auto' }}>
-          <p style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', marginBottom: '20px' }}>
-            Staff Augmentation
-          </p>
-          <h1 style={{
-            fontFamily: "'Youth', Arial, sans-serif",
-            fontSize: 'clamp(40px, 6vw, 76px)',
-            fontWeight: 900,
-            letterSpacing: '-0.03em',
-            lineHeight: 0.98,
-            color: '#fff',
-            margin: '0 0 24px',
-          }}>
-            Scale Your Creative Team Without Hiring.
-          </h1>
-          <p style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(16px, 1.6vw, 20px)',
-            color: 'rgba(255,255,255,0.65)',
-            lineHeight: 1.7,
-            margin: '0 auto',
-          }}>
-            Whether you need one specialist or an entire creative team, FilmFX Studio provides experienced professionals who integrate seamlessly into your workflow. Skip lengthy hiring cycles and scale your production with skilled editors, motion designers, VFX artists, and post-production experts exactly when you need them.
-          </p>
-        </div>
-      </section>
-
-      {/* ── Trusted creative talent ── */}
-      <section ref={trustedRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)', textAlign: 'center' }}>
-        <div style={{ maxWidth: '760px', margin: '0 auto' }}>
-          <h2 style={{
-            fontFamily: "'Youth', Arial, sans-serif",
-            fontSize: 'clamp(30px, 4vw, 50px)',
-            fontWeight: 900,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.05,
-            color: 'var(--fg)',
-            margin: '0 0 24px',
-          }}>
-            Trusted Creative Talent. Built For Modern Teams.
-          </h2>
-          <p style={{ fontSize: 'clamp(15px, 1.4vw, 18px)', color: 'var(--fg-muted)', lineHeight: 1.8, margin: 0 }}>
-            From startups to growing agencies and enterprise brands, businesses trust FilmFX Studio to provide highly skilled creative professionals that deliver quality work, adapt quickly, and become a natural extension of internal teams.
-          </p>
-        </div>
-      </section>
-
-      {/* ── Why choose us ── */}
-      <section ref={whyRef} style={{ background: '#001941', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)', textAlign: 'center' }} data-nav-dark>
-        <SectionEyebrow>Why Choose Us</SectionEyebrow>
-        <h2 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(26px, 3.2vw, 44px)',
-          fontWeight: 800,
-          letterSpacing: '-0.02em',
-          color: '#fff',
-          margin: 0,
+      {/* ── 1. Hero — headline, tagline, paragraph + illustration ── */}
+      <section data-nav-dark style={{ background: '#001941', padding: 'clamp(120px,14vw,160px) clamp(24px,4vw,60px) clamp(70px,8vw,100px)', overflow: 'hidden' }}>
+        <div ref={heroRef} style={{
+          maxWidth: '1200px', margin: '0 auto',
+          display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'clamp(32px,5vw,72px)',
         }}>
-          Why Companies Choose FilmFX Studio
-        </h2>
-      </section>
-
-      {/* ── Services / roles ── */}
-      <section ref={rolesRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)', textAlign: 'center' }}>
-        <SectionEyebrow>Services</SectionEyebrow>
-        <h2 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(22px, 2.6vw, 32px)',
-          fontWeight: 700,
-          color: 'var(--fg)',
-          margin: '0 0 40px',
-        }}>
-          Creative Specialists Ready to Join Your Team
-        </h2>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '12px', maxWidth: '820px', margin: '0 auto' }}>
-          {ROLES.map(role => (
-            <span key={role} style={{
-              fontSize: '14px', fontWeight: 600, color: 'var(--fg)',
-              padding: '10px 20px', borderRadius: '100px', border: '1px solid var(--border)',
+          <div style={{ flex: '1 1 440px', minWidth: 0, maxWidth: '620px' }}>
+            <h1 style={{
+              fontFamily: "'Youth', Arial, sans-serif",
+              fontSize: 'clamp(44px, 6.4vw, 84px)',
+              fontWeight: 900,
+              letterSpacing: '-0.03em',
+              lineHeight: 0.98,
+              color: '#fff',
+              margin: '0 0 18px',
             }}>
-              {role}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Stats ── */}
-      <section ref={statsRef} style={{ background: 'var(--bg-card)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }}>
-        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-          <h2 style={{
-            fontFamily: "'Youth', Arial, sans-serif",
-            fontSize: 'clamp(30px, 3.8vw, 48px)',
-            fontWeight: 900,
-            letterSpacing: '-0.03em',
-            lineHeight: 1,
-            color: 'var(--fg)',
-            textAlign: 'center',
-            margin: '0 0 56px',
-          }}>
-            How It Works
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '24px' }}>
-            {STATS.map(stat => (
-              <div key={stat.label} style={{ textAlign: 'center' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 3.2vw, 42px)', fontWeight: 800, color: 'var(--accent)', marginBottom: '8px' }}>
-                  {stat.value}
-                </div>
-                <div style={{ fontSize: '13px', color: 'var(--fg-muted)', fontWeight: 600 }}>
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+              Staff Augmentation
+            </h1>
+            <p style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(20px, 2.2vw, 28px)',
+              fontWeight: 700,
+              color: 'var(--accent)',
+              lineHeight: 1.25,
+              margin: '0 0 22px',
+            }}>
+              Scale Your Creative Team Without Hiring.
+            </p>
+            <p style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(16px, 1.5vw, 19px)',
+              color: 'rgba(255,255,255,0.65)',
+              lineHeight: 1.7,
+              margin: 0,
+            }}>
+              Whether you need one specialist or an entire creative team, FilmFX Studio provides experienced professionals who integrate seamlessly into your workflow. Skip lengthy hiring cycles and scale your production with skilled editors, motion designers, VFX artists, and post-production experts exactly when you need them.
+            </p>
+          </div>
+          <div style={{ flex: '1 1 380px', minWidth: '260px', maxWidth: '560px', margin: '0 auto' }}>
+            <Art src="/images/staff-augmentation/hero.png" alt="Creative team members working on laptops" />
           </div>
         </div>
       </section>
 
-      {/* ── Work showcase ── */}
-      <section ref={workRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)', textAlign: 'center' }}>
-        <p style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--fg-muted)', marginBottom: '16px' }}>
-          Built For Fast-Moving Creative Teams
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '16px', maxWidth: '1100px', margin: '0 auto' }}>
-          {[1, 2, 3].map(i => (
-            <div key={i} style={{ borderRadius: '16px', overflow: 'hidden', aspectRatio: '4/3' }}>
-              <MediaBox
-                src={`/images/staff-augmentation/work-${i}.jpg`}
-                alt={`Project ${i}`}
-                label={`Drop work sample here:\npublic/images/staff-augmentation/work-${i}.jpg`}
-              />
+      {/* ── 2. Trusted creative talent ── */}
+      <section ref={trustedRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto clamp(32px,4vw,48px)' }}>
+            <h2 style={{
+              fontFamily: "'Youth', Arial, sans-serif",
+              fontSize: 'clamp(30px, 4vw, 52px)',
+              fontWeight: 900,
+              letterSpacing: '-0.03em',
+              lineHeight: 1.05,
+              color: 'var(--fg)',
+              margin: '0 0 22px',
+            }}>
+              Trusted Creative Talent.<br />Built For Modern Teams.
+            </h2>
+            <p style={{ fontSize: 'clamp(15px, 1.4vw, 18px)', color: 'var(--fg-muted)', lineHeight: 1.8, margin: 0 }}>
+              From startups to growing agencies and enterprise brands, businesses trust FilmFX Studio to provide highly skilled creative professionals that deliver quality work, adapt quickly, and become a natural extension of internal teams.
+            </p>
+          </div>
+          <Art src="/images/staff-augmentation/trusted.png" alt="Trusted creative talent — editors, designers and marketers across every creative skill" />
+        </div>
+      </section>
+
+      {/* ── 3. Why choose us ── */}
+      <section ref={whyRef} style={{ background: '#001941', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }} data-nav-dark>
+        <SectionHeading title="WHY CHOOSE US" tagline="Why Companies Choose FilmFX Studio" dark />
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <Art
+            src="/images/staff-augmentation/why.png"
+            alt="1 Fast team scaling, 2 Specialized talent, 3 Flexible engagement, 4 Seamless collaboration, 5 Consistent quality, 6 Cost efficient"
+          />
+        </div>
+      </section>
+
+      {/* ── 4. Services ── */}
+      <section ref={servicesRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }}>
+        <SectionHeading title="SERVICES" tagline="Creative Specialists Ready to Join Your Team" />
+        <style>{`
+          .sa-services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:1000px;margin:0 auto;}
+          @media (max-width:820px){.sa-services-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+          @media (max-width:480px){.sa-services-grid{grid-template-columns:minmax(0,1fr);}}
+        `}</style>
+        <div className="sa-services-grid">
+          {SERVICE_TILES.map((label, i) => (
+            <div key={i} style={{ borderRadius: '16px', overflow: 'hidden' }}>
+              <Art src={`/images/staff-augmentation/services/${i + 1}.png`} alt={label} />
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── 5. How it works — the 4 step bars, stacked ── */}
+      <section ref={howRef} style={{ background: 'var(--bg-card)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }}>
+        <SectionHeading title="How It Works" />
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'clamp(4px,1vw,10px)' }}>
+          {HOW_STEPS.map((alt, i) => (
+            <Art key={i} src={`/images/staff-augmentation/how/${i + 1}.png`} alt={alt} />
+          ))}
+        </div>
+      </section>
+
+      {/* ── 6. Stats ── */}
+      <section ref={statsRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }}>
+        <SectionHeading title="STATS" tagline="Built For Fast-Moving Creative Teams" />
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <Art
+            src="/images/staff-augmentation/stats.png"
+            alt="24–48 hours average talent placement, 100% remote global creative collaboration, flexible project/part-time/full-time engagements, multiple creative disciplines"
+          />
         </div>
       </section>
 
@@ -206,7 +220,7 @@ export default function StaffAugmentationPage({ category }: { category: Category
           Let&apos;s make it<br />
           <span style={{ color: 'rgba(0,25,65,0.22)' }}>happen.</span>
         </h2>
-        <Link href="/#contact" style={{
+        <Link href="/contact" style={{
           display: 'inline-flex', alignItems: 'center', gap: '10px',
           padding: '14px 32px', background: 'var(--fg)', color: '#fff',
           borderRadius: '100px', fontSize: '13px', fontWeight: 700,

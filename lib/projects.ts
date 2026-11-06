@@ -22,7 +22,7 @@ export const PROJECTS: Project[] = [
     slug: 'video-editing',
     name: 'Video Editing',
     tagline: 'Cinematic edits that capture and convert.',
-    year: '2024',
+    year: '2026',
     category: 'Video Editing',
     description:
       'We don\'t just cut clips — we craft stories. Every edit is shaped to hold attention, build emotion, and drive action.',
@@ -48,7 +48,7 @@ export const PROJECTS: Project[] = [
     slug: 'graphic-design',
     name: 'Graphic Design',
     tagline: 'Designs that speak before you do.',
-    year: '2024',
+    year: '2026',
     category: 'Graphic Design',
     description:
       'Great design is silent marketing — and we make it loud. From posters to full brand identities, every visual leaves a lasting impression.',
@@ -74,7 +74,7 @@ export const PROJECTS: Project[] = [
     slug: 'social-media',
     name: 'Social Media',
     tagline: 'We don\'t chase trends — we create them.',
-    year: '2024',
+    year: '2026',
     category: 'Social Media Marketing',
     description:
       'Smart strategies that make people stop scrolling and start engaging — building brand presence that turns audiences into loyal followers.',
@@ -100,7 +100,7 @@ export const PROJECTS: Project[] = [
     slug: 'business-dev',
     name: 'Business Dev',
     tagline: 'Marketing with one goal: results.',
-    year: '2024',
+    year: '2026',
     category: 'Business Development',
     description:
       'Targeting the right audience, delivering the right message, and turning interest into action — helping your business grow faster and stronger.',

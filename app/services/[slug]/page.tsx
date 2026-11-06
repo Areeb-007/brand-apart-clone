@@ -5,6 +5,7 @@ import GraphicDesignPage from '@/components/GraphicDesignPage'
 import SMMPage from '@/components/SMMPage'
 import StaffAugmentationPage from '@/components/StaffAugmentationPage'
 import SalesMarketingPage from '@/components/SalesMarketingPage'
+import SiteFooter from '@/components/SiteFooter'
 
 // Categories with a bespoke, content-driven page (doesn't fit the generic
 // CategoryDetail template) — everything else falls through to CategoryDetail.
@@ -34,6 +35,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const category = getCategory(slug)
   if (!category) notFound()
   const BespokePage = BESPOKE_PAGES[slug]
-  if (BespokePage) return <BespokePage category={category} />
-  return <CategoryDetail category={category} />
+  return (
+    <>
+      {BespokePage ? <BespokePage category={category} /> : <CategoryDetail category={category} />}
+      <SiteFooter />
+    </>
+  )
 }

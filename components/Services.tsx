@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -201,6 +202,9 @@ export default function Services() {
   // Card height matches the reference's aspect-ratio (1000/540) at the card's own
   // width — NOT the viewport height — so there's never leftover empty space inside
   // the card. The vh term is only a safety ceiling for unusually short viewports.
+  // Every card opens its service's portfolio page (whole card is the link).
+  const router = useRouter()
+
   const cardH = `min(calc(100vh - ${PAD_T}px - 48px), calc(min(980px, 92vw) * 0.54))`
 
   return (
@@ -282,7 +286,13 @@ export default function Services() {
               onMouseMove={(e) => handleCardMouseMove(e, i)}
               onMouseEnter={() => handleCardMouseEnter(i)}
               onMouseLeave={() => handleCardMouseLeave(i)}
+              onClick={() => router.push(`/services/${svc.slug}`)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); router.push(`/services/${svc.slug}`) } }}
+              role="link"
+              tabIndex={0}
+              aria-label={`${svc.tagline} — view portfolio`}
               style={{
+                cursor:       'none',
                 position:     'absolute',
                 top:          '50%',
                 left:         '50%',

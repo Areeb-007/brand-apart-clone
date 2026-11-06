@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import YouTubeBackgroundVideo from '@/components/YouTubeBackgroundVideo'
+import LocalVideoTile from '@/components/LocalVideoTile'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -101,8 +101,9 @@ export default function ZoomReveal() {
             willChange: 'transform, border-radius',
           }}
         >
-          {/* Featured work video */}
-          <YouTubeBackgroundVideo videoId="KPpxF36yzSI" />
+          {/* Featured work video — self-hosted copy of the client's Box 9
+              master (was a YouTube embed, which always shows YouTube's logo). */}
+          <LocalVideoTile src="/videos/featured-work/featured-9.mp4" />
 
           {/* Bottom gradient + text overlay */}
           <div

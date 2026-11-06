@@ -219,7 +219,9 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
                     autoPlay
                     playsInline
                     preload="metadata"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    // contain, not cover: boxes stay one uniform size, but
+                    // landscape clips are shown whole instead of cropped.
+                    style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
                   />
                 </div>
               ))}
