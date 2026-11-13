@@ -20,6 +20,19 @@ gsap.registerPlugin(ScrollTrigger, SplitText)
 // the full-film modal.
 const SHOWREEL = '/videos/featured-work/video-editing-1.mp4'
 
+// Header background: the client's team photos (13 Nov revision), slowly
+// crossfading with a gentle zoom in place of the text-heavy reel, which
+// clashed with the headline.
+const TEAM_PHOTOS = ['/images/about/hero/team-0059.jpg', '/images/about/hero/team-0054.jpg']
+
+const HERO_CSS = `
+@keyframes ah-fade{0%,45%{opacity:1}55%,100%{opacity:0}}
+@keyframes ah-zoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+.ah-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;animation:ah-zoom 14s ease-in-out infinite alternate;}
+.ah-photo + .ah-photo{animation:ah-zoom 14s ease-in-out infinite alternate,ah-fade 16s ease-in-out infinite reverse;}
+@media (prefers-reduced-motion:reduce){.ah-photo,.ah-photo + .ah-photo{animation:none}}
+`
+
 export default function AboutHero() {
   const wrapRef    = useRef<HTMLDivElement>(null)
   const boxRef     = useRef<HTMLDivElement>(null)
@@ -82,20 +95,19 @@ export default function AboutHero() {
   return (
     <div ref={wrapRef} style={{ position: 'relative', height: '250vh' }}>
       <div style={{ position: 'sticky', top: 0, height: '100svh', overflow: 'hidden', background: 'var(--bg)' }}>
-        {/* Video box */}
+        {/* Photo box */}
         <div ref={boxRef} style={{
           position: 'absolute', inset: 0, overflow: 'hidden', background: '#001941',
           transformOrigin: '50% 50%', willChange: 'transform',
         }}>
-          <video
-            src={SHOWREEL}
-            autoPlay muted loop playsInline preload="auto"
-            aria-label="Filmfx Studio showreel"
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-          />
+          <style>{HERO_CSS}</style>
+          {TEAM_PHOTOS.map((src, i) => (
+            // eslint-disable-next-line @next/next/no-img-element -- full-bleed animated backdrop
+            <img key={src} src={src} className="ah-photo" alt={i === 0 ? 'The Filmfx Studio team' : ''} aria-hidden={i > 0} />
+          ))}
           <div aria-hidden style={{
             position: 'absolute', inset: 0, pointerEvents: 'none',
-            background: 'linear-gradient(rgba(0,13,34,0.5) 0%, rgba(0,13,34,0.12) 34%, rgba(0,13,34,0.62) 100%)',
+            background: 'linear-gradient(rgba(0,13,34,0.55) 0%, rgba(0,13,34,0.3) 38%, rgba(0,13,34,0.45) 60%, rgba(0,13,34,0.72) 100%)',
           }} />
         </div>
 
