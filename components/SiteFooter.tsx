@@ -169,7 +169,7 @@ export default function SiteFooter({
             <span className="sf-link-title">Book a call</span>
             <span className="sf-link-dot"><PhoneIcon /></span>
           </Link>
-          <p className="sf-copy">© 2026 Filmfx Studio. All rights reserved.</p>
+          <p className="sf-copy">© 2027 Filmfx Studio. All rights reserved.</p>
         </div>
       </div>
 

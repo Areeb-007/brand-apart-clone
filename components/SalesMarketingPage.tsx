@@ -424,7 +424,7 @@ export default function SalesMarketingPage({ category }: { category: Category })
               <h2>Let&apos;s write<br />your next <em>act.</em></h2>
               <div className="item"><div className="k">Email</div><div className="v">hello@filmfxstudio.com</div></div>
               <div className="item"><div className="k">Response Time</div><div className="v">Within 24 hours</div></div>
-              <div className="item"><div className="k">Availability</div><div className="v">Booking Q3 2026</div></div>
+              <div className="item"><div className="k">Availability</div><div className="v">Booking Q3 2027</div></div>
             </div>
             <form className="reveal" onSubmit={handleSubmit}>
               <div className="field"><label>Full Name</label><input type="text" placeholder="Jane Doe" required /></div>
@@ -453,7 +453,7 @@ export default function SalesMarketingPage({ category }: { category: Category })
             </div>
             <div className="footer-row">
               <div className="logo"><span className="rec" />FilmFX Studio</div>
-              <div className="fmeta">© 2026 — Directed, Produced &amp; Delivered.</div>
+              <div className="fmeta">© 2027 — Directed, Produced &amp; Delivered.</div>
               <div className="flinks"><a href="#services">Services</a><a href="#packages">Packages</a><a href="#contact">Contact</a></div>
             </div>
           </div>

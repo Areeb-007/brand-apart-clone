@@ -19,21 +19,12 @@ function tileSpan(position: number) {
   return position % 3 === 0
 }
 
-// Same bento recipe as the Featured Work grid: 1st-of-4 is full-width, 3rd-
-// and 6th-of-8 is tall — applied to the 7 subcategory tiles.
-function subTilePlacement(position: number) {
-  const isFull = position % 4 === 1
-  const isTall = position === 3 || position === 6
-  return { isFull, isTall }
-}
-
 export default function CategoryDetail({ category }: { category: Category }) {
   const heroNameRef    = useRef<HTMLDivElement>(null)
   const heroMetaRef    = useRef<HTMLDivElement>(null)
   const heroTagRef     = useRef<HTMLDivElement>(null)
   const overviewRef    = useRef<HTMLDivElement>(null)
   const galleryRef     = useRef<HTMLDivElement>(null)
-  const creditsRef     = useRef<HTMLDivElement>(null)
   const ctaRef         = useRef<HTMLDivElement>(null)
   const nextBandRef    = useRef<HTMLAnchorElement>(null)
   const [scrollPct, setScrollPct] = useState(0)
@@ -65,7 +56,7 @@ export default function CategoryDetail({ category }: { category: Category }) {
     )
 
     // Scroll-in sections
-    const reveals = [overviewRef, galleryRef, creditsRef, ctaRef]
+    const reveals = [overviewRef, galleryRef, ctaRef]
     reveals.forEach(ref => {
       if (!ref.current) return
       gsap.fromTo(ref.current,
@@ -121,17 +112,19 @@ export default function CategoryDetail({ category }: { category: Category }) {
           textAlign: 'center',
         }}
       >
-        <div style={{ maxWidth: 'min(90vw, 1007px)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'clamp(20px, 3vw, 34px)' }}>
+        <div style={{ maxWidth: '96vw', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'clamp(20px, 3vw, 34px)' }}>
           {/* Giant category name */}
           <div ref={heroNameRef}>
             <h1 style={{
               fontFamily: "'Youth', Arial, sans-serif",
-              fontSize: 'clamp(56px, 11vw, 176px)',
+              // Client revision: keep the name on a single, prominent line
+              fontSize: 'clamp(40px, 9.6vw, 176px)',
               fontWeight: 900,
               letterSpacing: '-0.045em',
               lineHeight: 0.85,
               color: '#fff',
               margin: 0,
+              whiteSpace: 'nowrap',
             }}>
               {category.name}
             </h1>
@@ -230,31 +223,26 @@ export default function CategoryDetail({ category }: { category: Category }) {
         </div>
       </section>
 
-      {/* ── Subcategory grid — same bento recipe as Featured Work, one tile
-          per subcategory (e.g. Wedding Video, Short Form Videos…) ── */}
+      {/* ── Subcategory grid — one tile per subcategory (e.g. Wedding Video,
+          Short Form Videos…). Client revision: every box the same size —
+          equal rounded squares, two per row, like brandappart's work grid. ── */}
       {subcategories.length > 0 && (
         <section style={{ background: 'var(--bg)', padding: 'clamp(40px,5vw,60px) clamp(24px,4vw,60px)' }}>
           <div style={{
             width: '67.2vw', minWidth: '280px', margin: '0 auto',
             display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px',
           }}>
-            {subcategories.map((sub, i) => {
-              const { isFull, isTall } = subTilePlacement(i + 1)
+            {subcategories.map((sub) => {
               return (
                 <Link
                   key={sub.slug}
                   href={`/services/${category.slug}/${sub.slug}`}
-                  style={{
-                    display: 'block', textDecoration: 'none',
-                    gridColumn: isFull ? '1 / -1' : undefined,
-                    gridRow: isTall ? 'span 2' : undefined,
-                  }}
+                  style={{ display: 'block', textDecoration: 'none' }}
                 >
                   <div style={{
                     position: 'relative', borderRadius: '20px', overflow: 'hidden',
                     background: category.accent, cursor: 'none',
-                    aspectRatio: isTall ? undefined : (isFull ? '1000/540' : '500/350'),
-                    height: isTall ? '100%' : undefined,
+                    aspectRatio: '1 / 1',
                   }}>
                     <Image
                       src={sub.cover}
@@ -331,34 +319,14 @@ export default function CategoryDetail({ category }: { category: Category }) {
       </section>
       )}
 
-      {/* ── Credits ── */}
-      <section ref={creditsRef} style={{ background: 'var(--bg)', padding: 'clamp(60px,8vw,90px) clamp(24px,4vw,60px)' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--fg-muted)', marginBottom: '28px' }}>
-            Credits
-          </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '32px 48px' }}>
-            {category.credits.map((c) => (
-              <div key={c.role} style={{ minWidth: '160px' }}>
-                <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--fg-muted)', marginBottom: '10px' }}>
-                  {c.role}
-                </div>
-                <div style={{
-                  width: '32px', height: '32px', borderRadius: '50%',
-                  background: category.accent, color: '#fff',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '12px', fontWeight: 700,
-                }}>
-                  {c.name[0]}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Testimonial ── */}
-      <section data-nav-dark style={{ background: '#001941', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }}>
+      {/* Client revision: the review takes the whole screen in navy, so the
+          section reads as one consistent blue block, not just a band. */}
+      <section data-nav-dark style={{
+        background: '#001941', minHeight: '100svh',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)',
+      }}>
         <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center' }}>
           <p style={{
             fontFamily: 'var(--font-display)',

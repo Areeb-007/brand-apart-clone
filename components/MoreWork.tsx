@@ -7,20 +7,19 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// 10 posts the client supplied for this ring (2026 revision), all shown at
-// one uniform card size — the source posts are 525×497, the same ratio as
-// the 168×159 cards, so nothing is cropped.
+// The 10 posts currently in the client's "See More Work" Drive folder (13 Nov
+// revision), all shown at one uniform 168×159 card size.
 const ITEMS = [
-  { id: 1,  src: '/images/portfolio/see-more-1.jpg',  label: 'Prompt Generation' },
+  { id: 1,  src: '/images/portfolio/see-more-26.jpg', label: 'ChatGPT' },
   { id: 2,  src: '/images/portfolio/see-more-2.jpg',  label: 'Higgsfield' },
-  { id: 3,  src: '/images/portfolio/see-more-3.jpg',  label: 'Claude' },
-  { id: 4,  src: '/images/portfolio/see-more-4.jpg',  label: 'Grok AI' },
-  { id: 5,  src: '/images/portfolio/see-more-5.jpg',  label: 'Gemini' },
-  { id: 6,  src: '/images/portfolio/see-more-6.jpg',  label: 'Nano Banana' },
-  { id: 7,  src: '/images/portfolio/see-more-7.jpg',  label: 'AI Tools' },
-  { id: 8,  src: '/images/portfolio/see-more-8.jpg',  label: 'Prompt Generation — character' },
-  { id: 9,  src: '/images/portfolio/see-more-9.jpg',  label: 'AI Cartoon Animations' },
-  { id: 10, src: '/images/portfolio/see-more-10.jpg', label: 'AI assistant character' },
+  { id: 3,  src: '/images/portfolio/see-more-27.jpg', label: 'Google Flow' },
+  { id: 4,  src: '/images/portfolio/see-more-3.jpg',  label: 'Claude' },
+  { id: 5,  src: '/images/portfolio/see-more-28.jpg', label: 'ElevenLabs' },
+  { id: 6,  src: '/images/portfolio/see-more-29.jpg', label: 'AI Avatar' },
+  { id: 7,  src: '/images/portfolio/see-more-6.jpg',  label: 'Nano Banana' },
+  { id: 8,  src: '/images/portfolio/see-more-30.jpg', label: 'UGC Ads' },
+  { id: 9,  src: '/images/portfolio/see-more-8.jpg',  label: 'Prompt Generation — character' },
+  { id: 10, src: '/images/portfolio/see-more-31.jpg', label: 'AI Clay Animation' },
 ]
 
 // Client's AI video portfolio (Notion) — the "Start an AI project" button
@@ -42,11 +41,9 @@ export default function MoreWork() {
   const sectionRef  = useRef<HTMLDivElement>(null)
   const circleRef   = useRef<HTMLDivElement>(null)
   const textRef     = useRef<HTMLDivElement>(null)
-  const labelRef    = useRef<HTMLParagraphElement>(null)
   const cardRefs    = useRef<(HTMLDivElement | null)[]>([])
 
   function handleLabelEnter() {
-    gsap.to(labelRef.current, { color: 'rgba(255,255,255,1)', duration: 0.4, ease: 'power2.out' })
     cardRefs.current.forEach((card, i) => {
       if (!card) return
       const { cx, cy } = cardOffset(i)
@@ -55,7 +52,6 @@ export default function MoreWork() {
   }
 
   function handleLabelLeave() {
-    gsap.to(labelRef.current, { color: 'rgba(255,255,255,0.4)', duration: 0.4, ease: 'power2.out' })
     cardRefs.current.forEach((card) => {
       if (!card) return
       gsap.to(card, { x: 0, y: 0, duration: 0.55, ease: 'power3.out' })
@@ -182,20 +178,8 @@ export default function MoreWork() {
           width: 'max-content',
         }}
       >
-        <p
-          ref={labelRef}
-          onMouseEnter={handleLabelEnter}
-          onMouseLeave={handleLabelLeave}
-          style={{
-            fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em',
-            textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)',
-            marginBottom: '12px', pointerEvents: 'auto', cursor: 'none',
-            width: 'max-content', margin: '0 auto 12px',
-          }}
-        >
-          See AI Work
-        </p>
-
+        {/* Client revision: only the "See AI Work" heading + the portfolio
+            link remain in the centre (extra label/stat/paragraph removed). */}
         <h2
           onMouseEnter={handleLabelEnter}
           onMouseLeave={handleLabelLeave}
@@ -204,21 +188,11 @@ export default function MoreWork() {
             fontSize: 'clamp(34px, 4.2vw, 62px)',
             fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.0,
             color: '#fff', pointerEvents: 'auto', cursor: 'none',
+            margin: '0 0 28px',
           }}
         >
-          10K+ Projects<br />
-          <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'rgba(255,255,255,0.35)' }}>
-            delivered.
-          </span>
+          See AI Work
         </h2>
-
-        <p style={{
-          fontSize: '14px', color: 'rgba(255,255,255,0.48)', lineHeight: 1.7,
-          marginTop: '14px', marginBottom: '26px', maxWidth: '320px',
-          marginLeft: 'auto', marginRight: 'auto', textAlign: 'center',
-        }}>
-          From weddings to corporate films, every frame crafted with purpose.
-        </p>
 
         <a
           href={AI_PORTFOLIO_URL}

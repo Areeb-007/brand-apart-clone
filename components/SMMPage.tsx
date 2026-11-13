@@ -142,7 +142,7 @@ export default function SMMPage({ category }: { category: Category }) {
         </div>
       </section>
 
-      {/* ── UGC video showcase — dense, full-bleed mosaic wall (40 tiles,
+      {/* ── UGC video showcase — dense, full-bleed mosaic wall (42 tiles — 6 full rows of 7,
           flush edge-to-edge, no gaps/rounding) matching the client's
           reference layout. Each tile autoplays/loops a real client clip,
           re-encoded down from the ~2.9GB of raw masters the client sent
@@ -154,7 +154,7 @@ export default function SMMPage({ category }: { category: Category }) {
           <SectionEyebrow>Short-Form UGC</SectionEyebrow>
         </div>
         <div className="ugc-wall" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '14px', padding: '0 clamp(24px,4vw,60px)' }}>
-          {Array.from({ length: 40 }, (_, idx) => idx + 1).map(i => (
+          {Array.from({ length: 42 }, (_, idx) => idx + 1).map(i => (
             <div key={i} style={{ aspectRatio: '4/5', overflow: 'hidden', borderRadius: '16px' }}>
               <LazyVideoTile src={`/videos/smm-ugc/clip-${String(i).padStart(2, '0')}.mp4`} />
             </div>
@@ -230,21 +230,15 @@ export default function SMMPage({ category }: { category: Category }) {
 
       {/* ── Quote ── */}
       <section ref={quoteRef} style={{ background: 'var(--bg)', padding: 'clamp(80px,10vw,120px) clamp(24px,4vw,60px)' }}>
-        {/* Client's quote design as separate layers: the quote text plus its 4
-            3D elements (each a full 16:9 transparent canvas, pre-positioned),
-            stacked so the elements can float gently on their own. */}
+        {/* Client's quote design as separate layers: 4 floating 3D elements
+            (each a 16:9 transparent canvas with the element placed where the
+            client's "option 2" composite puts it) behind the quote text. */}
         <style>{`
           @keyframes smm-float{0%,100%{transform:translate3d(0,0,0) rotate(0deg)}50%{transform:translate3d(0,-1.6%,0) rotate(1.5deg)}}
           .smm-quote-el{position:absolute;inset:0;width:100%;height:100%;animation:smm-float 6s ease-in-out infinite;pointer-events:none}
           @media (prefers-reduced-motion:reduce){.smm-quote-el{animation:none}}
         `}</style>
         <div style={{ position: 'relative', maxWidth: '1000px', margin: '0 auto', aspectRatio: '16/9' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element -- transparent layered artwork */}
-          <img
-            src="/images/smm/quote-layers/quote.png"
-            alt="Social media isn't about being everywhere. It's about being unforgettable."
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
-          />
           {[1, 2, 3, 4].map(n => (
             // eslint-disable-next-line @next/next/no-img-element -- transparent layered artwork
             <img
@@ -256,6 +250,12 @@ export default function SMMPage({ category }: { category: Category }) {
               style={{ animationDelay: `${-n * 1.4}s`, animationDuration: `${5 + n * 0.8}s` }}
             />
           ))}
+          {/* eslint-disable-next-line @next/next/no-img-element -- transparent layered artwork */}
+          <img
+            src="/images/smm/quote-layers/quote.png"
+            alt="Social media isn't about being everywhere. It's about being unforgettable."
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+          />
         </div>
       </section>
 

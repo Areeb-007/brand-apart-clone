@@ -96,7 +96,8 @@ export default function Team() {
         justifyContent: 'center',
       }}>
 
-        {/* "big results." massive background text */}
+        {/* "Big Impact." massive background text — light orange per the
+            client's revision (was grey "big results.") */}
         <div style={{
           position:       'absolute',
           inset:           0,
@@ -114,17 +115,17 @@ export default function Team() {
             fontSize:      'clamp(100px, 22vw, 320px)',
             fontWeight:    900,
             letterSpacing: '-0.04em',
-            color:         'rgba(0,0,0,0.28)',
+            color:         'rgba(231,124,36,0.42)',
             whiteSpace:    'nowrap',
-          }}>big</div>
+          }}>Big</div>
           <div style={{
             fontFamily:    'var(--font-display)',
             fontSize:      'clamp(80px, 27vw, 400px)',
             fontWeight:    900,
             letterSpacing: '-0.04em',
-            color:         'rgba(0,0,0,0.28)',
+            color:         'rgba(231,124,36,0.42)',
             whiteSpace:    'nowrap',
-          }}>results.</div>
+          }}>Impact.</div>
         </div>
 
         {/* Orbiting portrait cards */}

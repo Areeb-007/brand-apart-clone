@@ -209,7 +209,14 @@ export default function SubcategoryDetail({ category, sub }: { category: Categor
             <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--fg-muted)', marginBottom: '18px' }}>
               Portfolio
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px' }}>
+            {/* Landscape-only pages (documentaries, weddings, long form) show
+                bigger 16:9 boxes — ~2 per row — per the client's revision. */}
+            <div style={{
+              display: 'grid', gap: '20px',
+              gridTemplateColumns: sub.youtubeVideos?.length && !sub.youtubeShorts?.length && !sub.portfolioVideos?.length
+                ? 'repeat(auto-fill, minmax(min(100%, 520px), 1fr))'
+                : 'repeat(auto-fill, minmax(340px, 1fr))',
+            }}>
               {sub.portfolioVideos?.map((src, i) => (
                 <div key={`clip-${i}`} style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', aspectRatio: '9/16', background: '#0d1f3c' }}>
                   <video

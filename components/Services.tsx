@@ -50,14 +50,15 @@ const services = [
     carousel: ['/images/portfolio/we-bd-1.jpg','/images/portfolio/we-bd-2.jpg','/images/portfolio/we-bd-3.jpg','/images/portfolio/we-bd-4.jpg'],
   },
   {
-    slug: 'website-development', num: '05',
-    heading: 'Websites built to\nimpress & convert.',
-    tagline: 'Website Development',
-    description: 'Your digital storefront, made unforgettable. Clean UI, smooth UX, speed optimisation and responsiveness: sites that turn visitors into customers.',
-    client: 'JASMINE', clientRole: 'Founder, E-commerce Brand',
-    clientQuote: 'FilmFX Studio built a site that helped us secure key partnerships. Truly outstanding work.',
+    // Replaces the Website Development card (client's 13 Nov revision)
+    slug: 'ai-video-production', num: '05',
+    heading: 'Imagined by Humans.\nCrafted with AI.',
+    tagline: 'AI Video Production',
+    description: 'We create next generation AI videos that blur the line between imagination and reality. From cinematic commercials and hyper-realistic AI UGC to AI avatars and animated visuals, every creation is crafted to captivate, inspire, and elevate your brand.',
+    client: 'AI COMMERCIALS', clientRole: '',
+    clientQuote: 'FilmFX Studio turned our ideas into stunning AI-generated videos. The realism, creativity, and attention to detail exceeded our expectations.',
     bg: '#7C3AED',
-    carousel: ['/images/portfolio/wd-1.jpg','/images/portfolio/wd-2.jpg','/images/portfolio/wd-3.jpg','/images/portfolio/wd-4.jpg'],
+    carousel: ['/images/portfolio/see-more-2.jpg','/images/portfolio/see-more-3.jpg','/images/portfolio/see-more-27.jpg','/images/portfolio/see-more-28.jpg'],
   },
   {
     slug: 'staff-augmentation', num: '06',
@@ -70,6 +71,12 @@ const services = [
     carousel: ['/images/portfolio/we-sa-1.jpg','/images/portfolio/we-sa-2.jpg','/images/portfolio/we-sa-3.jpg','/images/portfolio/we-sa-4.jpg'],
   },
 ]
+
+// Where each card links. Most go to their service page; the AI card has no
+// service page of its own, so it opens the AI Videos portfolio.
+function serviceHref(slug: string) {
+  return slug === 'ai-video-production' ? '/services/video-editing/ai-videos' : `/services/${slug}`
+}
 
 const N     = services.length
 const STRIP = 22   // px of each card visible below the active card
@@ -286,8 +293,8 @@ export default function Services() {
               onMouseMove={(e) => handleCardMouseMove(e, i)}
               onMouseEnter={() => handleCardMouseEnter(i)}
               onMouseLeave={() => handleCardMouseLeave(i)}
-              onClick={() => router.push(`/services/${svc.slug}`)}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); router.push(`/services/${svc.slug}`) } }}
+              onClick={() => router.push(serviceHref(svc.slug))}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); router.push(serviceHref(svc.slug)) } }}
               role="link"
               tabIndex={0}
               aria-label={`${svc.tagline} — view portfolio`}

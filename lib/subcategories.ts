@@ -67,6 +67,7 @@ export const SUBCATEGORIES: Subcategory[] = [
     youtubeVideos: [
       'emyZ7jM1ghw', 'xQlQyExjnyw', '90V69ghdNq4', '9DZVGdq94Jk', 'b-5FS-1-MYg',
       '8CCsYU0X6TU', 'zsY3kumRwks', 'wI7orq-NS1Q', 'sDJK-iK5Sks', 'b0XMJipzvEc',
+      'WbLREXT_Cc8', 'mcoDFn1ZZuM',
     ],
     charmsDir: '/images/charms/wedding-video',
     charmCount: 4,
@@ -120,8 +121,9 @@ export const SUBCATEGORIES: Subcategory[] = [
       'sYQXZYbdERE', 'sJeawF1fEL8', 'x6Fg3w7XKmY', 'oXF-XcTwgBc',
       '1nOWVgd2PXA', 'emKX-HJRDzc', '5KN95_Uz4zM', 'Ua0ci3I2WBw',
     ],
-    charmsDir: '',
-    charmCount: 0,
+    // 3D editing-tool key charms (client's KEY ICONS V2 set)
+    charmsDir: '/images/charms/youtube-videos',
+    charmCount: 9,
   },
   {
     slug: 'documentaries',
@@ -168,6 +170,7 @@ export const SUBCATEGORIES: Subcategory[] = [
       'RF7pYHQyHIA', '39PaCQyKlVE', 'MR17rxvkpMM', 'TMampYcWQpw',
       'qDhdvyKycTc', 'Rg-8y44fDPg', 'NU57W5XbWxc', 'c3ziTOW-eaI',
       'YLW4HtGCqkA', '6HdQoTpxy8s', 'RVqxKW6GWyU', '_GnSnTJi8BU', 'i300kDdhido',
+      '-jg1v8WGshA', 'HdtMVWbWacU',
     ],
     charmsDir: '/images/charms/promotional-videos',
     charmCount: 6,
@@ -195,7 +198,9 @@ export const SUBCATEGORIES: Subcategory[] = [
     // clips 22–31 are the client's latest AI set (2026 revision), shown first
     portfolioVideos: [
       ...Array.from({ length: 10 }, (_, i) => `/videos/ai-videos/clip-${i + 22}.mp4`),
-      ...Array.from({ length: 21 }, (_, i) => `/videos/ai-videos/clip-${i + 1}.mp4`),
+      // clip-19 dropped: it carries a third-party watermark (client revision)
+      ...Array.from({ length: 21 }, (_, i) => `/videos/ai-videos/clip-${i + 1}.mp4`)
+        .filter(src => !src.endsWith('/clip-19.mp4')),
     ],
     charmsDir: '/images/charms/ai-videos',
     charmCount: 5,
