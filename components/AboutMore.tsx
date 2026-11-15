@@ -23,9 +23,12 @@ const CSS = `
 .am-kicker{display:block;margin-bottom:26px;font-size:11.2px;letter-spacing:.1em;text-transform:uppercase;line-height:1;}
 .am-lede{max-width:28em;margin:0;font-size:clamp(17px,1.5vw,20px);line-height:1.3;}
 .am-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px 40px;}
-.am-rail{display:flex;gap:16px;margin-top:clamp(40px,5vw,64px);overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;}
+.am-rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:clamp(40px,5vw,64px);}
+@media (max-width:900px){.am-rail{display:flex;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;}}
 .am-rail::-webkit-scrollbar{display:none;}
-.am-card{scroll-snap-align:start;flex:1 0 min(250px,78vw);min-height:360px;border-radius:12px;background:${CARD_DARK};padding:32px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;text-align:left;}
+/* Content top-aligned in every card so the titles line up across all four
+   (client revision: the 4th card's shorter title used to sit lower). */
+.am-card{scroll-snap-align:start;flex:1 0 min(250px,78vw);min-height:360px;border-radius:12px;background:${CARD_DARK};padding:clamp(24px,2.4vw,32px);display:flex;flex-direction:column;justify-content:flex-start;gap:28px;text-align:left;}
 .am-card-num{font-family:var(--font-display);font-weight:700;letter-spacing:-.04em;font-size:clamp(2.5rem,4vw,3.5rem);line-height:.8;color:var(--accent);}
 .am-card b{display:block;font-family:var(--font-display);font-weight:700;letter-spacing:-.03em;font-size:clamp(1.3rem,1.9vw,1.7rem);line-height:.95;color:${CREAM};margin-bottom:14px;}
 .am-card p{margin:0;color:${CREAM};opacity:.72;font-size:14px;line-height:1.45;}

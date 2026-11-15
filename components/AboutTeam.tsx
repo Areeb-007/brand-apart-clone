@@ -12,8 +12,9 @@ gsap.registerPlugin(ScrollTrigger)
 //  • 3-line headline (left / centre / right aligned) whose lines start
 //    shifted ±40% sideways and slide into place, scrubbed by scroll
 //  • short intro paragraph under it, left-aligned, 20em wide
-//  • 968px-wide 3-column grid that zig-zags every 6 cards
-//    ([1 2 _] [3 _ 4] [_ 5 6]), cards 325:402 photo + name/role below
+//  • 968px-wide 3-column grid, cards 325:402 photo + name/role below.
+//    Plain rows of three in the client's order (15 Nov revision dropped
+//    the reference's zig-zag gaps, which read as misaligned).
 //  • each block fades up 40px as it enters the viewport
 
 export type TeamMember = { name: string; role: string; photo: string }
@@ -24,9 +25,6 @@ const CSS = `
 .ateam-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:16px;row-gap:2em;max-width:968px;margin:0 auto;}
 @media (min-width:768px){
   .ateam-grid{grid-template-columns:1fr 1fr 1fr;row-gap:4em;}
-  .ateam-grid > :nth-child(6n+3){grid-column:1;}
-  .ateam-grid > :nth-child(6n+4){grid-column:3;}
-  .ateam-grid > :nth-child(6n+5){grid-column:2;}
 }
 .ateam [data-inview]:not(.--visible){opacity:0;transform:translateY(40px);}
 .ateam [data-inview].--visible{transition:transform .84s cubic-bezier(.22,.61,.36,1),opacity .84s cubic-bezier(.22,.61,.36,1);}

@@ -17,18 +17,24 @@ import { AboutWorkflow, AboutTestimonials, AboutThinking, AboutFAQ } from '@/com
 // closing CTA) land the same way once their content arrives.
 
 
+// Order and members follow the client's 15 Nov revision: founders + Alizeh,
+// then Wahaj / Arsha / Atika, then Sohabia / Talha, then all the editors.
+// (Zeeshan was removed from the client's team folder.)
 const TEAM = [
   { name: 'Noman Khan',      role: 'Founder',               photo: '/images/about/team/noman-khan.jpg' },
-  { name: 'Ali Arsala Sher', role: 'Co-Founder',             photo: '/images/about/team/ali-arsala.jpg' },
-  { name: 'Arsha',           role: 'Graphic Designer',       photo: '/images/about/team/arsha.jpg' },
-  { name: 'Alizeh',          role: 'Social Media Marketer',  photo: '/images/about/team/alizeh.png' },
-  { name: 'Atika',           role: 'Business Developer',     photo: '/images/about/team/atika.png' },
-  { name: 'Zeeshan',         role: 'Business Developer',     photo: '/images/about/team/zeeshan.jpg' },
-  { name: 'Wahaj',           role: 'Project Manager',        photo: '/images/about/team/wahaj.jpg' },
-  { name: 'Hadeed',          role: 'Video Editor',           photo: '/images/about/team/hadeed.png' },
-  { name: 'Khubab',          role: 'Video Editor',           photo: '/images/about/team/khubab.jpg' },
-  { name: 'Abdul Nafay',     role: 'Video Editor',           photo: '/images/about/team/abdul-nafay.jpg' },
-  { name: 'Moiz',            role: 'Editor',                 photo: '/images/about/team/moiz.jpg' },
+  { name: 'Ali Arsala Sher', role: 'Co-Founder',            photo: '/images/about/team/ali-arsala.jpg' },
+  { name: 'Alizeh',          role: 'Social Media Marketer', photo: '/images/about/team/alizeh.png' },
+  { name: 'Wahaj',           role: 'Project Manager',       photo: '/images/about/team/wahaj.jpg' },
+  { name: 'Arsha',           role: 'Graphic Designer',      photo: '/images/about/team/arsha.jpg' },
+  { name: 'Atika',           role: 'Business Developer',    photo: '/images/about/team/atika.png' },
+  { name: 'Sohabia',         role: 'Business Developer',    photo: '/images/about/team/sohabia.jpg' },
+  { name: 'Talha',           role: 'Business Developer',    photo: '/images/about/team/talha.jpg' },
+  { name: 'Abdul Nafay',     role: 'Video Editor',          photo: '/images/about/team/abdul-nafay.jpg' },
+  { name: 'Ali',             role: 'Video Editor',          photo: '/images/about/team/ali.jpg' },
+  { name: 'Hadeed',          role: 'Video Editor',          photo: '/images/about/team/hadeed.png' },
+  { name: 'Husnain',         role: 'Video Editor',          photo: '/images/about/team/husnain.jpg' },
+  { name: 'Khubab',          role: 'Video Editor',          photo: '/images/about/team/khubab.jpg' },
+  { name: 'Moiz',            role: 'Video Editor',          photo: '/images/about/team/moiz.jpg' },
 ]
 
 // Philosophy copy — rendered with ScrollRevealText so it darkens letter by
